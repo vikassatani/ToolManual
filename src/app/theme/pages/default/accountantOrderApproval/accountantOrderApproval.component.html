@@ -1,0 +1,993 @@
+<style>
+    thead>tr>th {
+    cursor: pointer;
+}
+.right {
+    float: right;
+}
+</style>
+<div class="m-content" [hidden]="ShowDetails">
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+                            Order Approval
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="m-portlet__body">
+            <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+                <div class="row align-items-center">
+                    <label class="col-form-label col-md-1 col-lg-1 col-sm-12">
+                        Branch
+                    </label>
+                    <div class="col-lg-3 col-md-3 col-sm-12">
+                        <select [(ngModel)]="branchId" [ngModelOptions]="{standalone: true}" 
+                        (ngModelChange)="getData(branchId,0,statusId)" 
+                        class="form-control m-input m-input--air" id="branchId">
+                            <option value="">Select Branch</option>
+                            <option *ngFor="let b of branch" [ngValue]="b.branch_id">{{b.branch_Name}}</option>
+                        </select>
+                    </div>
+                    <label class="col-form-label col-md-1 col-lg-1 col-sm-12">Status</label>
+                    <div class="col-lg-3 col-md-3 col-sm-12">
+                    <select class="form-control m-input m-input--air" [(ngModel)]="statusId"
+                    [ngModelOptions]="{standalone: true}" (ngModelChange)="getData(branchId,0,statusId)">
+                            <option value="0">Select Status</option>        
+                            <option value="2">Waiting for Approval</option>
+                            <option value="3">Approved</option>
+                            <option value="-3">Rejected</option>
+                            <option value="4">Dispatched</option>
+                    </select>
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-12">
+                  
+                            <div class="m-input-icon m-input-icon--left">
+                                <input type="text" class="form-control m-input m-input--solid"  [(ngModel)]="filter" [ngModelOptions]="{standalone: true}" placeholder="Search..." id="generalSearch">
+                                <span class="m-input-icon__icon m-input-icon__icon--left">
+                                    <span>
+                                        <i class="la la-search"></i>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                </div>
+            </div>
+            <!--begin: Datatable -->
+            <div class="m_datatable" id="local_data">
+
+           
+            <!--end: Datatable -->
+            <table class="table table-condensed table-striped table-bordered table-responsive">
+                <thead class="thead-default">  
+                    <th><B>#</B></th>
+                    <th><B>Customer Name</B></th>
+                    <th><B>Order Ref Number</B></th>
+                    <th><B>Order Date</B></th>
+                    <th><B>Employee Name</B></th>
+                    <th><B>Employee Remarks</B></th>
+                    <th><B>Total Amount</B></th>
+                    <th><b>Status</b></th>
+                </thead>  
+                <tbody>  
+                    <tr *ngFor="let OA of orderApproval | orderBy: key : reverse |  filter:filter |paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index" 
+                    (dblclick)="showDetailedData(branchId, OA.order_Id, OA.status, OA.customer_Id)">
+                        <td>{{i+1}}
+                            <input type="hidden" [(ngModel)]="OA.order_Id" [ngModelOptions]="{standalone: true}">
+                        </td>
+                        <td>{{OA.customer_Name}}
+                            <input type="hidden" [(ngModel)]="OA.customer_Id" [ngModelOptions]="{standalone: true}">
+                        </td>
+                        <td>{{OA.order_Ref_Number}}</td>
+                        <td>{{OA.order_Date | date: 'dd/MM/yyyy'}}</td>
+                        <td>{{OA.staff_Name}}</td>
+                        <td>{{OA.staff_Remarks}}</td>
+                        <td>{{OA.total_Amount}}</td>
+                        <td>
+                            <button type="button" class="btn m-btn--pill m-btn--air  btn-success" *ngIf="OA.status==3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Approved&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                            <button type="button" class="btn btn-outline-warning disable" *ngIf="OA.status==2">Waiting For Approval</button>
+                            <button type="button" class="btn m-btn--pill m-btn--air btn-danger" *ngIf="OA.status==-3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rejected&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                            <button type="button" class="btn m-btn--pill m-btn--air btn-primary" *ngIf="OA.status==4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dispatched&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                        </td>
+                    </tr>
+                </tbody>  
+                </table>  
+                <br>
+                <div class="row" *ngIf="i>0">
+                    <label class="col-md-1" style="margin-top:5px">No.Of.Records</label>
+                    <div class="col-md-2" style="margin-bottom:20px">
+                        <input type="text" [(ngModel)]="rowsPerPage" [ngModelOptions]="{standalone: true}" 
+                        class="form-control m-input m-input--solid" placeholder="No.Of.Records" (ngModelChange)="setPageSize(rowsPerPage)"/>
+                    </div>
+                    <div class="col-md-9">
+                        <pagination-controls class="right" (pageChange)="p = $event"></pagination-controls>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="m-content" [hidden]="!ShowDetails">
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+                            Order Approval Details
+                    </h3>
+                </div>
+            </div>
+            <div class="m-portlet__head-tools">
+                <ul class="nav nav-tabs m-tabs m-tabs-line m-tabs-line--brand  m-tabs-line--right m-tabs-line--2x m-tabs-line-danger" role="tablist">
+                    <li class="nav-item m-tabs__item">
+                        <a class="nav-link m-tabs__link active" data-toggle="tab" href="#m_portlet_tab_1_1" role="tab">
+                            <i class="fa fa-user-circle-o"></i> Order Details
+                        </a>
+                    </li>
+                    <li class="nav-item m-tabs__item">
+                        <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_portlet_tab_1_2" (click)="getCustomerDetails()" role="tab">
+                            <i class="fa fa-id-badge"></i> Customer Details
+                        </a>
+                    </li>
+                    <li class="nav-item m-tabs__item">
+                        <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_portlet_tab_1_3" (click)="getCustomerDetails()" role="tab">
+                            <i class="fa fa-map-marker"></i> Order History Details
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="m-portlet__body">
+            <div class="tab-content">
+                <div class="tab-pane active" id="m_portlet_tab_1_1">
+                    <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+
+
+                    <div class="m-portlet__body">
+                        
+                        <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+                            <div class="row align-items-center">
+                                <span class="col-form-label col-md-1 col-lg-1"></span>
+
+                                <label class="col-form-label col-md-2 col-lg-2 col-sm-12">
+                                        <h6><B>Order Ref Number</B></h6>
+                                </label>
+                                <label class="col-form-label col-md-2 col-lg-3 col-sm-12">
+                                        <B>{{orderApprovalDetail.order_Ref_Number}}</B>
+                                </label>
+                                <label class="col-form-label col-md-2 col-lg-2 col-sm-12">
+                                    <h6><B>Customer Name</B></h6>
+                                </label>
+                                <label class="col-form-label col-md-3 col-lg-3 col-sm-12">
+                                        <B>{{orderApprovalDetail.customer_Name}}</B>
+                                </label>
+                                <span class="col-form-label col-md-1 col-lg-1"></span>
+                            </div>
+                            
+                            <div class="row align-items-center">
+                                <span class="col-form-label col-md-1 col-lg-1"></span>
+                                    
+                                <label class="col-form-label col-md-2 col-lg-2 col-sm-12">
+                                        <h6><B>Order Date</B></h6>
+                                </label>
+                                <label class="col-form-label col-md-3 col-lg-3 col-sm-12">
+                                        <B>{{orderApprovalDetail.order_Date | date: 'dd/MM/yyyy'}}</B>
+                                </label>
+                                <label class="col-form-label col-md-2 col-lg-2 col-sm-12">
+                                    <h6><B>Employee Name</B></h6>
+                                </label>
+                                <label class="col-form-label col-md-3 col-lg-3 col-sm-12">
+                                        <B>{{orderApprovalDetail.staff_Name}}</B>
+                                </label>
+                                <span class="col-form-label col-md-1 col-lg-1"></span>
+                            </div>
+                            
+                            <div class="row align-items-center">
+                                <span class="col-form-label col-md-1 col-lg-1"></span>
+                                <label class="col-form-label col-md-2 col-lg-2 col-sm-12">
+                                        <h6><B>Employee Remarks</B></h6>
+                                </label>
+                                <label class="col-form-label col-md-3 col-lg-3 col-sm-12">
+                                        <B>{{orderApprovalDetail.staff_Remarks}}</B>
+                                </label>
+                                <label class="col-form-label col-md-2 col-lg-2 col-sm-12">
+                                    <h6><B>Manager Remarks</B></h6>
+                                </label>
+                                <label class="col-form-label col-md-3 col-lg-3 col-sm-12">
+                                        <B>{{orderApprovalDetail.manager_remarks}}</B>
+                                </label>
+                                <span class="col-form-label col-md-1 col-lg-1"></span>
+                            </div>
+                        </div>
+                        <!--begin: Datatable -->
+                        <div class="m_datatable" id="local_data">
+
+                    
+                        <!--end: Datatable -->
+                            <table class="table table-condensed table-striped table-bordered table-responsive">
+                                <thead class="thead-default">  
+                                    <th><B>#</B></th>
+                                    <th><B>Item Name</B></th>
+                                    <th><B>Quantity</B></th>
+                                    <th><B>UOM</B></th>
+                                    <th><B>Price</B></th>
+                                </thead>  
+                                <tbody>  
+                                    <tr *ngFor="let OAD of orderApprovalDetailedData | orderBy: key : reverse; let i = index" (dblclick)="showDetailedData(branchId, OA.order_id)">
+                                        <td>{{i+1}}
+                                            <input type="hidden" [(ngModel)]="OAD.order_id" [ngModelOptions]="{standalone: true}">
+                                        </td>
+                                        <td>{{OAD.Item_Name}}</td>
+                                        <td>{{OAD.quantity}}</td>
+                                        <td>{{OAD.uom_Name}}</td>
+                                        <td>{{OAD.price}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3"></td>
+                                        <th><b>Tax</b></th>
+                                        <td>{{orderApprovalDetail.total_tax_Amount}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3"></td>
+                                        <th><b>Total</b></th>
+                                        <th><b>{{orderApprovalDetail.total_Amount}}</b></th>
+                                    </tr>
+                                </tbody>  
+                            </table>  
+                            <br>
+                        </div>
+                        <div class="row align-items-center">
+                            <label class="col-form-label col-md-2 col-lg-2 col-sm-12">
+                                <b>Accountant Remarks</b>
+                            </label>
+                            <div class="col-form-label col-md-4 col-lg-4 col-sm-12">
+                                <textarea class="form-control m-input--air" id="m_autosize_3" rows="3" 
+                                placeholder="Remarks" [(ngModel)]="orderApprovalDetail.Accounts_remark" [ngModelOptions]="{standalone: true}" maxlength="300"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <br/>
+                    <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                        <div class="m-form__actions m-form__actions--solid">
+                            <div class="row">
+                                <div class="col-lg-4"></div>
+                                <div class="col-lg-8">
+                                    <button (click)="approveData(3,1,orderApprovalDetail.Accounts_remark)" class="btn btn-success" >
+                                        Approve
+                                    </button>
+                                    
+                                    <button (click)="approveData(-3,2,orderApprovalDetail.Accounts_remark)" class="btn btn-danger" style="margin: 0 0 0 10px">
+                                        Reject
+                                    </button>
+                                    <button (click)="ShowDetails=false" class="btn btn-secondary" style="margin: 0 0 0 10px">
+                                        Back
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <br/>
+                    </form>
+                </div>
+                <div class="tab-pane" id="m_portlet_tab_1_2">
+                    <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+                        <div class="m-portlet__body">
+                            <div class="form-group m-form__group row">
+                                <h3>Personal Details</h3>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <div class="col-lg-4">
+                                    <label>
+                                        Customer Name:
+                                    </label>
+
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="text" [disabled]="true" class="form-control m-input m-input--air" placeholder="Full Name" 
+                                        [(ngModel)]="customer.customer_Name" [ngModelOptions]="{standalone: true}">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="fa fa-user-o"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        Customer Phone Number:
+                                    </label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="integer" class="form-control m-input m-input--air"  [disabled]="true"
+                                        [(ngModel)]="customer.customer_Phone_Number" [ngModelOptions]="{standalone: true}">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="fa fa-phone"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        Customer Email:
+                                    </label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="email" class="form-control m-input m-input--air" [disabled]="true" placeholder="Email" 
+                                        [(ngModel)]="customer.customer_Email" [ngModelOptions]="{standalone: true}" id="customer_Email" required name="customer_Email" #customer_Email="ngModel" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.com$">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="fa fa-envelope-o"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <input type="hidden" [(ngModel)]="customer.customer_Id" [ngModelOptions]="{standalone: true}" />
+                            <div class="form-group m-form__group row">
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        Contact Person Name:
+                                    </label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="text" class="form-control m-input m-input--air" [disabled]="true" placeholder="Name" [(ngModel)]="customer.contact_Person_Name" id="contact_Person_Name" required name="contact_Person_Name" #contact_Person_Name="ngModel" >
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="fa fa-user-o"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        Contact Person Designation:
+                                    </label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="text" class="form-control m-input m-input--air" [disabled]="true" placeholder="Designation"
+                                         [(ngModel)]="customer.contact_Person_designation" [ngModelOptions]="{standalone: true}" id="contact_Person_designation" 
+                                         required name="contact_Person_designation" #contact_Person_designation="ngModel">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="fa fa-id-badge"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <span class="m-form__help" *ngIf="!contact_Person_designation.valid && contact_Person_designation.touched" style="color:red">
+                                        Please enter valid Data
+
+                                    </span>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        Contact Number:
+                                    </label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="text" class="form-control m-input m-input--air" [disabled]="true" placeholder="Mobile Number" 
+                                        [(ngModel)]="customer.contact_Person_Mobile_Number" [ngModelOptions]="{standalone: true}" id="contact_Person_Mobile_Number" 
+                                        required name="contact_Person_Mobile_Number" #contact_Person_Mobile_Number="ngModel" 
+                                        minlength="10" maxlength="10" (keypress)="onlyNumberKey($event)">
+
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="fa fa-phone"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <span class="m-form__help" *ngIf="!contact_Person_Mobile_Number.valid && contact_Person_Mobile_Number.touched" style="color:red">
+                                        Please enter valid Data
+
+                                    </span>
+                                </div>
+
+                            </div>
+                            <div class="form-group m-form__group row">
+
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        Credit Limit:
+                                    </label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="text" class="form-control m-input m-input--air" [disabled]="true" placeholder="Credit Limit" 
+                                        [(ngModel)]="customer.credit_Limit" id="credit_Limit" required name="credit_Limit"
+                                         #credit_Limit="ngModel" (keypress)="onlyNumberKey($event)" [ngModelOptions]="{standalone: true}">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="fa fa-inr"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <span class="m-form__help" *ngIf="!credit_Limit.valid && credit_Limit.touched" style="color:red">
+                                        Please enter valid Data
+
+                                    </span>
+                                </div>
+                                <div class="col-lg-4">
+
+                                    <label class="">
+                                        Credit Days:
+                                    </label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="text" class="form-control m-input m-input--air" [disabled]="true" placeholder="Credit Days" 
+                                        [(ngModel)]="customer.credit_days" [ngModelOptions]="{standalone: true}" id="credit_days" required name="credit_days" 
+                                        #credit_days="ngModel">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="fa fa-calendar-plus-o"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <span class="m-form__help" *ngIf="!credit_days.valid && credit_days.touched" style="color:red">
+                                        Please enter valid Data
+
+                                    </span>
+                                </div>
+                                <!-- <div class="col-lg-4">
+                                    <label class="">
+                                                Credit Limit:
+                                            </label>
+                                    <div class="m-radio-inline">
+                                        <label class="m-radio m-radio--solid">
+                                                    <input type="radio" name="example_2" checked value="2">
+                                                    Sales Person
+                                                    <span></span>
+                                                </label>
+                                        <label class="m-radio m-radio--solid">
+                                                    <input type="radio" name="example_2" value="2">
+                                                    Customer
+                                                    <span></span>
+                                                </label>
+                                    </div>
+                                    <span class="m-form__help">
+                                                Please select user group
+                                            </span>
+                                </div> -->
+                                <div class="col-lg-4">
+                                    <label>
+                                        PAN Number:
+                                    </label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="text" class="form-control m-input m-input--air" [disabled]="true" placeholder="PAN" 
+                                        [(ngModel)]="customer.pan_Number" id="pan_Number" required name="pan_Number" 
+                                        #pan_Number="ngModel" pattern="^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$" 
+                                        minlength="10" maxlength="10" [ngModelOptions]="{standalone: true}">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="fa fa-list-ol"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <span class="m-form__help" *ngIf="!pan_Number.valid && pan_Number.touched" style="color:red">
+                                        Please enter valid Data
+
+                                    </span>
+                                </div>
+
+
+                            </div>
+                            <div class="form-group m-form__group row">
+
+                                <!-- <div class="col-lg-4">
+                                    <label class="">
+                                        TIN Number:
+                                    </label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="text" class="form-control m-input m-input--air" [disabled]="true" placeholder="TIN" 
+                                        [(ngModel)]="customer.tin_Number" id="tin_Number" [ngModelOptions]="{standalone: true}" required name="tin_Number" 
+                                        #tin_Number="ngModel"  minlength="11" maxlength="11">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="fa fa-list-ol"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <span class="m-form__help" *ngIf="!tin_Number.valid && tin_Number.touched" style="color:red">
+                                        Please enter valid Data
+
+                                    </span>
+                                </div> -->
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        GST Number:
+                                    </label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="text" class="form-control m-input m-input--air" [disabled]="true" placeholder="GST" 
+                                        [(ngModel)]="customer.gst_Number" id="gst_Number" required name="gst_Number" 
+                                        #gst_Number="ngModel"  minlength="15" maxlength="15" [ngModelOptions]="{standalone: true}">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="fa fa-list-ol"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <span class="m-form__help" *ngIf="!gst_Number.valid && gst_Number.touched" style="color:red">
+                                        Please enter valid Data
+
+                                    </span>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        Customer Type:
+                                    </label>
+                                    <select [(ngModel)]="customer.customer_Type" [disabled]="true" class="form-control m-input m-input--air" 
+                                    id="customer_Type" required name="customer_Type" [ngModelOptions]="{standalone: true}" #customer_Type="ngModel">
+                                        <option *ngFor="let c of customerType" [ngValue]="c.id">
+                                            {{c.Name}}
+                                        </option>
+
+                                    </select>
+                                    <span class="m-form__help" *ngIf="!customer_Type.valid && customer_Type.touched" style="color:red">
+                                        Please enter valid Data
+
+                                    </span>
+                                </div>
+                                <div class="col-lg-4">
+                                        <label class="">
+                                            Nature Of Business:
+                                        </label>
+                                        <div class="m-input-icon m-input-icon--right">
+                                            <input type="text" class="form-control m-input m-input--air" [disabled]="true" placeholder="Nature" 
+                                            [(ngModel)]="customer.nature_Of_Buisness" id="nature_Of_Buisness" required 
+                                            name="nature_Of_Buisness" #nature_Of_Buisness="ngModel" [ngModelOptions]="{standalone: true}">
+                                            <span class="m-input-icon__icon m-input-icon__icon--right">
+                                                <span>
+                                                    <i class="fa fa-building"></i>
+                                                </span>
+                                            </span>
+                                        </div>
+                                        <span class="m-form__help" *ngIf="!nature_Of_Buisness.valid && nature_Of_Buisness.touched" style="color:red">
+                                            Please enter valid Data
+    
+                                        </span>
+                                    </div>
+                            </div>
+
+                            <div class="form-group m-form__group row">
+
+                               
+
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        Start Date of Business:
+                                    </label>
+                                    <div class='input-group date'>
+                                        <input type="text" [(ngModel)]="customer.buisness_Start_Date" [disabled]="true" [ngModelOptions]="{standalone: true}" #DatePicker1 
+                                        (blur)="customer.buisness_Start_Date=DatePicker1.value" name="buisness_Start_Date" 
+                                        #buisness_Start_Date="ngModel" class="form-control m-input m-input--air"  readonly="false" 
+                                        placeholder="Select date" id='m_datepicker_2' />
+                                        <span class="input-group-addon">
+                                            <i class="la la-calendar-check-o"></i>
+                                        </span>
+                                    </div>
+                                    <span class="m-form__help" *ngIf="!buisness_Start_Date.valid && buisness_Start_Date.touched" style="color:red">
+                                        Please enter valid Data
+                                    </span>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        Mode Of Payment:
+                                    </label>
+                                    <select [(ngModel)]="customer.mode_Of_Payment" id="mode_Of_Payment" [disabled]="true" 
+                                    required name="mode_Of_Payment" #mode_Of_Payment="ngModel" [ngModelOptions]="{standalone: true}"
+                                    class="form-control m-input m-input--air">
+                                        <option *ngFor="let m of modeOfPayment" [ngValue]="m.id">
+                                            {{m.Name}}
+                                        </option>
+                                    </select>
+                                    <span class="m-form__help" *ngIf="!mode_Of_Payment.valid && mode_Of_Payment.touched" style="color:red">
+                                        Please enter valid Data
+                                    </span>
+                                </div>
+                                <div class="col-lg-4">
+                                        <label class="">
+                                            Salesmen  :
+                                        </label>
+                                        <select [(ngModel)]="customer.salesman" id="salesman" [disabled]="true" 
+                                        required name="salesman" #salesman="ngModel" [ngModelOptions]="{standalone: true}"
+                                        class="form-control m-input m-input--air">
+                                            <option *ngFor="let e of employee" [ngValue]="e.staff_Id">
+                                                {{e.first_Name+''+e.last_Name}}
+                                            </option>
+                                        </select>
+                                        <span class="m-form__help" *ngIf="!salesman.valid && salesman.touched" style="color:red">
+                                            Please enter valid Data
+    
+                                        </span>
+                                    </div>
+                            </div>
+
+                            <div class="form-group m-form__group row">
+                               
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        Annual Turnover:
+                                    </label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="text" class="form-control m-input m-input--air" [disabled]="true" placeholder="Turnover" 
+                                        [(ngModel)]="customer.annual_Turnover" [ngModelOptions]="{standalone: true}" id="annual_Turnover" required name="annual_Turnover" 
+                                        #annual_Turnover="ngModel" class="form-control m-input m-input--air">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="fa fa-inr"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <span class="m-form__help" *ngIf="!annual_Turnover.valid && annual_Turnover.touched" style="color:red">
+                                        Please enter valid Data
+
+                                    </span>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        Refered By:
+                                    </label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="text" class="form-control m-input m-input--air" [disabled]="true" placeholder="Refered By" 
+                                        [(ngModel)]="customer.reffered_By" id="reffered_By" [ngModelOptions]="{standalone: true}" required name="reffered_By" 
+                                        #reffered_By="ngModel">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="fa fa-user-circle-o"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <span class="m-form__help" *ngIf="!reffered_By.valid && reffered_By.touched" style="color:red">
+                                        Please enter valid Data
+                                    </span>
+                                </div>
+                                <div class="col-lg-4">
+                                        <label class="">
+                                            Status:
+                                        </label>
+                                        
+                                        <select id="exampleSelect1" [(ngModel)]="customer.status" id="status" [disabled]="true" 
+                                        [ngModelOptions]="{standalone: true}"
+                                         required name="status" #status="ngModel" class="form-control m-input m-input--air">
+                                            <option *ngFor="let m of customerStatus" [ngValue]="m.id">
+                                                {{m.Name}}
+                                            </option>
+                                        </select>
+                                    </div>
+                            </div>
+                           
+                            <div class="form-group m-form__group row">
+                                <h3>Address Details</h3>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <div class="col-lg-4">
+                                    <label>
+                                        Address:
+                                    </label>
+                                    <div class="col-sm-13">
+                                        <textarea rows="3" placeholder="Address" 
+                                        [(ngModel)]="customer.current_Address" id="current_Address" [disabled]="true"
+                                         required name="current_Address" #current_Address="ngModel" [ngModelOptions]="{standalone: true}"
+                                         class="form-control m-input m-input--air"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        Country:
+                                    </label>
+                                    <select class="form-control" [(ngModel)]="customer.current_Country" [disabled]="true" 
+                                    id="current_Country" required name="current_Country" [ngModelOptions]="{standalone: true}"  (ngModelChange)="getState(customer.current_Country)"   #current_Country="ngModel" 
+                                    class="form-control m-input m-input--air">
+                                        <option *ngFor="let c of country" [ngValue]="c.country_Id">
+                                            {{c.country_Name}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        State:
+                                    </label>
+                                    <select class="form-control" [(ngModel)]="customer.current_State" [disabled]="true"
+                                     id="current_State" required name="current_State" #current_State="ngModel" [ngModelOptions]="{standalone: true}" (ngModelChange)="getCity(customer.current_Country,customer.current_State)"
+                                     class="form-control m-input m-input--air">
+                                        <option *ngFor="let s of state" [ngValue]="s.state_Id">
+                                            {{s.state_Name}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        City:
+                                    </label>
+                                    <select class="form-control" [(ngModel)]="customer.current_City" [disabled]="true" id="current_City" 
+                                    required name="current_City" #current_City="ngModel" [ngModelOptions]="{standalone: true}"
+                                     class="form-control m-input m-input--air">
+                                        <option *ngFor="let c of city" [ngValue]="c.city_Id">
+                                            {{c.city_Name}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        Zipcode:
+                                    </label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="text" placeholder="zipcode" [(ngModel)]="customer.current_Zipcode" [disabled]="true" 
+                                        [ngModelOptions]="{standalone: true}" id="current_Zipcode" required name="current_Zipcode"
+                                         #current_Zipcode="ngModel" class="form-control m-input m-input--air">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="fa fa-location-arrow"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class=" form-group m-form__group row">
+                                <div class="col-lg-4">
+                                    <label>
+
+                                    </label>
+                                    <div class="m-input-icon m-input-icon--right">
+
+                                        <div class="m-checkbox-list">
+                                            <label class="m-checkbox m-checkbox--air m-checkbox--state-brand">
+                                                <input type="checkbox" [(ngModel)]="isSameAddress" [ngModelOptions]="{standalone:true}"
+                                                (click)="copyDetails(isSameAddress,customer.current_Address, customer.current_Country, customer.current_State, customer.current_City, customer.current_Zipcode)">
+                                                Copy
+                                                <span></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <div class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed form-group m-form__group row">
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        Shipping Address:
+                                    </label>
+                                    <div class="col-sm-13">
+                                        <textarea rows="3" placeholder="Address" 
+                                        [(ngModel)]="customer.shipping_Address" id="shipping_Address" [disabled]="true"
+                                        required name="shipping_Address" #shipping_Address="ngModel" [ngModelOptions]="{standalone: true}"
+                                        class="form-control m-input m-input--air"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        Shipping Country:
+                                    </label>
+                                    <select [(ngModel)]="customer.shipping_Country" id="shipping_Country" [disabled]="true"
+                                    required name="shipping_Country" #shipping_Country="ngModel" [ngModelOptions]="{standalone: true}"
+                                     class="form-control m-input m-input--air">
+                                        <option *ngFor="let c of country" [ngValue]="c.country_Id">
+                                            {{c.country_Name}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        Shipping State:
+                                    </label>
+                                    <select [(ngModel)]="customer.shipping_State" id="shipping_State" [disabled]="true" [ngModelOptions]="{standalone: true}"
+                                     required name="shipping_State" #shipping_State="ngModel" class="form-control m-input m-input--air">
+                                        <option *ngFor="let s of state" [ngValue]="s.state_Id">
+                                            {{s.state_Name}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        Shipping City:
+                                    </label>
+                                    <select [(ngModel)]="customer.shipping_City" id="shipping_City" [disabled]="true" required [ngModelOptions]="{standalone: true}"
+                                     name="shipping_City" #shipping_City="ngModel" class="form-control m-input m-input--air">
+                                        <option *ngFor="let c of city" [ngValue]="c.city_Id">
+                                            {{c.city_Name}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        Shipping Zipcode:
+                                    </label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="text" placeholder="zipcode" [(ngModel)]="customer.shipping_Zipcode" [ngModelOptions]="{standalone: true}"
+                                         [disabled]="true" id="shipping_Zipcode" required name="shipping_Zipcode" #shipping_Zipcode="ngModel" class="form-control m-input m-input--air">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="fa fa-location-arrow"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </form>
+                </div>   
+                <div class="tab-pane" id="m_portlet_tab_1_3">
+                    <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+                        <div class="m-portlet__body">
+                            <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+                                <div class="row align-items-center">
+                                    <label class="col-form-label col-md-2 col-lg-2 col-sm-12">
+                                        <h5>Customer Name   :</h5>
+                                    </label>
+                                    <label class="col-form-label col-md-3 col-lg-3 col-sm-12">
+                                        <h6>{{orderApprovalDetail.customer_Name}}</h6>
+                                    </label>
+                                </div>
+                            </div>
+                            <!--begin: Datatable -->
+                            <div class="m_datatable" id="local_data">
+
+                            <!--end: Datatable -->
+                            <table class="table table-condensed table-striped table-bordered table-responsive">
+                                <thead class="thead-default">  
+                                    <th><B>#</B></th>
+                                    <!-- <th><B>Customer Name</B></th> -->
+                                    <th><B>Order Ref Number</B></th>
+                                    <th><B>Order Date</B></th>
+                                    <th><B>Staff Name</B></th>
+                                    <th><B>Staff Remarks</B></th>
+                                    <th><B>Total Amount</B></th>
+                                    <th><b>Status</b></th>
+                                </thead>  
+                                <tbody>  
+                                    <tr *ngFor="let OAH of orderApprovalHistory | orderBy: key : reverse | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index" 
+                                        (dblclick)="showHistoryDetailedData(branchId, OAH.order_Id, OAH.status, OAH.customer_Id);openModal(template)">
+                                        <td>{{i+1}}
+                                            <input type="hidden" [(ngModel)]="OAH.order_Id" [ngModelOptions]="{standalone: true}">
+                                        </td>
+                                        <!-- <td>{{OAH.customer_Name}}
+                                        </td> -->
+                                        <td>{{OAH.order_Ref_Number}}
+                                            <input type="hidden" [(ngModel)]="OAH.customer_Id" [ngModelOptions]="{standalone: true}">
+                                        </td>
+                                        <td>{{OAH.order_Date | date: 'dd/MM/yyyy'}}</td>
+                                        <td>{{OAH.staff_Name}}</td>
+                                        <td>{{OAH.staff_Remarks}}</td>
+                                        <td>{{OAH.total_Amount}}</td>
+                                        <td>
+                                            <button type="button" class="btn m-btn--pill m-btn--air  btn-success" *ngIf="OAH.status==3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Approved&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                                            <button type="button" class="btn btn-outline-warning disable" *ngIf="OAH.status==2">Waiting For Approval</button>
+                                            <button type="button" class="btn m-btn--pill m-btn--air btn-danger" *ngIf="OAH.status==-3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rejected&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                                            <button type="button" class="btn m-btn--pill m-btn--air btn-primary" *ngIf="OAH.status==4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dispatched&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                                        </td>
+                                    </tr>
+                                </tbody>  
+                                </table>  
+                                <br>
+                                <div class="row" *ngIf="i>0">
+                                    <label class="col-md-1" style="margin-top:5px">No.Of.Records</label>
+                                    <div class="col-md-2" style="margin-bottom:20px">
+                                        <input type="text" [(ngModel)]="rowsPerPage" [ngModelOptions]="{standalone: true}" 
+                                        class="form-control m-input m-input--solid" placeholder="No.Of.Records" (ngModelChange)="setPageSize(rowsPerPage)"/>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <pagination-controls class="right" (pageChange)="p = $event"></pagination-controls>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>   
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<ng-template #template>
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Order History</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row align-items-center">
+        <!-- <span class="col-form-label col-md-1 col-lg-1"></span> -->
+
+        <label class="col-form-label col-md-3 col-lg-3 col-sm-12">
+                <B>Order Ref Number</B>
+        </label>
+        <label class="col-form-label col-md-3 col-lg-3 col-sm-12">
+                <B>:    {{orderApprovalHistoryDetail.order_Ref_Number}}</B>
+        </label>
+        <label class="col-form-label col-md-3 col-lg-3 col-sm-12">
+                <B>Customer Name</B>
+        </label>
+        <label class="col-form-label col-md-3 col-lg-3 col-sm-12">
+                <B>:    {{orderApprovalHistoryDetail.customer_Name}}</B>
+        </label>
+        <!-- <span class="col-form-label col-md-1 col-lg-1"></span> -->
+        
+    </div>
+    <!-- <div class="row align-items-center">
+            
+        
+    </div> -->
+    <div class="row align-items-center">
+        <!-- <span class="col-form-label col-md-1 col-lg-1"></span> -->
+            
+        <label class="col-form-label col-md-2 col-lg-3 col-sm-12">
+                <B>Order Date</B>
+        </label>
+        <label class="col-form-label col-md-3 col-lg-3 col-sm-12">
+                <B>:    {{orderApprovalHistoryDetail.order_Date | date: 'dd/MM/yyyy'}}</B>
+        </label>
+        <label class="col-form-label col-md-2 col-lg-3 col-sm-12">
+                <B>Employee Name</B>
+        </label>
+        <label class="col-form-label col-md-3 col-lg-3 col-sm-12">
+                <B>:    {{orderApprovalHistoryDetail.staff_Name}}</B>
+        </label>
+        <!-- <span class="col-form-label col-md-1 col-lg-1"></span> -->
+    </div>
+    
+    <div class="row align-items-center">
+        <!-- <span class="col-form-label col-md-1 col-lg-1"></span> -->
+            
+        <label class="col-form-label col-md-3 col-lg-3 col-sm-12">
+               <B>Employee Remarks</B>
+        </label>
+        <label class="col-form-label col-md-3 col-lg-3 col-sm-12">
+                <B>:    {{orderApprovalHistoryDetail.staff_Remarks}}</B>
+        </label>
+        <label class="col-form-label col-md-3 col-lg-3 col-sm-12">
+            <B>Manager Remarks</B>
+        </label>
+        <label class="col-form-label col-md-3 col-lg-3 col-sm-12">
+                <B>:    {{orderApprovalHistoryDetail.manager_remarks}}</B>
+        </label>
+    </div>
+    <table class="table table-condensed table-striped table-bordered table-responsive">
+        <thead class="thead-default">  
+            <th><B>#</B></th>
+            <th><B>Item Name</B></th>
+            <th><B>Quantity</B></th>
+            <th><B>UOM</B></th>
+            <th><B>Price</B></th>
+        </thead>  
+        <tbody>  
+            <tr *ngFor="let OAD of orderApprovalHistoryDetailedData | orderBy: key : reverse; let i = index" (dblclick)="showDetailedData(branchId, OA.order_id)">
+                <td>{{i+1}}
+                    <input type="hidden" [(ngModel)]="OAD.order_id" [ngModelOptions]="{standalone: true}">
+                </td>
+                <td>{{OAD.Item_Name}}</td>
+                <td>{{OAD.quantity}}</td>
+                <td>{{OAD.uom}}</td>
+                <td>{{OAD.price}}</td>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+                <th><b>Tax</b></th>
+                <td>{{orderApprovalHistoryDetail.total_tax_Amount}}</td>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+                <th><b>Total</b></th>
+                <th><b>{{orderApprovalHistoryDetail.total_Amount}}</b></th>
+            </tr>
+        </tbody>  
+    </table> 
+    <div class="row align-items-center">
+        <label class="col-form-label col-md-2 col-lg-2 col-sm-12">
+            <b>Accountant Remarks</b>
+        </label>
+        <div class="col-form-label col-md-4 col-lg-4 col-sm-12">
+            <textarea class="form-control m-input--air" id="m_autosize_3" rows="3" [disabled]="true"
+            placeholder="Remarks" [(ngModel)]="orderApprovalHistoryDetail.Accounts_remark" [ngModelOptions]="{standalone: true}"></textarea>
+        </div>
+    </div>
+</div>
+</ng-template>
+

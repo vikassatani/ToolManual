@@ -1,0 +1,264 @@
+<style>
+thead>tr>th {
+    cursor: pointer;
+}
+.right {
+    float: right;
+}
+
+
+
+</style>
+<div class="m-content">
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+                            Manage Customer
+                    </h3>
+
+                    <!-- <button (click)="exportexcel()" style="float:right" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill" style="margin-left:857px; float: right;">
+                        <i class="fa fa-download"></i> Excel Download
+                     </button>  -->
+                </div>
+
+            </div>
+        </div>
+        <div class="m-portlet__body">
+            <!--begin: Search Form -->
+            <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+                <div class="row align-items-center">
+                    <div class="col-xl-12 order-2 order-xl-1">
+                        <div class="form-group m-form__group row align-items-center">
+                            <div class="col-md-2">
+                                <div class="m-form__group m-form__group--inline">
+                                    <div class="m-form__label">
+                                        <label>
+											Status
+										</label>
+                                    </div>
+                                    <div class="m-form__control">
+                                        <select class="form-control" [(ngModel)]="delcustomers.status"  [ngModelOptions]="{standalone: true}" (ngModelChange)="onStatusChange(delcustomers.status)" id="m_form_status" style="margin-bottom:1rem">
+                                           <option value="0">All</option>
+                                            <option *ngFor="let s of status" [ngValue]="s.id"> {{s.Name}}
+											</option>
+
+										</select>
+                                    </div>
+                                </div>
+                                <div class="d-md-none m--margin-bottom-10"></div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="m-input-icon m-input-icon--left">
+                                    <input type="text" class="form-control m-input m-input--solid"  [(ngModel)]="filter" [ngModelOptions]="{standalone: true}" placeholder="Search..." id="generalSearch" style="margin-bottom:1rem">
+                                    <span class="m-input-icon__icon m-input-icon__icon--left">
+										<span>
+											<i class="la la-search"></i>
+										</span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                            <!-- <file-uploader _nghost-c5="" ng-reflect-allow-multiple="false" ng-reflect-file-type="application/*" ng-reflect-required="false"><div _ngcontent-c5="" class="btn-toolbar" role="toolbar">
+                                
+                                    <span _ngcontent-c5="" class="input-group-btn">
+                                            <label _ngcontent-c5="" class="btn btn-primary">
+                                              <span _ngcontent-c5="">Browse</span>...
+                                                <input _ngcontent-c5="" style="display: none;" type="file" accept="application/*" multiple="false" style="margin-bottom:1rem">
+                                            </label>
+                                        </span>
+                                    <input _ngcontent-c5="" class="form-control" disabled="" type="text">
+                                
+                            </div></file-uploader> -->
+
+
+                            <div *ngIf="showMyContainer">
+                                   
+                                        <!-- <file-uploader [allowMultiple]="false"
+                                        [fileType]="'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel,.csv'" (onSelection)="fileuploaderFileChange($event)" [required]="false" 
+                                         ></file-uploader> -->
+
+                                         <input type="file" (change)="fileuploaderFileChange($event.target.files)" style="margin-bottom: 1em" />
+
+                                    
+                                </div>
+
+                    
+
+                
+                        </div>
+
+                        <div class="col-md-2">
+                        <!-- <button (click)="downloadExcel123()" *ngIf="showMyDownload" style="float:right" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill " style="margin-bottom:1rem;margin-left:25px;">
+                            <i class="fa fa-download"></i> Download Sample Excel Sheet 
+                        </button> -->
+                        <a href="assets/Excel/CustomerExcel.xlsx" *ngIf="showMyContainer" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill" style="margin-bottom:1rem;margin-left:25px;">Sample Excel Sheet</a>
+                       <!-- <a href="assets/CustomerExcel.xlsx">Download here</a>-->
+                        </div>
+
+                        <div class="col-md-1"> 
+                            <button (click)="exportexcel()" style="float:right" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill" style="margin-right:-67px;margin-bottom:1rem; float: right;">
+                                    <i class="fa fa-download"></i>Excel
+                            </button> 
+
+                    </div>
+                           
+                        <div class="col-md-2">
+                                <a routerLink="/addCustomer"  class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill pull-right" style="margin-bottom:1rem;">
+                                    <span>
+                                        <i class="fa fa-plus"></i>
+                                        <span>
+                                            Add
+                                        </span>
+                                    </span>
+                                </a>
+                                <div class="m-separator m-separator--dashed d-xl-none"></div>
+
+            
+                                
+
+                            </div>
+                            
+                            
+                           
+
+                        </div>
+
+                       
+                        
+                      
+                       
+                      
+
+                    </div>
+                    
+                    <!-- <div class="col-xl-4 order-1 order-xl-2 m--align-right">
+                        <a routerLink="/addCustomer"  class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+                            <span>
+								<i class="fa fa-plus"></i>
+								<span>
+									Add
+								</span>
+                            </span>
+                        </a>
+                        <div class="m-separator m-separator--dashed d-xl-none"></div>
+                    </div> -->
+                </div>
+            </div>
+            <!--end: Search Form -->
+            <!--begin: Datatable -->
+            <div class="m_datatable" id="local_data"></div>
+            <!--end: Datatable -->
+        <div id="excel-table">
+            <table class="table table-condensed table-striped table-bordered table-responsive">
+                    <thead class="thead-default">
+                    <tr class="sortable">
+                        <th><B>#</B></th>
+                        <th (click)="sort('customer_Name')"><B>Customer Name&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                            <span class="glyphicon sort-icon" *ngIf="key == 'customer_Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>
+                        <th (click)="sort('contact_Person_Name')"><B>Contact Person&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B> <span class="glyphicon sort-icon" *ngIf="key == 'contact_Person_Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        </th>
+                        <th (click)="sort('customer_Phone_Number')"><B>Mobile Number&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B> <span class="glyphicon sort-icon" *ngIf="key == 'customer_Phone_Number'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        </th>
+                        <th (click)="sort('customer_Email')"><B>Email&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B> <span class="glyphicon sort-icon" *ngIf="key == 'customer_Email'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        </th>
+                        <th (click)="sort('credit_Limit')"><B>Credit Limit&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                            <span class="glyphicon sort-icon" *ngIf="key == 'credit_Limit'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        </th>
+                        <th (click)="sort('credit_days')"><B>Credit Days&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B> <span class="glyphicon sort-icon" *ngIf="key == 'credit_days'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        </th>
+                        <!-- <th (click)="sort('status')"><B>Status</B> <span class="glyphicon sort-icon" *ngIf="key == 'status'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        </th> -->
+                        <th><B>Action</B></th>
+                        <th> 
+                                <div class="m-input-icon m-input-icon--right">
+    
+                                        <div class="m-checkbox-list">
+                                            <label class="m-checkbox m-checkbox--air m-checkbox--state-brand">
+                                                <input type="checkbox"value="" (change)="selectAll(selectedAll12)"id=testww [(ngModel)]="selectedAll12" [ngModelOptions]="{standalone:true}" 
+                                                >All
+                                               
+                                                <span></span>
+                                            </label>
+                                        </div>
+            
+                                    </div> 
+
+
+                           
+
+                        </th>
+                        <th>
+                            <a href="" (click)="deleteall()"  class="btn btn-danger m-btn m-btn--icon m-btn--icon-only">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                        </th>
+                      </tr>
+
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let details of customer | orderBy: key : reverse | filter:filter | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i=index" (dblclick)="redirect(details.customer_Id,details.status)">
+                            <td>{{ i+1}}</td>
+                            <td>{{ details.customer_Name}}</td>
+                            <td>{{ details.contact_Person_Name}}</td>
+                            <td>{{ details.customer_Phone_Number}}</td>
+                            <td>{{ details.customer_Email}}</td>
+                            <td>{{ details.credit_Limit}}</td>
+                            <td>{{ details.credit_days}}</td>
+                            <td>
+                              
+                                <a href="" (click)="redirect(details.customer_Id,details.status)" class="btn btn-accent m-btn m-btn--icon m-btn--icon-only">
+                                    <i class="fa flaticon-edit-1"></i>
+                                </a>
+                            </td>
+                            <!-- <td *ngIf="details.status==2">
+                               
+                                <button type="button"  class="btn m-btn--pill m-btn--air  btn-metal">InActive</button>
+                            </td> --> 
+                            <!-- <td>
+                                <a href="" (click)="delete(details.customer_Id)"  class="btn btn-danger m-btn m-btn--icon m-btn--icon-only">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </td> -->
+                            <td>
+                                <div class="m-input-icon m-input-icon--right">
+
+                                        <div class="m-checkbox-list">
+                                            <label class="m-checkbox m-checkbox--air m-checkbox--state-brand">
+                                                <input type="checkbox" [(ngModel)]="details.checkdelete"id=status1 [ngModelOptions]="{standalone:true}"
+                                              
+                                               >
+                                               
+                                                <span></span>
+                                            </label>
+                                        </div>
+            
+                                    </div>  
+                            
+                        </td>
+                        <td></td>
+                        </tr>
+
+                    </tbody>
+                    </table>
+                    <br>
+                    <div class="row">
+                        <label class="col-md-1" style="margin-top:5px">No.Of.Records</label>
+                        <div class="col-md-2" style="margin-bottom:20px">
+                            <input type="text" [(ngModel)]="rowsPerPage" [ngModelOptions]="{standalone: true}"
+                            class="form-control m-input m-input--solid" placeholder="No.Of.Records" (ngModelChange)="setPageSize(rowsPerPage)"/>
+                        </div>
+                        <div class="col-md-9">
+                            <pagination-controls class="right" (pageChange)="p = $event"></pagination-controls>
+                        </div>
+                    </div>
+
+                </div>
+
+
+        </div>
+    </div>
+</div>

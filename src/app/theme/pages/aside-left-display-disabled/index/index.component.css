@@ -1,0 +1,240 @@
+/* #chartdiv1 {
+    width: 150%;
+    height: 600px;
+  
+  } */
+  
+  
+  hr {
+    display: block;
+    height: 10px;
+    border: 0;
+    border-top: 1px solid #A9A9A9;
+    margin: 1em 0;
+    padding: 0; 
+    right:100px ;
+}
+
+  #chartdiv1 {
+    position: relative;
+    top: -90px;
+    left: -70px;
+    width : 150%;
+    height : 600px;
+   
+  }
+  
+
+  #chartdiv2 {
+    position: relative;
+    top: -90px;
+    left: -10px;
+    width : 150%;
+    height : 600px;
+    right:300px ;
+  }
+
+  #div1{
+    position: relative;
+    top: -200px;
+    left: -20px;
+    /* border-style:dotted;
+    background-color: aqua; */
+   
+  }
+  #div2{
+    position: relative;
+    top: -250px;
+    left:-10px;
+   
+    }
+  #chartdiv3 {
+    position: relative;
+    top: -350px;
+    left: -70px;
+    width : 150%;
+    height : 600px;
+  }
+  #chartdiv4 {
+    position: relative;
+    top: -400px;
+    left: -10px;
+    width : 150%;
+    height : 600px;
+  }
+  #div3{
+    position: relative;
+    top:-550px ;
+    left:-20px;
+  
+    /* border-style:dotted;
+    background-color: aqua; */
+  }
+
+  
+  #div4{
+    position: relative;
+    top:-550px ;
+    left: -10px;
+    /* border-style:dotted;
+    background-color: aqua; */
+    }
+  #chartdiv5 {
+    position: relative;
+    top: -650px;
+    left: -70px;
+    width : 150%;
+    height : 600px;
+  }
+  #chartdiv6 {
+    position: relative;
+    top: -650px;
+    left: -10px;
+    width : 150%;
+    height : 600px;
+  }
+  #div5{
+    position: relative;
+    top:-800px ;
+    left: -70px;
+    /* border-style:dotted;
+    background-color: aqua; */
+  }
+  #div6{
+    position: relative;
+    top:-800px ;
+    left: -10px;
+    }
+  #chartdiv7 {
+    position: relative;
+    top: -950px;
+    left: -70px;
+    width : 150%;
+    height : 600px;
+  }
+
+  #chartdiv8 {
+    position: relative;
+    top: -950px;
+    left: -30px;
+    width : 150%;
+    height : 600px;
+  }
+  #div7{
+    position: relative;
+    top:-1100px;
+    left: -70px;
+    /* border-style:dotted;
+    background-color: aqua; */
+  }
+  #div8{
+    position: relative;
+    top:-1100px;
+    left: -10px;
+    }
+  #chartdiv9 {
+    position: relative;
+    top: -1200px;
+    left: -70px;
+    width : 150%;
+    height : 600px;
+  }
+  #chartdiv10 {
+    position: relative;
+    top:-1200px;
+    left: -10px;
+    width : 150%;
+    height : 600px;
+  }
+  #div9{
+    position: relative;
+    top:-1370px ;
+    left: -70px;
+    /* border-style:dotted;
+    background-color: aqua; */
+  }
+  #div10{
+    position: relative;
+    top:-1370px ;
+    left: -10px;
+    }
+  #chartdiv11 {
+    position: relative;
+    top: -1500px;
+    left: -70px;
+    width : 150%;
+    height : 600px;
+  }
+ 
+  #chartdiv12 {
+    position: relative;
+    top: -1500px;
+    left: -10px;
+    width : 150%;
+    height : 600px;
+  }
+  #div11{
+    position: relative;
+    top:-1650px ;
+    left: -70px;
+    /* border-style:dotted;
+    background-color: aqua; */
+  }
+  #div12{
+    position: relative;
+    top:-1650px ;
+    left: -10px;
+    }
+  #chartdiv13 {
+    position: relative;
+    top: 1800px;
+    left: -70px;
+    width : 150%;
+    height : 600px;
+  }
+  #chartdiv14 {
+    position: relative;
+    top: 1800px;
+    left: -10px;
+    width : 150%;
+    height : 600px;
+  }
+  #div13{
+    position: relative;
+    top:-1950px ;
+    left: -70px;
+    /* border-style:dotted;
+    background-color: aqua; */
+  }
+  #div14{
+    position: relative;
+    top:-1950px ;
+    left: -10px;
+    }
+  #chartdiv15{
+    position: relative;
+    top: 2750px;
+    left: -70px;
+    width : 150%;
+    height : 600px;
+  }
+  #chartdiv16{
+    position: relative;
+    top: 2750px;
+    left: -10px;
+    width : 150%;
+    height : 600px;
+  }
+  #div15{
+    position: relative;
+    top:3350px ;
+    left: -70px;
+    /* border-style: solid;
+    background-color: aqua; */
+   
+  }
+  #div16{
+    position: relative;
+    top: 3350px;
+    left: -10px;
+    }

@@ -1,0 +1,162 @@
+<div class="m-content">
+        <div class="m-portlet">
+            <div class="m-portlet__head">
+                <div class="m-portlet__head-caption">
+                    <div class="m-portlet__head-title">
+                        <span class="m-portlet__head-icon m--hide">
+                            <i class="la la-gear"></i>
+                        </span>
+                        <h3 class="m-portlet__head-text">
+                            Product Catalog
+                        </h3>
+                    </div>
+                </div>
+            </div>
+            <!--begin::Form-->
+            <form #f="ngForm" class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+                <div class="m-portlet__body">
+                    <div class="form-group m-form__group row">
+                        <div class="col-lg-4">
+                            <label class="">
+                                Cluster:
+                            </label>
+                            <select class="form-control m-input m-input--air" [disabled]="disable_Status" [(ngModel)]="catalog.parent_Id" id="parent_Id" required name="parent_Id" #parent_Id="ngModel" id="exampleSelect1">
+                                <option *ngFor="let c of cluster" [ngValue]="c.Id">
+                                    {{c.Name}}
+                                </option>
+                            </select>
+                            <span class="m-form__help" *ngIf="!parent_Id.valid && parent_Id.touched" style="color:red">
+                                Please enter valid Data
+                           
+                          </span>
+                        </div>
+                        <div class="col-lg-4">
+                            <label class="">
+                                Category:
+                            </label>
+                            <select class="form-control m-input m-input--air" [disabled]="disable_Status" [(ngModel)]="catalog.inventory_classification_id" id="inventory_classification_id" required name="inventory_classification_id" #inventory_classification_id="ngModel" id="exampleSelect1">
+                                <option *ngFor="let p of productCategory" [ngValue]="p.Id">
+                                    {{p.Name}}
+                                </option>
+                            </select>
+                            <span class="m-form__help" *ngIf="!inventory_classification_id.valid && inventory_classification_id.touched" style="color:red">
+                                Please enter valid Data
+                           
+                                        </span>
+                        </div>
+                        <div class="col-lg-4">
+                            <label class="">
+                                Brand:
+                            </label>
+                            <select class="form-control m-input m-input--air" [disabled]="disable_Status" [(ngModel)]="catalog.brand_Id" id="brand_Id" required name="brand_Id" #brand_Id="ngModel" id="exampleSelect1">
+                                <option *ngFor="let b of brand" [ngValue]="b.brand_Id">
+                                    {{b.brand_Name}}
+                                </option>
+                            </select>
+                            <span class="m-form__help" *ngIf="!brand_Id.valid && brand_Id.touched" style="color:red">
+                                Please enter valid Data
+                           
+                             </span>
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <div class="col-lg-4">
+                            <label>
+                                Item Name:
+                            </label>
+                            <div class="m-input-icon m-input-icon--right">
+                                <input type="text" class="form-control m-input m-input--air" [disabled]="disable_Status" [(ngModel)]="catalog.item_Name" id="item_Name" required name="item_Name" #item_Name="ngModel" placeholder=" Name" maxlength="50">
+                                <span class="m-input-icon__icon m-input-icon__icon--right">
+                                    <span>
+                                        <i class="fa fa-address-book"></i>
+                                    </span>
+                                </span>
+                            </div>
+                            <span class="m-form__help" *ngIf="!item_Name.valid && item_Name.touched" style="color:red">
+                                Please enter valid Data
+                           
+                                        </span>
+                        </div>
+                        <div class="col-lg-4">
+                            <label>
+                                Pieces/Weight:
+                            </label>
+                            <div class="m-input-icon m-input-icon--right">
+                                <input type="text" [(ngModel)]="catalog.pcs_Per_Weight" id="pcs_Per_Weight" required name="pcs_Per_Weight" #pcs_Per_Weight="ngModel" class="form-control m-input m-input--air" placeholder=" Pieces" (keypress)="onlyDecimalNumberKey($event)" maxlength="5">
+                                <span class="m-input-icon__icon m-input-icon__icon--right">
+                                    <span>
+                                        <i class="fa fa-cubes"></i>
+                                    </span>
+                                </span>
+                            </div>
+                            <span class="m-form__help" *ngIf="!pcs_Per_Weight.valid && pcs_Per_Weight.touched" style="color:red">
+                                Please enter valid Data
+                           
+                                        </span>
+                        </div>
+                        <div class="col-lg-4">
+                            <label>
+                                Price:
+                            </label>
+                            <div class="m-input-icon m-input-icon--right">
+                                <input type="text" class="form-control m-input m-input--air" placeholder="Price" (keypress)="onlyDecimalNumberKey($event)"  [(ngModel)]="catalog.item_price" id="item_price" required name="item_price" #item_price="ngModel" maxlength="8">
+                                <span class="m-input-icon__icon m-input-icon__icon--right">
+                                    <span>
+                                        <i class="fa fa-money"></i>
+                                    </span>
+                                </span>
+                            </div>
+                            <span class="m-form__help" *ngIf="!item_price.valid && item_price.touched" style="color:red">
+                                Please enter valid Data
+                           
+                                        </span>
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <div class="col-lg-2">
+                            <label>
+                            </label>
+                            <div class="m-input-icon m-input-icon--right">
+    
+                                <div class="m-checkbox-list">
+                                    <label class="m-checkbox m-checkbox--air m-checkbox--state-brand">
+                                        <input type="checkbox" id="isActiveCheckBox" [disabled]="catalog.order_Flag==1"
+                                               #isActiveCheckBoxCheckBox [(ngModel)]="catalog.is_Active" [checked]="catalog.is_Active"
+                                               required name="is_Active" #is_Active="ngModel" (change)="onIsActiveChanged(isActiveCheckBoxCheckBox.checked)" [ngModelOptions]="{standalone:true}">
+                                        Status
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <span class="m-form__help" *ngIf="!is_Active.valid && is_Active.touched" style="color:red">
+                                Please enter valid Data
+                           
+                                        </span>
+                        </div>
+
+                        <div class="col-lg-4">
+                                <label>
+                                    </label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                <button type="submit" (click)="onSubmit()" [disabled]="!f.valid" class="btn btn-primary">
+                                    Submit
+                                </button>
+                                <button (click)="onCancel()" class="btn btn-secondary">
+                                    Cancel
+                                </button>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                <!-- <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                    <div class="m-form__actions m-form__actions--solid">
+                        <div class="row">
+                            <div class="col-lg-4"></div>
+                            
+                        </div>
+                    </div>
+                </div> -->
+            </form>
+            <!--end::Form-->
+        </div>
+    </div>

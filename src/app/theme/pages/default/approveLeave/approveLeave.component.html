@@ -1,0 +1,158 @@
+<style>
+    thead>tr>th {
+        cursor: pointer;
+    }
+    .right {
+        float: right;
+    }
+</style>
+    
+<div class="m-content">
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+                <div class="m-portlet__head-caption">
+                    <div class="m-portlet__head-title">
+                        <h3 class="m-portlet__head-text">
+                        Approve Leave
+                        </h3>
+                    </div>
+                </div>
+            </div>                
+     <div class="m-portlet__body">
+            <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+                    <div class="row align-items-center">
+                       <div class="col-xl-8 order-2 order-xl-1">
+                          <div class="form-group m-form__group row align-items-center">  
+                                  <div class="col-md-5">
+                                          <div class="m-form__group m-form__group--inline">
+                                             
+                                              <div class="m-form__label">
+                                                  <label>Status:</label>   
+                                              </div>
+                                              <div class="m-form__control">
+                                                 
+                                                  <!-- <select class="form-control" [(ngModel)]="delEmployee.status"  [ngModelOptions]="{standalone:true}" (ngModelChange)="onStatusChange(delEmployee.status)"> -->
+                                                        <select class="form-control"  [(ngModel)]="approverStatus"  [ngModelOptions]="{standalone:true}" (ngModelChange)="onStatusChange(approverStatus)">
+                                                     
+                                                      <option *ngFor="let s of leaveStatusDDL" [ngValue]="s.id">{{s.Name}}</option>
+                          
+                                                  </select>
+                                              </div>
+                                          </div>
+                                          <div class="d-md-none m--margin-bottom-10"></div>
+                                      </div>
+                                      <div class="col-md-4">
+                                            <div class="m-input-icon m-input-icon--left">
+                                                <input type="text" class="form-control m-input m-input--solid" [(ngModel)]="filter" [ngModelOptions]="{standalone: true}" placeholder="Search..." id="generalSearch">
+                                                <span class="m-input-icon__icon m-input-icon__icon--left">
+                                                    <span>
+                                                        <i class="la la-search"></i>
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </div>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+
+
+             <div class="expenseData" id="local_data">
+             
+          <table class="table table-condensed table-striped table-bordered table-responsive">
+                    <thead class="thead-default">  
+                        <th><B>#</B></th>
+                        <!-- <th><B>Leave Type</B></th> -->
+                        <th  (click)="sort('staff_No')"><B> No&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                            <span class="glyphicon sort-icon" *ngIf="key == 'staff_No'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        </th>
+                        <th  (click)="sort('name')"><B> Name&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                            <span class="glyphicon sort-icon" *ngIf="key == 'name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        </th>
+                        <th  (click)="sort('leave_Name')"><B> Type&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                            <span class="glyphicon sort-icon" *ngIf="key == 'leave_Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        </th>
+                        <th  (click)="sort('from_Date')"><B>From Date&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                            <span class="glyphicon sort-icon" *ngIf="key == 'from_Date'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        
+                        </th>
+                        <th  (click)="sort('to_Date')"><B>To <br>Date&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                            <span class="glyphicon sort-icon" *ngIf="key == 'to_Date'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        </th>
+                        <!-- <th  (click)="sort('day_Count')"><B>Leave Count</B>
+                            <span class="glyphicon sort-icon" *ngIf="key == 'day_Count'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        </th> 
+                        <th  (click)="sort('leave_Avail')"><B>Leaves Available</B>
+                            <span class="glyphicon sort-icon" *ngIf="key == 'leave_Avail'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        </th>                    -->
+                        <th  (click)="sort('remarks')"><B>Remarks&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                            <span class="glyphicon sort-icon" *ngIf="key == 'remarks'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        </th>
+                        <th   (click)="sort('remarks')"><B>Manager Remarks&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                            <span class="glyphicon sort-icon" *ngIf="key == 'remarks'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        </th>
+                        <th [hidden]="!selected12" (click)="sort('status_Of_Leave')"><B>Action&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                            <span class="glyphicon sort-icon" *ngIf="key == 'status_Of_Leave'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        </th>
+                       <th [hidden]="!selected13"></th>
+                           
+                    </thead>  
+                    <tbody>  
+                       <tr *ngFor="let details of staffLeave | orderBy: key : reverse | filter:filter | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i=index" >
+                            <td>
+                                 <input type="hidden" [(ngModel)]="details.staff_Id" [ngModelOptions]="{standalone:true}">
+                                <input type="hidden" [(ngModel)]="details.application_Id" [ngModelOptions]="{standalone:true}">
+                                <input type="hidden" [(ngModel)]="details.leaveType_Id" [ngModelOptions]="{standalone:true}">
+                 
+                                {{ i+1 }}</td>
+                            <td>{{ details.staff_No}}</td> 
+                            <td>{{ details.name}}</td> 
+                            <td>{{ details.leave_Name}}</td>               
+                            <td>{{ details.from_Date|date: 'dd/MM/yyyy'}}</td>
+                            <td>{{ details.to_Date|date: 'dd/MM/yyyy'}}</td>
+                            <!-- <td>{{ details.day_Count}}</td> -->
+                            <!-- <td [hidden]="editable">{{ details.manager_Remarks}}</td> -->
+                            
+                          
+                            <td>{{ details.remarks}}</td>
+
+                            <td [hidden]="!selected14" > 
+                                <!-- <input type="text" [disabled]="isEdited"  class="form-control m-input m-input--air" placeholder="Manager Remarks" [(ngModel)]="updateLeave.manager_Remarks" [ngModelOptions]="{standalone: true}"> -->
+                                <textarea rows="1"   placeholder="Remarks" [(ngModel)]="details.manager_Remarks" (click)="onStatusChange2(details.application_Id,updateLeave.manager_Remarks)"   id="manager_Remarks"  name="manager_Remarks" #manager_Remarks="ngModel" class="form-control m-input m-input--air" maxlength="400"></textarea>
+                            </td>
+                            <td [hidden]="!selected15" > 
+                                <!-- <input type="text" [disabled]="isEdited"  class="form-control m-input m-input--air" placeholder="Manager Remarks" [(ngModel)]="updateLeave.manager_Remarks" [ngModelOptions]="{standalone: true}"> -->
+                                {{details.manager_Remarks}}
+                            </td>
+                            
+                            <td *ngIf="details.status_Of_Leave==0">
+                                <button  type="button" (click)="SubmitForApproval(details.application_Id,details.staff_Id,details.leaveType_Id,details.manager_Remarks,details.day_Count,details.to_Date)"  class="btn m-btn--pill m-btn--air  btn-accent"> Approve </button>
+                                <label></label>
+                                <br>
+                                <br>
+
+                                <button  type="button" (click)="SubmitForRejected(details.application_Id,details.staff_Id,details.leaveType_Id,details.manager_Remarks,details.day_Count,details.to_Date)"     class="btn  m-btn--pill   m-btn--air btn-danger">&nbsp;&nbsp;Reject &nbsp;&nbsp;</button>  
+                            </td>
+                            <td   *ngIf="details.status_Of_Leave==1"   class="btn m-btn--pill m-btn--air  btn-success">Approved</td>
+                            <td   *ngIf="details.status_Of_Leave==2"   class="btn  m-btn--pill   m-btn--air btn-danger">Rejected</td>
+                           
+                        </tr>
+                    
+                    </tbody>  
+                    </table>  
+                    <br>
+                    <div class="row">
+                        <label class="col-md-1" style="margin-top:5px">No.Of.Records</label>
+                        <div class="col-md-2" style="margin-bottom:20px">
+                            <input type="text" [(ngModel)]="rowsPerPage" [ngModelOptions]="{standalone: true}" 
+                            class="form-control m-input m-input--solid" placeholder="No.Of.Records" (ngModelChange)="setPageSize(rowsPerPage)"/>
+                        </div>
+                        <div class="col-md-9">
+                            <pagination-controls class="right" (pageChange)="p = $event"></pagination-controls>
+                        </div>
+                    </div>                                  
+            </div> 
+            </div>   
+     </div>
+  </div>
+

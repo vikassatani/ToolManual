@@ -1,0 +1,136 @@
+
+<div class="m-content">
+
+    <div class="m-portlet">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <span class="m-portlet__head-icon m--hide">
+                                    <i class="la la-gear"></i>
+                                </span>
+                    <h3 class="m-portlet__head-text">
+                        Create Branch
+                    </h3>
+                </div>
+            </div>
+        </div>
+    
+        <form   #f="ngForm"   class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+            <div class="m-portlet__body">
+                <div class="form-group m-form__group row">
+                    <div class="col-lg-4">
+                        <label>
+                                    Branch Name:
+                                    </label>
+                        <div class="m-input-icon m-input-icon--right">
+                            <input type="text"  class="form-control m-input m-input--air" placeholder="Name" maxlength="50"  [(ngModel)]="branch.branch_Name"  id="branch_Name" (keypress)="omit_special_char($event)" required   name="branch_Name"  #branch_Name="ngModel">
+                           
+                            <span class="m-input-icon__icon m-input-icon__icon--right">
+                                <span>
+                                    <i class="fa fa-building"></i>
+                                </span>
+
+                            </span>
+                        </div>
+                        <span class="m-form__help" *ngIf="!branch_Name.valid && branch_Name.touched" style="color:red">
+                            Please enter valid Data
+                       
+                                    </span>
+                                   
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="">
+                                       Branch Location:
+                                    </label>
+                        <div class="m-input-icon m-input-icon--right">
+                            <input type="text" class="form-control m-input m-input--air" placeholder=" Location" [(ngModel)]="branch.branch_Location" id="branch_Location"  required   name="branch_Location"  #branch_Location="ngModel"  maxlength="50">
+                            <span class="m-input-icon__icon m-input-icon__icon--right">
+                                    <span>
+                                        <i class="la la-map-marker"></i>
+                                    </span>
+
+                            </span>
+                        </div>
+                        <span class="m-form__help" *ngIf="!branch_Location.valid && branch_Location.touched" style="color:red">
+                            Please enter valid Data
+                       
+                                    </span>
+
+                    </div>
+                    <div class="col-lg-4">
+                        <label>
+                                        Branch Address:
+                                        </label>
+                        <div class="m-input-icon m-input-icon--right">
+                            <div>
+                                <textarea class="form-control m-input--air"  rows="1" placeholder="Address" [(ngModel)]=" branch.branch_Address"  id="branch_Address"  required   name="branch_Address"  #branch_Address="ngModel"  maxlength="500"></textarea>
+                            </div>
+
+                            <span class="m-input-icon__icon m-input-icon__icon--right">
+                                   
+                                    
+                        </span>
+                        </div>
+                        <span class="m-form__help" *ngIf="!branch_Address.valid && branch_Address.touched" style="color:red">
+                            Please enter valid Data
+                       
+                                    </span>
+                    </div>
+                </div>
+                <div class="form-group m-form__group row">
+                    <div class="col-lg-4">
+                        <label class="">
+                                 Branch Manager:
+                            </label>
+                        <select [(ngModel)]="branch.branch_Manager"   class="form-control m-input m-input--air"  id="branch_Manager"  required   name="branch_Manager"  #branch_Manager="ngModel">
+                                  <option *ngFor="let  e of employee" [ngValue]="e.staff_Id">{{e.first_Name +' '+e.last_Name}}</option>
+                                </select>
+                                <span class="m-form__help" *ngIf="!branch_Manager.valid && branch_Manager.touched" style="color:red">
+                                    Please enter valid  Data
+                               
+                                            </span>
+                    </div>
+                    <div class="col-lg-4">
+                            <label>
+     
+                            </label>
+                                     <div class="m-input-icon m-input-icon--right">
+                                 
+                                 <div class="m-checkbox-list">
+                                     <label  class="m-checkbox m-checkbox--air m-checkbox--state-brand">
+                                         <input type="checkbox" #isActiveCheckBoxCheckBox
+                                         id="isActiveCheckBox" [(ngModel)]="branch.is_Active" [checked]="branch.is_Active"  
+                                         (change)="onIsActiveChanged(isActiveCheckBoxCheckBox.checked)"  [ngModelOptions]="{standalone:true}" >
+                                         Status
+                                         <span></span>
+                                     </label>
+                                     </div>
+                                
+                             </div>
+                             
+                         </div>
+
+                </div>
+            </div>
+            <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                <div class="m-form__actions m-form__actions--solid">
+                    <div class="row">
+                        <div class="col-lg-9"></div>
+                        <div class="col-lg-3">
+                              
+                            <button   (click)="onSubmit()"  [disabled]="!f.valid" class="btn btn-primary" >
+                                            Submit
+                                        </button>
+                            <button (click)="onCancel()"  class="btn btn-secondary">
+                                            Cancel
+                                        </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!--end::Form-->
+    </div>
+</div>
+
+<!-- type="submit"  [disabled]="!f.valid"  -->

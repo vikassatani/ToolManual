@@ -1,0 +1,138 @@
+<style>
+    thead>tr>th {
+        cursor: pointer;
+    }
+    .right {
+        float: right;
+    }
+</style>
+<div class="m-content">
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+                        Menu Assign
+                    </h3>
+                </div>
+            </div>
+            <div class="col-xl-4  m--align-right">
+                <div class="m-separator m-separator--dashed d-xl-none"></div>
+            </div>
+        </div>
+        <div class="m-portlet__body">
+            <!--begin: Search Form -->
+            <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+                <div class="form-group m-form__group row">
+                    <div class="col-lg-4">
+                        <div class="m-form__label">
+                            <label class="m-label m-label--single">
+                                Organization:
+                            </label>
+                        </div>
+                        <div class="m-form__control">
+                            <select [(ngModel)]="comp_Id" [ngModelOptions]="{standalone: true}"
+                                class="form-control m-input m-input--air">
+                                <option *ngFor="let c of company" [ngValue]="c.comp_Id">{{c.comp_Name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="m-form__label">
+                            <label>
+                                User Name:
+                            </label>
+                        </div>
+                        <div class="m-form__control">
+                            <select [(ngModel)]="role_Type_Id" [ngModelOptions]="{standalone: true}" (ngModelChange)="getRole(role_Type_Id)"
+                                class="form-control m-input m-input--air">
+                                <option *ngFor="let u of userType" [ngValue]="u.userType_Id">{{u.userType_Name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="m-form__label">
+                            <label class="m-label m-label--single">
+                                Role Name:
+                            </label>
+                        </div>
+                        <div class="m-form__control">
+                            <select [(ngModel)]="role_Id" [ngModelOptions]="{standalone: true}"
+                                class="form-control m-input m-input--air">
+                                <option *ngFor="let r of role" [ngValue]="r.role_Id">{{r.role_Name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group m-form__group row">
+                    <div class="col-lg-4">
+                        <div class="m-form__label">
+                            <label class="m-label m-label--single">
+                                Main Menu:
+                            </label>
+                        </div>
+                        <div class="m-form__control">
+                            <select [(ngModel)]="main_Menu_Id" [ngModelOptions]="{standalone: true}" (ngModelChange)="getRoleAssignData(role_Id,main_Menu_Id)"
+                                class="form-control m-input m-input--air">
+                                <option *ngFor="let m of mainMenu" [ngValue]="m.main_Menu_Id">{{m.main_Menu_Name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4"></div>
+                    <div class="col-lg-4">
+                        <div class="col-xl-4 order-1 order-xl-2 m--align-right">
+                                <button type="button" class="btn btn-outline-brand" style="margin:20px 0 0 0" (click)="exportSubmenu()">Export From Orgin</button>
+                            <div class="m-separator m-separator--dashed d-xl-none"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end: Search Form -->
+            <!--begin: Datatable -->
+            <div class="userRoleAssignData" id="local_data">
+                <table class="table table-condensed table-striped table-bordered table-responsive">
+                    <thead class="thead-default">  
+                        <th><B>#</B></th>
+                        <th><B>Sub Menu</B></th>
+                        <th><B>Menu Status</B></th>
+                    </thead>  
+                    <tbody>  
+                        <tr *ngFor="let details of userRoleAssign; let i=index">
+                            <td>{{i+1}}</td>
+                            <td>{{details.sub_Menu_Name}}</td>
+                            <td>
+                                <div class="m-input-icon m-input-icon--right" >
+                                    <div class="m-checkbox-list">
+                                        <label class="m-checkbox m-checkbox--air m-checkbox--state-brand">
+                                            <input type="checkbox" [(ngModel)]="details.is_Active" 
+                                            [ngModelOptions]="{standalone: true}" (ngModelChange)="details.is_Active != true ? 0 : 1"
+                                            ng-true-value="1" ng-false-value="0">
+                                            
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </td>                
+                        </tr>
+                    </tbody>  
+                </table>
+                <br>
+            </div>
+            <!--end: Datatable -->
+        </div>
+        <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+            <div class="m-form__actions m-form__actions--solid">
+                <div class="row">
+                    <div class="col-lg-10"></div>
+                    <div class="col-lg-2">
+                        <button type="submit" (click)="updateRoleAssign(role_Id,main_Menu_Id)" 
+                        class="btn btn-primary">
+                            Submit
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br/>
+    </div>
+</div>

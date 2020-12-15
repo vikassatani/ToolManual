@@ -1,0 +1,597 @@
+<div class="m-content">
+    <div class="m-portlet">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <span class="m-portlet__head-icon m--hide">
+                                <i class="la la-gear"></i>
+                            </span>
+                    <h3 class="m-portlet__head-text">
+                        Create Claim Expense
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <!--begin::Form-->
+         <form   class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+            <div class="m-portlet__body">
+                    <div class="form-group m-form__group row">
+                            <div class="col-lg-4">
+                                <label>
+                                Expense Title:
+                                </label>
+                                <div class="m-input-icon m-input-icon--right">
+                                    <input type="text" class="form-control m-input m-input--air" name="Name"  [(ngModel)]="addExpense.name"  [ngModelOptions]="{standalone: true}" readonly  >
+                                    <span class="m-input-icon__icon m-input-icon__icon--right">
+                                       
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                    <label class="">
+                                    Expense Type:
+                                </label>
+                                    <select class="form-control m-input m-input--air"  [(ngModel)]="addExpense.expense_id" (ngModelChange)="onSelect(addExpense.expense_id)" 
+                                    [ngModelOptions]="{standalone: true}">
+                                        <option *ngFor="let  e of expenseType" [ngValue]="e.id">{{e.Name}}
+                                        </option>
+                                     </select>
+                                     <!-- <span class="m-form__help" *ngIf="!expense_id.valid && expense_id.touched" style="color:red">
+                                         Please enter valid Data
+                                    
+                                          </span> -->
+                                </div> 
+                           
+            
+                        </div>
+                       
+          <div [hidden]="!selected1">
+              <form  #f1="ngForm" class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+                <div class="form-group m-form__group row">
+                       
+                    <div class="col-lg-3">
+                        <label class="">From Date:</label>
+                           <div class='input-group date'>
+                            <input type='text' [(ngModel)]="addClaimExpenseDetails.from_Date" required name="from_Date" 
+                               #from_Date="ngModel"
+                               #DatePicker1 (blur)="addClaimExpenseDetails.from_Date=DatePicker1.value" 
+                                class="form-control m-input m-input--air" 
+                              readonly placeholder="Select date" 
+                            id='m_datepicker_2' />
+                          <span class="input-group-addon">
+                            <i class="la la-calendar-check-o"></i>
+                        </span>
+                        </div> 
+                     </div>
+                     <input type="hidden" [(ngModel)]="addClaimExpenseDetails.expense_detail_id" [ngModelOptions]="{standalone: true}" />
+                    <div class="col-lg-3">
+                        <label class="">To Date:</label>
+                        <div class='input-group date' >
+                                <input type='text' [(ngModel)]="addClaimExpenseDetails.to_Date"   required   name="to_Date"  
+                                #to_Date="ngModel" 
+                                #DatePicker2 (blur)="addClaimExpenseDetails.to_Date=DatePicker2.value"class="form-control m-input m-input--air" 
+                                readonly 
+                                placeholder="Select date" id='m_datepicker_2' />
+                                <span class="input-group-addon">
+                                    <i class="la la-calendar-check-o"></i>
+                                </span>
+                            </div>
+                       
+                    </div>
+                        <div class="col-lg-3">
+                            <label> From Location</label>
+                            <div class="m-input-icon m-input-icon--right">
+                                <input type="text" class="form-control m-input m-input--air" placeholder="From Location" [(ngModel)]="addClaimExpenseDetails.from_location" id="locat"  required   name="locat"  #locat="ngModel" maxlength="50">
+                                <span class="m-input-icon__icon m-input-icon__icon--right">
+                                    <span>
+                                        <i class="fa fa-map-marker"></i>
+                                    </span>
+                                </span>
+                            </div> 
+                            <span class="m-form__help" *ngIf="!locat.valid && locat.touched" style="color:red">
+                                Please enter valid Data
+                           
+                                 </span>                
+                        </div>
+                        <div class="col-lg-3">
+                            <label>To Location</label>
+                            <div class="m-input-icon m-input-icon--right">
+                                <input type="text" class="form-control m-input m-input--air" placeholder="To Location" [(ngModel)]="addClaimExpenseDetails.to_location" id="to_location"  required   name="to_location"  #to_location="ngModel" maxlength="50">
+                                <span class="m-input-icon__icon m-input-icon__icon--right">
+                                    <span>
+                                        <i class="fa fa-map-marker"></i>
+                                    </span>
+                                </span>
+                            </div>  
+                            <span class="m-form__help" *ngIf="!to_location.valid && to_location.touched" style="color:red">
+                                Please enter valid Data
+                           
+                                 </span>                 
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                            <div class="col-lg-3">
+                                <label class="">
+                                    Bill Amount:
+                                </label>
+                                <div class="m-input-icon m-input-icon--right">
+                                    <input type="text" class="form-control m-input m-input--air" placeholder="Bill Amount" (keypress)="onlyNumberKey($event)" [(ngModel)]="addClaimExpenseDetails.bill_amount" id="bill_amount"  required   name="bill_amount" pattern="^[1-9]\d*(\.\d+)?$"  #bill_amount="ngModel" maxlength="10">
+                                    <span class="m-input-icon__icon m-input-icon__icon--right">
+                                    <span>
+                                        <i class="fa fa-inr"></i>
+                                    </span>
+                                    </span>
+                                </div>
+                                <span class="m-form__help" *ngIf="!bill_amount.valid && bill_amount.touched" style="color:red">
+                                    Please enter valid Data
+                               
+                                     </span>
+                            </div>
+                            
+                            <div class="col-lg-3">
+                                <label class="">
+                                    Attach Bill:
+                                </label>
+                                <file-uploader [maxSizeInKb]="5120" [allowMultiple]="false" [fileType]="'application/*'" (onSelection)="fileuploaderFileChange($event)" [required]="false"></file-uploader>
+                            </div>
+                            <div [hidden]="download1" class="col-lg-2">
+                                <label >
+                                </label>
+                                <br>
+                                <button type="button" class="btn m-btn--pill m-btn--air  btn-focus">
+                                    <i  class="fa fa-cloud-download" aria-hidden="true"></i><a [attr.href]="addClaimExpenseDetails.image_Name" target="_blank" >  <font style="color:white;"><b>DownLoad</b></font></a></button>
+                                  <div class="m-separator m-separator--dashed d-xl-none"></div>
+                            </div>
+                          
+                            <div class="col-lg-3">
+                                    <label>
+                                            Remarks:
+                                    </label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <div >
+                                                <textarea class="form-control m-input--air" id="m_autosize_3" rows="3" placeholder="Remarks" [(ngModel)]="addClaimExpenseDetails.remarks" [ngModelOptions]="{standalone:true}"  maxlength="270"></textarea>
+                                        </div>
+                                    </div>
+                                    <span class="m-form__help"></span>
+                                    <!-- <span class="m-form__help" *ngIf="!remarks.valid && remarks.touched" style="color:red">
+                                        Please enter valid Data
+                                   
+                                         </span> -->
+                                </div>
+                              
+                    </div>
+                    <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                            <div class="m-form__actions m-form__actions--solid">
+                                <div class="row">
+                                    <div class="col-lg-4"></div>
+                                    <div class="col-lg-8">
+                                        <button  (click)="onSubmit(1,addClaimExpenseDetails.from_Date,addClaimExpenseDetails.to_Date)" [disabled]="!f1.valid" class="btn btn-primary">
+                                                    Submit
+                                                </button>
+                                        <button routerLink="/claimExpense"  class="btn btn-secondary">
+                                                    Cancel
+                                                </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    </div>
+    
+     <div [hidden]="!selected2">
+         <form  #f2="ngForm" >
+        <div class="form-group m-form__group row">
+               
+            <div class="col-lg-4">
+                <label class="">Date:</label>
+                   <div class='input-group date'>
+                    <input type='text' [(ngModel)]="addClaimExpenseDetails.from_Date" required name="from_Date" 
+                       #from_Date="ngModel"
+                       #DatePicker3 (blur)="addClaimExpenseDetails.from_Date=DatePicker3.value" 
+                        class="form-control m-input m-input--air" 
+                      readonly placeholder="Select date" 
+                    id='m_datepicker_2' />
+                  <span class="input-group-addon">
+                    <i class="la la-calendar-check-o"></i>
+                </span>
+                </div> 
+             </div>
+
+                <div class="col-lg-4">
+                    <label>Location: </label>
+                    <div class="m-input-icon m-input-icon--right">
+                        <input type="text" class="form-control m-input m-input--air" placeholder="Enter From Location" [(ngModel)]="addClaimExpenseDetails.from_location" id="location"  required   name="location"  #location="ngModel" maxlength="50">
+                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                            <span>
+                                <i class="fa fa-map-marker"></i>
+                            </span>
+                        </span>
+                    </div>
+                    <span class="m-form__help" *ngIf="!location.valid && location.touched" style="color:red">
+                        Please enter valid Data
+                   
+                         </span>                 
+                </div>   
+                <div class="col-lg-4">
+                    <label>Amount:</label>
+                    <div class="m-input-icon m-input-icon--right">
+                        <input type="text" class="form-control m-input m-input--air" placeholder="Amount" (keypress)="onlyNumberKey($event)" maxlength="10"
+                         [(ngModel)]="addClaimExpenseDetails.bill_amount" id="bill_amount"  required   name="bill_amount"  #bill_amount="ngModel">
+                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                            <span>
+                                <i class="fa fa-inr"></i>
+                            </span>
+                        </span>
+                    </div> 
+                    <span class="m-form__help" *ngIf="!bill_amount.valid && bill_amount.touched" style="color:red">
+                        Please enter valid Data
+                   
+                         </span>                
+                </div>    
+            </div>
+            <div class="form-group m-form__group row">  
+                <div class="col-lg-3">
+                    <label class="">
+                        Attach Bill:
+                    </label>
+                    <file-uploader [maxSizeInKb]="5120" [allowMultiple]="false" [fileType]="'application/*'" (onSelection)="fileuploaderFileChange($event)" [required]="false"></file-uploader>
+                </div>
+                <div [hidden]="download1" class="col-lg-2">
+                    <label >
+                    </label>
+                    <br>
+                    <button type="button" class="btn m-btn--pill m-btn--air  btn-focus">
+                        <i  class="fa fa-cloud-download" aria-hidden="true"></i><a [attr.href]="addClaimExpenseDetails.image_Name" target="_blank" >  <font style="color:white;"><b>DownLoad</b></font></a></button>
+                      <div class="m-separator m-separator--dashed d-xl-none"></div>
+                </div>
+                        
+                    <div class="col-lg-4">
+                        <label>
+                                Remarks:
+                        </label>
+                        <div class="m-input-icon m-input-icon--right">
+                            <div >
+                                    <textarea class="form-control m-input--air" id="m_autosize_3" rows="3" placeholder="Remarks" [(ngModel)]="addClaimExpenseDetails.remarks" [ngModelOptions]="{standalone:true}"  maxlength="270"></textarea>
+                            </div>
+                        </div>
+                        <span class="m-form__help"></span>
+                        <!-- <span class="m-form__help" *ngIf="!remarks.valid && remarks.touched" style="color:red">
+                            Please enter valid Data
+                       
+                             </span> -->
+                    </div>
+                  
+                   
+            </div>
+            <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                    <div class="m-form__actions m-form__actions--solid">
+                        <div class="row">
+                            <div class="col-lg-4"></div>
+                            <div class="col-lg-8">
+                                <button (click)="onSubmit(0,0,0)" [disabled]="!f2.valid" class="btn btn-primary">
+                                            Submit
+                                        </button>
+                                <button routerLink="/claimExpense"  class="btn btn-secondary">
+                                            Cancel
+                                        </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+            </form>
+    </div>
+    
+    
+    <div [hidden]="!selected3">
+        <form  #f3="ngForm" >
+            <div class="form-group m-form__group row">
+                   
+                <div class="col-lg-4">
+                    <label class="">From Date:</label>
+                       <div class='input-group date'>
+                        <input type='text' [(ngModel)]="addClaimExpenseDetails.from_Date" required name="from_Date" 
+                           #from_Date="ngModel"
+                           #DatePicker4 (blur)="addClaimExpenseDetails.from_Date=DatePicker4.value" 
+                            class="form-control m-input m-input--air" 
+                          readonly placeholder="Select date" 
+                        id='m_datepicker_2' />
+                      <span class="input-group-addon">
+                        <i class="la la-calendar-check-o"></i>
+                    </span>
+                    </div> 
+                 </div>
+                        
+                <div class="col-lg-4">
+                    <label class="">To Date:</label>
+                    <div class='input-group date' >
+                            <input type='text' [(ngModel)]="addClaimExpenseDetails.to_Date"   required   name="to_Date"  
+                            #to_Date="ngModel" 
+                            #DatePicker5 (blur)="addClaimExpenseDetails.to_Date=DatePicker5.value"class="form-control m-input m-input--air" 
+                            readonly 
+                            placeholder="Select date" id='m_datepicker_2' />
+                            <span class="input-group-addon">
+                                <i class="la la-calendar-check-o"></i>
+                            </span>
+                        </div>
+                   
+                </div>
+                    <div class="col-lg-4">
+                        <label>Location: </label>
+                        <div class="m-input-icon m-input-icon--right">
+                            <input type="text" maxlength="50" class="form-control m-input m-input--air" placeholder="Enter From Location" [(ngModel)]="addClaimExpenseDetails.from_location" id="from_location"  required   name="from_location"  #from_location="ngModel">
+                            <span class="m-input-icon__icon m-input-icon__icon--right">
+                                <span>
+                                    <i class="fa fa-map-marker"></i>
+                                </span>
+                            </span>
+                        </div>                 
+                        <span class="m-form__help" *ngIf="!from_location.valid && from_location.touched" style="color:red">
+                            Please enter valid Data
+                       
+                             </span>
+                    </div>   
+                     
+                </div>
+                <div class="form-group m-form__group row">  
+                        <div class="col-lg-3">
+                                <label>Amount:</label>
+                                <div class="m-input-icon m-input-icon--right">
+                                    <input type="text"  maxlength="10" class="form-control m-input m-input--air" (keypress)="onlyNumberKey($event)" placeholder="Enter From Location" [(ngModel)]="addClaimExpenseDetails.bill_amount" id="bill_amount"  required   name="bill_amount"  #bill_amount="ngModel">
+                                    <span class="m-input-icon__icon m-input-icon__icon--right">
+                                        <span>
+                                            <i class="fa fa-inr"></i>
+                                        </span>
+                                    </span>
+                                </div>                 
+                                <span class="m-form__help" *ngIf="!bill_amount.valid && bill_amount.touched" style="color:red">
+                                    Please enter valid Data
+                               
+                                     </span>
+                            </div>  
+                             <div class="col-lg-3">
+                                <label class="">
+                                    Attach Bill :
+                                </label>
+                                <file-uploader [maxSizeInKb]="5120" [allowMultiple]="false" [fileType]="'application/*'" (onSelection)="fileuploaderFileChange($event)" [required]="false"></file-uploader>
+                            </div>
+                            <div [hidden]="download1" class="col-lg-2">
+                                <label >
+                                </label>
+                                <br>
+                                <button type="button" class="btn m-btn--pill m-btn--air  btn-focus">
+                                    <i  class="fa fa-cloud-download" aria-hidden="true"></i><a [attr.href]="addClaimExpenseDetails.image_Name" target="_blank" >  <font style="color:white;"><b>DownLoad</b></font></a></button>
+                                  <div class="m-separator m-separator--dashed d-xl-none"></div>
+                            </div>
+                            
+                        <div class="col-lg-3">
+                            <label>
+                                    Remarks:
+                            </label>
+                            <div class="m-input-icon m-input-icon--right">
+                                <div >
+                                        <textarea class="form-control m-input--air"  maxlength="270"    id="m_autosize_3" rows="3" placeholder="Remarks" [(ngModel)]="addClaimExpenseDetails.remarks" [ngModelOptions]="{standalone:true}" ></textarea>
+                                </div>
+                            </div>
+                            <!-- <span class="m-form__help" *ngIf="!remarks.valid && remarks.touched" style="color:red">
+                                Please enter valid Data
+                           
+                                 </span> -->
+                        </div>
+                        
+                       
+                </div>
+                <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                        <div class="m-form__actions m-form__actions--solid">
+                            <div class="row">
+                                <div class="col-lg-4"></div>
+                                <div class="col-lg-8">
+                                    <button  (click)="onSubmit(2,addClaimExpenseDetails.from_Date,addClaimExpenseDetails.to_Date)" [disabled]="!f3.valid"class="btn btn-primary">
+                                                Submit
+                                            </button>
+                                    <button routerLink="/claimExpense"  class="btn btn-secondary">
+                                                Cancel
+                                            </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+        
+    </form>    
+        </div>
+    
+    
+            <div [hidden]="!selected4">    
+                <form  #f4="ngForm" >
+                    <div class="form-group m-form__group row">  
+                            <div class="col-lg-3">
+                                    <label>Amount:</label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="text" class="form-control m-input m-input--air" placeholder="Amount" (keypress)="onlyNumberKey($event)"     maxlength="10" [(ngModel)]="addClaimExpenseDetails.bill_amount" id="bill_amount"  required   name="bill_amount"  #bill_amount="ngModel">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="fa fa-inr"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <span class="m-form__help" *ngIf="!bill_amount.valid && bill_amount.touched" style="color:red">
+                                        Please enter valid Data
+                                   
+                                         </span>                 
+                                </div>  
+                                 <div class="col-lg-3">
+                                    <label class="">
+                                         Attach Bill :
+                                    </label>
+                                    <file-uploader [maxSizeInKb]="5120" [allowMultiple]="false" [fileType]="'application/*'" (onSelection)="fileuploaderFileChange($event)" [required]="false"></file-uploader>
+                                </div>
+                                <div [hidden]="download1" class="col-lg-2">
+                                    <label >
+                                    </label>
+                                    <br>
+                                    <button type="button" class="btn m-btn--pill m-btn--air  btn-focus">
+                                        <i  class="fa fa-cloud-download" aria-hidden="true"></i><a [attr.href]="addClaimExpenseDetails.image_Name" target="_blank" >  <font style="color:white;"><b>DownLoad</b></font></a></button>
+                                      <div class="m-separator m-separator--dashed d-xl-none"></div>
+                                </div>
+                                
+                            <div class="col-lg-3">
+                                <label>
+                                        Remarks:
+                                </label>
+                                <div class="m-input-icon m-input-icon--right">
+                                    <div >
+                                            <textarea class="form-control m-input--air" id="m_autosize_3" rows="3" placeholder="Remarks" [(ngModel)]="addClaimExpenseDetails.remarks"  maxlength="270"  [ngModelOptions]="{standalone:true}" ></textarea>
+                                    </div>
+                                </div>
+                                <!-- <span class="m-form__help" *ngIf="!remarks.valid && remarks.touched" style="color:red">
+                                    Please enter valid Data
+                               
+                                     </span> -->
+                            </div>
+                           
+                           
+                    </div>
+                    <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                            <div class="m-form__actions m-form__actions--solid">
+                                <div class="row">
+                                    <div class="col-lg-4"></div>
+                                    <div class="col-lg-8">
+                                        <button  (click)="onSubmit(0,0,0)" [disabled]="!f4.valid" class="btn btn-primary">
+                                                    Submit
+                                                </button>
+                                        <button routerLink="/claimExpense"  class="btn btn-secondary">
+                                                    Cancel
+                                                </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>           
+            </div>
+    
+    
+                </div>
+        </form>
+        <div class="m-portlet__body">
+            <div class="m-content">
+              <div class="m-portlet m-portlet--mobile">
+                 <div class="expenseData" id="local_data">
+                   
+                <table class="table table-condensed table-striped table-bordered table-responsive">
+                          <thead class="thead-default">
+                        <tr class="sortable">   
+                              <th><B>#</B></th>
+                              <th (click)="sort('expense_Category_Name')"><B>Expense Type&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                                <span class="glyphicon sort-icon" *ngIf="key == 'expense_Category_Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>
+                              <th (click)="sort('from_Date')"><B>From Date&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                                <span class="glyphicon sort-icon" *ngIf="key == 'from_Date'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>
+                              <th (click)="sort('to_Date')"><B>To Date&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                                <span class="glyphicon sort-icon" *ngIf="key == 'to_Date'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>
+                              <th (click)="sort('from_location')"><B>From Location&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                                <span class="glyphicon sort-icon" *ngIf="key == 'from_location'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>
+                              <th (click)="sort('to_location')"><B>To Location&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                                <span class="glyphicon sort-icon" *ngIf="key == 'to_location'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>
+ 
+                                <!-- <th (click)="sort('image_Name')"><B>Image&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                                    <span class="glyphicon sort-icon" *ngIf="key == 'image_Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>
+        -->
+
+                              <th (click)="sort('bill_amount')"><B>Amount&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                                <span class="glyphicon sort-icon" *ngIf="key == 'bill_amount'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>   
+                              <th><B>Action</B></th>   
+                         </tr>        
+                          </thead>  
+                          <tbody>  
+                             <tr *ngFor="let details of claimExpenseDetails | orderBy: key : reverse | filter:filter | paginate: { itemsPerPage: 5, currentPage: p }; let i=index" (dblclick)="redirect(details.expense_id,details.expense_type,details.expense_detail_id)" >
+                                  <td>
+                                      <input type="hidden" [(ngModel)]="details.expense_detail_id" [ngModelOptions]="{standalone:true}">
+                                      {{ i+1 }}</td>
+                                  <td>
+                                      <input type="hidden" [(ngModel)]="details.expense_type" [ngModelOptions]="{standalone:true}">
+                                      {{ details.expense_Category_Name}}</td>                
+                                  <td>{{ details.from_Date|date: 'dd/MM/yyyy'}}</td>
+                                  <td>{{ details.to_Date|date: 'dd/MM/yyyy'}}</td>
+                                  <td>{{ details.from_location}}</td> 
+                                  <td>{{ details.to_location}}</td>
+                                  <!-- <td>{{ details.image_Name}}</td> -->
+                                  <td>{{ details.bill_amount}}</td>
+                                  
+                                
+                                  <td>
+                                      <a href="" (click)="delete(details.expense_id,details.expense_type,details.expense_detail_id)"  class="btn btn-danger m-btn m-btn--icon m-btn--icon-only">
+                                          <i class="fa fa-trash"></i>
+                                      </a>
+                                  </td>
+                              </tr>
+                          
+                          </tbody>  
+                          </table > 
+                          <br>
+                          <div class="row">
+                            <!-- <label class="col-md-1" style="margin-top:5px">No.Of.Records</label> -->
+                            <div class="col-md-2" style="margin-bottom:20px">
+                                <input type="hidden" [(ngModel)]="rowsPerPage" [ngModelOptions]="{standalone: true}" 
+                                class="form-control m-input m-input--solid" placeholder="No.Of.Records" (ngModelChange)="setPageSize(rowsPerPage)"/>
+                            </div>
+                            <!-- <div class="col-md-9">
+                                <pagination-controls class="right" (pageChange)="p = $event"></pagination-controls>
+                            </div> -->
+                        </div>                                      
+                  </div>
+        
+                <div class="row align-items-center">
+
+                        <label class="col-form-label col-md-1 col-lg-1 col-sm-12">
+                                <b>Total Amount:</b>
+                            </label>
+                            <div class="col-form-label col-md-2 col-lg-2 col-sm-12">
+                                    <input  readonly type="text" class="form-control m-input m-input--air" [(ngModel)]="TotalAmount" placeholder="Amount" maxlength="8">
+                            </div>
+                        <label class="col-form-label col-md-1 col-lg-1 col-sm-12">
+                            <b> Remarks:</b>
+                        </label>
+                        <div class="col-form-label col-md-4 col-lg-4 col-sm-12">
+                                <textarea  maxlength="300"  class="form-control m-input--air"  rows="3"   [(ngModel)]="addExpense.staff_remarks" [ngModelOptions]="{standalone:true}" placeholder="Remarks" ></textarea>
+                        </div>
+                      
+                        <div class="col-form-label col-md-3 col-lg-3 col-sm-12">
+                                <button (click)="SubmitForApproval()"  class="btn btn-focus">
+                                        Submit For Approval
+                                 </button>
+                     </div>
+                        
+                    </div>
+
+              <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                    <div class="m-form__actions m-form__actions--solid">
+                        <div class="row">
+                            <div class="col-lg-4"></div>
+                            <div class="col-lg-8">
+                    
+                       
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                  <!-- <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                    <div class="m-form__actions m-form__actions--solid">
+                        <div class="row">
+                            <div class="col-lg-4"></div>
+                            <div class="col-lg-8">
+                                
+                                <button routerLink="/claimExpense"  class="btn btn-focus">
+                                             Back
+                                            </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+     -->
+        </div>
+        </div>
+        </div>
+        <!--end::Form-->
+    </div>
+    </div>

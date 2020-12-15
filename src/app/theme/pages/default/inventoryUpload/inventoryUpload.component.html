@@ -1,0 +1,294 @@
+<style>
+    thead>tr>th {
+        cursor: pointer;
+    }
+
+    .right {
+        float: right;
+    }
+</style>
+<div class="m-content" *ngIf="isDailyInventory">
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+                        Daily Inventory Upload
+                    </h3>
+                </div>
+            </div>
+            <div class="col-xl-4  m--align-right">
+                <div class="m-separator m-separator--dashed d-xl-none"></div>
+            </div>
+        </div>
+        <div class="m-portlet__body">
+            <!--begin: Search Form -->
+            <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+                <div class="form-group m-form__group row">
+                    <div class="col-lg-4">
+                        <div class="m-form__label">
+                            <label class="m-label m-label--single">
+                                Branch:
+                            </label>
+                        </div>
+                        <div class="m-form__control">
+                            <select [(ngModel)]="selectedBranch" id="branch_id" required
+                                [ngModelOptions]="{standalone: true}" name="branch_id" #branch_id="ngModel"
+                                class="form-control m-input m-input--air"
+                                (ngModelChange)="getInventoryDetails(selectedCluster, selectedCategory, selectedBranch)">
+                                <option value="0">All</option>
+                                <option *ngFor="let b of branch" [ngValue]="b.branch_Id">{{b.branch_Name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="m-form__label">
+                            <label>
+                                Cluster:
+                            </label>
+                        </div>
+                        <div class="m-form__control">
+                            <select class="form-control" [(ngModel)]="selectedCluster"
+                                (ngModelChange)="getProductCategory(selectedCluster, selectedCategory, selectedBranch)"
+                                id="parent_Id" required name="parent_Id" #parent_Id="ngModel" id="m_form_status">
+                                <option value="">All</option>
+                                <option *ngFor="let c of cluster" [ngValue]="c.Id">
+                                    {{c.Name}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="m-form__label">
+                            <label class="m-label m-label--single">
+                                Category:
+                            </label>
+                        </div>
+                        <div class="m-form__control">
+                            <select class="form-control" [(ngModel)]="selectedCategory"
+                                (ngModelChange)="getInventoryDetails(selectedCluster, selectedCategory, selectedBranch)"
+                                id="inventory_classification_id" required name="inventory_classification_id"
+                                #inventory_classification_id="ngModel" id="m_form_status">
+                                <option value="">All</option>
+                                <option *ngFor="let p of productCategory" [ngValue]="p.Id">
+                                    {{p.Name}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                  
+
+                <div class="form-group m-form__group row">
+                    <div class="col-lg-4">
+                        <div class="m-input-icon m-input-icon--left">
+                            <input type="text" class="form-control m-input m-input--solid" [(ngModel)]="filter"
+                                [ngModelOptions]="{standalone: true}" placeholder="Search...">
+                            <span class="m-input-icon__icon m-input-icon__icon--left">
+                                <span>
+                                    <i class="la la-search"></i>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+
+                        <a href="assets/Excel/DailyInventoryUpload.xlsx" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill" style="margin-bottom:1rem;margin-left:25px;">Download Sample Excel Sheet</a>
+
+
+
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="col-xl-4 order-1 order-xl-2 m--align-right">
+                            <button type="button" class="btn m-btn--pill m-btn--air  btn-focus"
+                                (click)="changeStatus()">
+                                <i class="fa fa-cloud-upload" aria-hidden="true"></i> Upload</button>
+                            <div class="m-separator m-separator--dashed d-xl-none"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end: Search Form -->
+            <!--begin: Datatable -->
+            <div class="InventoryUploadData" id="local_data">
+                <table class="table table-condensed table-striped table-bordered table-responsive">
+                    <thead class="thead-default">
+                        <th><B>#</B></th>
+                        <th (click)="sort('parent_Name')"><B>Cluster Name&nbsp;<i class="fa fa-angle-up"
+                                    aria-hidden="true"></i></B>
+                            <span class="glyphicon sort-icon" *ngIf="key =='parent_Name'"
+                                [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        </th>
+                        <th (click)="sort('Name')"><B>Category Name&nbsp;<i class="fa fa-angle-up"
+                                    aria-hidden="true"></i></B>
+                            <span class="glyphicon sort-icon" *ngIf="key =='Name'"
+                                [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        </th>
+                        <th (click)="sort('branch_Name')"><B>Branch Name&nbsp;<i class="fa fa-angle-up"
+                                    aria-hidden="true"></i></B>
+                            <span class="glyphicon sort-icon" *ngIf="key =='branch_Name'"
+                                [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        </th>
+                        <th (click)="sort('item_Name')"><B>Item Name&nbsp;<i class="fa fa-angle-up"
+                                    aria-hidden="true"></i></B>
+                            <span class="glyphicon sort-icon" *ngIf="key =='item_Name'"
+                                [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        </th>
+                        <th (click)="sort('quantityMT')"><B>Quantity in MT&nbsp;<i class="fa fa-angle-up"
+                                    aria-hidden="true"></i></B>
+                            <span class="glyphicon sort-icon" *ngIf="key =='quantityMT'"
+                                [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        </th>
+                        <th (click)="sort('priceMT')"><B>Price in MT&nbsp;<i class="fa fa-angle-up"
+                                    aria-hidden="true"></i></B>
+                            <span class="glyphicon sort-icon" *ngIf="key =='priceMT'"
+                                [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        </th>
+                        <th (click)="sort('quantityMT')"><B>Quantity in Pcs&nbsp;<i class="fa fa-angle-up"
+                                    aria-hidden="true"></i></B>
+                            <span class="glyphicon sort-icon" *ngIf="key =='quantityMT'"
+                                [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        </th>
+                        <th (click)="sort('priceMT')"><B>Price in Pcs&nbsp;<i class="fa fa-angle-up"
+                                    aria-hidden="true"></i></B>
+                            <span class="glyphicon sort-icon" *ngIf="key =='priceMT'"
+                                [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        </th>
+                        <th>Action</th>
+                    </thead>
+                    <tbody>
+                        <tr
+                            *ngFor="let details of inventoryUpload | orderBy: key : reverse | filter:filter| paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index">
+                            <td>{{ i+1 }}
+                                <input type="hidden" [(ngModel)]="details.branch_Id">
+                            </td>
+                            <td>{{ details.parent_Name}}</td>
+                            <td>{{ details.Name}}</td>
+                            <td>{{ details.branch_Name}}</td>
+                            <td>{{ details.item_Name}}</td>
+                            <td [hidden]="details.editable">{{ details.quantityMT}}</td>
+                            <td [hidden]="!details.editable">
+                                <input type="text" class="form-control m-input m-input--air"
+                                    [(ngModel)]="details.quantityMT" maxlength="8" pattern="/^\d+$/"
+                                    (keypress)="onlyDecimalNumberKey($event)">
+                            </td>
+                            <td>{{ details.priceMT}}</td>
+                            <td>{{ details.quantityPCS}}</td>
+                            <!-- <td [hidden]="!details.editable"> 
+                                <input type="text" class="form-control m-input m-input--air" [(ngModel)]="details.quantityPCS">
+                            </td> -->
+                            <td>{{ details.pricePCS}}</td>
+                            <td [hidden]="details.editable">
+                                <a href="" (click)="details.editable=true"
+                                    class="btn btn-accent m-btn m-btn--icon m-btn--icon-only">
+                                    <i class="fa flaticon-edit-1"></i>
+                                </a>
+                            </td>
+                            <td [hidden]="!details.editable">
+                                <a href=""
+                                    (click)="UpdateQty(details.item_Id, details.branch_Id, details.quantityMT);details.editable=false"
+                                    class="btn btn-success m-btn m-btn--icon m-btn--icon-only">
+                                    <i class="fa fa-save"></i>
+                                </a>
+                                <a href="" (click)="details.editable=false"
+                                    class="btn btn-danger m-btn m-btn--icon m-btn--icon-only">
+                                    <i class="fa fa-close"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <div class="row">
+                    <label class="col-md-1" style="margin-top:5px">No.Of.Records</label>
+                    <div class="col-md-2" style="margin-bottom:20px">
+                        <input type="text" [(ngModel)]="rowsPerPage" [ngModelOptions]="{standalone: true}"
+                            class="form-control m-input m-input--solid" placeholder="No.Of.Records"
+                            (ngModelChange)="setPageSize(rowsPerPage)" />
+                    </div>
+                    <div class="col-md-9">
+                        <pagination-controls class="right" (pageChange)="p = $event"></pagination-controls>
+                    </div>
+                </div>
+            </div>
+            <!--end: Datatable -->
+        </div>
+    </div>
+</div>
+<div class="m-content" *ngIf="isDailyInventoryUpload">
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+                        Daily Inventory Upload
+                    </h3>
+                </div>
+            </div>
+            <div class="col-xl-4  m--align-right">
+                <div class="m-separator m-separator--dashed d-xl-none"></div>
+            </div>
+        </div>
+        <div class="m-portlet__body">
+            <!--begin: Search Form -->
+            <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+                <div class="form-group m-form__group row">
+                    <div class="col-lg-4">
+                        <label class="">
+                            Branch:
+                        </label>
+                        <select [(ngModel)]="branchId" id="branch_id" required name="branch_id" #branch_id="ngModel"
+                            class="form-control m-input m-input--air" id="exampleSelect1">
+                            <option *ngFor="let b of branch" [ngValue]="b.branch_Id">{{b.branch_Name}}</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-3">
+                        <label>
+                            File Upload:
+                        </label>
+                        <file-uploader [allowMultiple]="false" #fileUploader1 [fileType]="'application/*'"
+                            (onSelection)="fileuploaderFileChange($event, branchId)" [required]="false"></file-uploader>
+                    </div>
+                    <div class="col-lg-4">
+                        <label>
+
+                        </label>
+                        <div class="m-input-icon m-input-icon--right">
+                            <!-- <button type="reset" class="btn btn-secondary">
+                                Submit
+                            </button> -->
+                            <button (click)="onCancel()" type="reset" class="btn btn-secondary">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="form-group m-form__group row">
+                    <div class="m-portlet__head-tools">
+                        <div class="m-portlet__head-tools" style="padding-top:25px;float:right">
+                            <label>
+                                File Upload:
+                            </label>
+                            <file-uploader [allowMultiple]="false"
+                            [fileType]="'application/*'" aria-placeholder="asd" (onSelection)="fileuploaderFileChange($event)" [required]="false"></file-uploader>
+                        </div>
+                    </div>
+                </div> -->
+                <!-- <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                    <div class="m-form__actions m-form__actions--solid">
+                        <div class="row">
+                            <div class="col-lg-4"></div>
+                            <div class="col-lg-8">
+                                
+                                <button (click)="onCancel()" type="reset" class="btn btn-secondary">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+
+    </div>
+</div>

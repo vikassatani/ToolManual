@@ -1,0 +1,548 @@
+<div class="m-content">
+    <div class="m-portlet m-portlet--tabs">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+                        Supplier
+                    </h3>
+                </div>
+            </div>
+            <div class="m-portlet__head-tools">
+                <ul class="nav nav-tabs m-tabs m-tabs-line m-tabs-line--brand  m-tabs-line--right m-tabs-line--2x m-tabs-line-danger" role="tablist">
+                    <li class="nav-item m-tabs__item">
+                        <a class="nav-link m-tabs__link active" data-toggle="tab" href="#m_portlet_tab_1_1" role="tab">
+                            <i class="fa fa-address-book"></i> Add Supplier
+                        </a>
+                    </li>
+                    <li *ngIf="isEdited" class="nav-item m-tabs__item">
+                        <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_portlet_tab_1_2" role="tab">
+                            <i class="fa fa-map-marker"></i> Address
+                        </a>
+                    </li>
+                    <li *ngIf="isEdited" class="nav-item m-tabs__item">
+                        <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_portlet_tab_1_3" role="tab">
+                            <i class="fa fa-cloud-upload"></i> Documents
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="m-portlet__body">
+            <div class="tab-content">
+                <div class="tab-pane active" id="m_portlet_tab_1_1">
+ <!--begin::Form-->
+ <form #f="ngForm"  class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+    <div class="m-portlet__body">
+        <div class="form-group m-form__group row">
+            <div class="col-lg-4">
+                <label>
+                            Company Name:
+                        </label>
+             <div class="m-input-icon m-input-icon--right">
+                <input type="text" class="form-control m-input m-input--air" placeholder="Name" [(ngModel)]="supplier.company_Name" id="company_Name" (keypress)="numberAndSpecial($event)" required   name="company_Name"  #company_Name="ngModel" pattern="^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$" maxlength="50">
+                 <span class="m-input-icon__icon m-input-icon__icon--right">
+                    <span>
+                        <i class="fa fa-building"></i>
+                    </span>
+                    
+        </span>
+        </div>
+        <span class="m-form__help" *ngIf="!company_Name.valid && company_Name.touched" style="color:red">
+            Please enter valid Data
+       
+                    </span>
+                       
+            </div>
+            <div class="col-lg-4">
+                <label class="">
+                            Registration Number:
+                        </label>
+                 <div class="m-input-icon m-input-icon--right">
+                <input type="text" class="form-control m-input m-input--air" placeholder="Number"  [(ngModel)]="supplier.registration_Number"  id="registration_Number" (keypress)="omit_special_char($event)"  required   name="registration_Number"  #registration_Number="ngModel"  maxlength="50">
+                <span class="m-input-icon__icon m-input-icon__icon--right">
+                        <span>
+                            <i class="fa fa-list-ol"></i>
+                        </span>
+                        
+            </span>
+            </div>
+            <span class="m-form__help" *ngIf="!registration_Number.valid && registration_Number.touched" style="color:red">
+                Please enter valid Data
+           
+                        </span>
+            </div>
+            <div class="col-lg-4">
+                <label class="">
+                           Supplier Code:
+                        </label>
+                <div class="m-input-icon m-input-icon--right">
+                    <input type="text" class="form-control m-input m-input--air" placeholder="Code" [(ngModel)]="supplier.supplier_Code" id="supplier_Code" (keypress)="omit_special_char($event)"  required   name="supplier_Code"  #supplier_Code="ngModel" maxlength="50" >
+                    <span class="m-input-icon__icon m-input-icon__icon--right">
+                                <span>
+                                    <i  class="fa fa-sitemap"></i>
+                                </span>
+                    </span>
+                </div>
+                <span class="m-form__help" *ngIf="!supplier_Code.valid && supplier_Code.touched" style="color:red">
+                    Please enter valid Data
+               
+                            </span>
+            </div>
+          
+               
+        </div>
+
+        <div class="form-group m-form__group row">
+            <div class="col-lg-4">
+                <label class="">
+                            GST Number:
+                        </label>
+                        <div class="m-input-icon m-input-icon--right">
+                <input type="text" class="form-control m-input m-input--air" placeholder=" Number" [(ngModel)]="supplier.gst_Number"  (keypress)="omit_special_char($event)" id="gst_Number"  required   name="gst_Number"  #gst_Number="ngModel" pattern="^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$"  minlength="15" maxlength="15" >
+                <span class="m-input-icon__icon m-input-icon__icon--right">
+                        <span>
+                            <i class="fa fa-list-ol"></i>
+                        </span>
+                        
+            </span>
+            </div>
+            <span class="m-form__help" *ngIf="!gst_Number.valid && gst_Number.touched" style="color:red">
+                Please enter valid Data
+           
+                        </span>
+            </div>
+            <div class="col-lg-4">
+                <label class="">
+                            PAN Number:
+                        </label>
+                <div class="m-input-icon m-input-icon--right">
+                    <input type="text" class="form-control m-input m-input--air" placeholder=" Number" [(ngModel)]="supplier.pan_No"  id="pan_No" (keypress)="omit_special_char($event)" required   name="pan_No"  #pan_No="ngModel"  pattern="^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$"  minlength="10" maxlength="10">
+                    <span class="m-input-icon__icon m-input-icon__icon--right">
+                                <span>
+                                    <i class="fa fa-list-ol"></i>
+                                </span>
+                    </span>
+                </div>
+                <span class="m-form__help" *ngIf="!pan_No.valid && pan_No.touched" style="color:red">
+                    Please enter valid Data
+               
+                            </span>
+            </div>
+            <div class="col-lg-4">
+                <label>
+                            Contact No:
+                        </label>
+                <div class="m-input-icon m-input-icon--right">
+                    <input type="text" class="form-control m-input m-input--air" placeholder="phone No" [(ngModel)]="supplier.phone_No"  id="phone_No"  required   name="phone_No"  #phone_No="ngModel" (keypress)="onlyNumberKey($event)" minlength="10" maxlength="10" >
+                    <span class="m-input-icon__icon m-input-icon__icon--right">
+                                <span>
+                                    <i  class="fa fa-mobile"></i>
+                                </span>
+                                
+                    </span>
+                </div>
+                <span class="m-form__help" *ngIf="!phone_No.valid && phone_No.touched" style="color:red">
+                    Please enter valid Data
+               
+                            </span>
+            </div>
+        </div>
+        <input type='hidden' [(ngModel)]="supplier.supplier_Id" [ngModelOptions]="{standalone: true}"/>
+        <div class="form-group m-form__group row">
+            <div class="col-lg-4">
+                <label class="">
+                            FAX:
+                        </label>
+                <div class="m-input-icon m-input-icon--right">
+                    <input type="text" class="form-control m-input m-input--air" placeholder="FAX" [(ngModel)]="supplier.fax"  id="fax"  required   name="fax"  #fax="ngModel" maxlength="15" >
+                    <span class="m-input-icon__icon m-input-icon__icon--right">
+                                <span>
+                                    <i class="fa fa-fax"></i>
+                                </span>
+                    </span>
+                </div>
+                <span class="m-form__help" *ngIf="!fax.valid && fax.touched" style="color:red">
+                    Please enter valid Data
+               
+                            </span>
+            </div>
+
+           
+            <div class="col-lg-4">
+                <label class="">
+                            WebSite URL:
+                        </label>
+                <div class="m-input-icon m-input-icon--right">
+                    <input type="text" class="form-control m-input m-input--air" placeholder=" URL" [(ngModel)]="supplier.website" id="website"  required   name="website"  #website="ngModel"  maxlength="100">
+                    <span class="m-input-icon__icon m-input-icon__icon--right">
+                                <span>
+                                    <i  class="fa fa-sitemap"></i>
+                                </span>
+                    </span>
+                </div>
+                <span class="m-form__help" *ngIf="!website.valid && website.touched" style="color:red">
+                    Please enter valid Data
+               
+                            </span>
+            </div>
+            <div class="col-lg-4">
+                    <label class="">
+                             Email:
+                            </label>
+                    <div class="m-input-icon m-input-icon--right">
+                        <input type="text" class="form-control m-input m-input--air" placeholder="Email" [(ngModel)]="supplier.supplier_Email_Id" id="supplier_Email_Id"  required   name="supplier_Email_Id"  #supplier_Email_Id="ngModel" maxlength="50" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.com$">
+                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                    <span>
+                                        <i  class="fa fa-copyright"></i>
+                                    </span>
+                        </span>
+                    </div>
+                    <span class="m-form__help" *ngIf="!supplier_Email_Id.valid && supplier_Email_Id.touched" style="color:red">
+                        Please enter valid Data
+                   
+                                </span>
+                </div>
+           
+        </div>
+        <div class="form-group m-form__group row">
+                <div class="col-lg-4">
+                            <label class="">
+                                Status:
+                            </label>
+                            <select  id="exampleSelect1" [(ngModel)]="supplier.status"  id="status"  required   name="status"  #status="ngModel" class="form-control m-input m-input--air">
+                                <option value="1">
+                                    Active
+                                </option>
+                                <option value="2">
+                                    Inactive
+                                </option>
+                            </select>
+                            <!-- <span class="m-form__help" *ngIf="!reffered_By.valid && reffered_By.touched" style="color:red">
+                                Please enter valid Data
+                           
+                                        </span> -->
+                        </div> 
+                </div>
+        <div class="form-group m-form__group row">
+            <h5 class="m-portlet__head-text" >Supplier Contact Details:</h5>
+            </div>
+        <div class="form-group m-form__group row">
+              
+                <div class="col-lg-4">
+                    <label class="">
+                              Person Name:
+                            </label>
+                    <div class="m-input-icon m-input-icon--right">
+                        <input type="text" class="form-control m-input m-input--air" placeholder="Name" [(ngModel)]="supplier.contact_Person_Name" id="contact_Person_Name"  (keypress)="numberAndSpecial($event)" required   name="contact_Person_Name"  #contact_Person_Name="ngModel"  maxlength="50">
+                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                    <span>
+                                        <i  class="fa fa-money"></i>
+                                    </span>
+                        </span>
+                    </div>
+                    <span class="m-form__help" *ngIf="!contact_Person_Name.valid && contact_Person_Name.touched" style="color:red">
+                        Please enter valid Data
+                   
+                                </span>
+                </div>
+
+               
+                <div class="col-lg-4">
+                    <label class="">
+                             Email:
+                            </label>
+                    <div class="m-input-icon m-input-icon--right">
+                        <input type="text" class="form-control m-input m-input--air" placeholder="Email" [(ngModel)]="supplier.contact_Person_Email_Id" id="contact_Person_Email_Id"  required   name="contact_Person_Email_Id"  #contact_Person_Email_Id="ngModel"  maxlength="50" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.com$" >
+                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                    <span>
+                                        <i  class="fa fa-copyright"></i>
+                                    </span>
+                        </span>
+                    </div>
+                    <span class="m-form__help" *ngIf="!contact_Person_Email_Id.valid && contact_Person_Email_Id.touched" style="color:red">
+                        Please enter valid Data
+                   
+                                </span>
+                </div>
+                <div class="col-lg-4">
+                        <label class="">
+                                   Mobile No:
+                                </label>
+                        <div class="m-input-icon m-input-icon--right">
+                            <input type="text" class="form-control m-input m-input--air" placeholder="Mobile No" [(ngModel)]="supplier.contact_Person_Mobile_No" id="contact_Person_Mobile_No"  required   name="contact_Person_Mobile_No"  #contact_Person_Mobile_No="ngModel" (keypress)="onlyNumberKey($event)" minlength="10" maxlength="10" >
+                            <span class="m-input-icon__icon m-input-icon__icon--right">
+                                        <span>
+                                            <i class="la la-bookmark-o"></i>
+                                        </span>
+                            </span>
+                        </div>
+                        <span class="m-form__help" *ngIf="!contact_Person_Mobile_No.valid && contact_Person_Mobile_No.touched" style="color:red">
+                            Please enter valid Data
+                       
+                                    </span> 
+                    </div>
+            </div>
+    </div>
+    <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+        <div class="m-form__actions m-form__actions--solid">
+            <div class="row">
+                <div class="col-lg-9"></div>
+                <div class="col-lg-3">
+                    <button type="submit"  (click)="onSubmit()" [disabled]="!f.valid" class="btn btn-primary">
+                                Submit
+                            </button>
+                    <button routerLink="/suppliers" type="reset" class="btn btn-secondary">
+                                Cancel
+                            </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+    <!--end::Form-->
+
+                    </div>
+                <div class="tab-pane" id="m_portlet_tab_1_2">
+                    <form  #f1="ngForm"   class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+                        <div class="m-portlet__body">
+                            <div class="form-group m-form__group row">
+                                <div class="col-lg-4">
+                                    <label>
+									 Address:
+                                </label>
+                                    <div class="col-sm-13">
+                                        <textarea class="form-control m-input--air" id="m_autosize_1" rows="5" placeholder="Address" [(ngModel)]="supplier.address"id="address"  required   name="address"  #address="ngModel" maxlength="50"></textarea>
+                                    </div>
+
+                                    <span class="m-form__help" *ngIf="!address.valid && address.touched" style="color:red">
+                                        Please enter valid Data
+                                   
+                                                </span> 
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="">
+								 Country:
+                                </label>
+                                    <select  [(ngModel)]="supplier.country_Id" id="country_Id"   (ngModelChange)="getState(supplier.country_Id)" required   name="country_Id"  #country_Id="ngModel"  class="form-control m-input m-input--air" id="exampleSelect1"  [(ngModel)]="supplier.country_Id" [ngModelOptions]="{standalone: true}">
+                                            <option  *ngFor="let c of country" [ngValue]="c.country_Id">
+                                                    {{c.country_Name}}
+                                                  </option>
+						</select>
+                        <span class="m-form__help" *ngIf="!country_Id.valid && country_Id.touched" style="color:red">
+                            Please enter valid Data
+                       
+                                    </span> 
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="">
+								 State:
+                                </label>
+                                    <select  [(ngModel)]="supplier.state_Id" id="state_Id" (ngModelChange)="getCity(supplier.country_Id,supplier.state_Id)"  required   name="state_Id"  #state_Id="ngModel" class="form-control m-input m-input--air" id="exampleSelect1" [(ngModel)]="supplier.state_Id" [ngModelOptions]="{standalone: true}">
+                                            <option  *ngFor="let s of state" [ngValue]="s.state_Id">
+                                                    {{s.state_Name}}
+                                                  </option>
+                        </select>
+                        <span class="m-form__help" *ngIf="!state_Id.valid && state_Id.touched" style="color:red">
+                            Please enter valid Data
+                       
+                                    </span> 
+                                </div>
+
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <div class="col-lg-4">
+                                    <label class="">
+								 City:
+								</label>
+                                    <select [(ngModel)]="supplier.city_Id" id="city_Id"  required   name="city_Id"  #city_Id="ngModel" class="form-control m-input m-input--air" id="exampleSelect1" [(ngModel)]="supplier.city_Id" [ngModelOptions]="{standalone: true}">
+                                            <option  *ngFor="let c of city" [ngValue]="c.city_Id">
+                                                    {{c.city_Name}}
+                                                  </option>
+                                    </select>
+                                    <span class="m-form__help" *ngIf="!city_Id.valid && city_Id.touched" style="color:red">
+                                        Please enter valid Data
+                                   
+                                                </span> 
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="">
+								 Zipcode:
+								</label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="text" class="form-control m-input m-input--air" placeholder="zipcode" [(ngModel)]="supplier.pincode" id="pincode"  (keypress)="onlyNumberKey($event)"  required   name="pincode"  #pincode="ngModel" maxlength="10">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+										<span>
+											<i class="fa fa-location-arrow"></i>
+										</span>
+                                        </span>
+                                    </div>
+                                    <span class="m-form__help" *ngIf="!pincode.valid && pincode.touched" style="color:red">
+                                        Please enter valid Data
+                                   
+                                                </span> 
+                                </div>
+                               
+                            </div>
+                           
+                        </div>
+                        <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                            <div class="m-form__actions m-form__actions--solid">
+                                <div class="row">
+                                    <div class="col-lg-9"></div>
+                                    <div class="col-lg-3">
+                                        <button type="submit"  (click)="onSubmit()" [disabled]="!f1.valid" class="btn btn-primary">
+										Submit
+									</button>
+                                        <button routerLink="/suppliers"  class="btn btn-secondary">
+										Cancel
+									</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+               
+                <div class="tab-pane" id="m_portlet_tab_1_3">
+                    <form #f2="ngForm"  class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+                        <div class="m-portlet__body">
+                            <div class="form-group m-form__group row">
+                                <div class="col-lg-4">
+                                    <label>
+                                 ID Card Document:
+                                </label>
+                                    <file-uploader [maxSizeInKb]="5120" [allowMultiple]="false" [fileType]="'application/*'" (onSelection)="fileuploaderFileChange($event,supplier.supplier_Id,'idCard')" [required]="false" ></file-uploader>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="">
+									GST Certificate:
+                                </label>
+                                    <file-uploader [maxSizeInKb]="5120" [allowMultiple]="false" [fileType]="'application/*'" (onSelection)="fileuploaderFileChange($event,supplier.supplier_Id,'gst')" [required]="false" ></file-uploader>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="">
+									Address Proof:
+                                </label>
+                                    <file-uploader [maxSizeInKb]="5120" [allowMultiple]="false" [fileType]="'application/*'" (onSelection)="fileuploaderFileChange($event,supplier.supplier_Id,'address')" [required]="false" ></file-uploader>
+                                </div>
+
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <div class="col-lg-4">
+                                    <label class="">
+									Visiting Card:
+								</label>
+                                    <file-uploader [maxSizeInKb]="5120" [allowMultiple]="false" [fileType]="'application/*'" (onSelection)="fileuploaderFileChange($event,supplier.supplier_Id,'visiting')" [required]="false" ></file-uploader>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label></label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                    <button type="submit"  (click)="onSubmit()"  [disabled]="!f2.valid"  class="btn btn-primary">
+                                            Submit
+                                        </button>
+                                            <button routerLink="/suppliers"  class="btn btn-secondary">
+                                            Cancel
+                                        </button>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                            <div class="m-form__actions m-form__actions--solid">
+                                <div class="row">
+                                    <div class="col-lg-4"></div>
+                                    <div class="col-lg-8">
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                    </form>
+                    <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+                            <div class="m-portlet__body">
+                                   <table class="table table-condensed table-striped table-bordered table-responsive">
+                                      <thead class="thead-default">
+                                       <th><B>Document Name</B></th>
+                                       <th><B>  Download</B></th>
+                                       <th><B></B></th>
+                                       </thead>
+                                       <tbody>
+                                           <tr>
+                                               <td>ID Card Document</td>
+                                               <td [hidden]="idcard">
+                                                      <!-- <a href=" http://localhost:57509/Group/Customer/+{{}}"></a>  http://localhost:57509/-->
+                                                     
+                                                      <!-- <a href=" http://localhost:57509/Group/Customer/{{customer.id_Card_Proof}}" download="expenses.pdf">Download Your ID DOC </a> -->
+                                                    <button type="button" class="btn m-btn--pill m-btn--air  btn-focus" >
+                                                      <i  class="fa fa-cloud-download" aria-hidden="true"></i> <a [attr.href]="supplier.id_Card"  target="_blank" > <font style="color:white;"><b>DownLoad</b></font> </a> </button>
+                                                   <div class="m-separator m-separator--dashed d-xl-none"></div>
+                                                    
+                                                 </td>
+                                                 <td [hidden]="idcard1"></td>
+                                               <!-- <td>
+                                                    <a href="" (click)="delete(details.branch_Id)"  class="btn btn-danger m-btn m-btn--icon m-btn--icon-only">
+                                                        <i class="fa fa-trash"></i>
+                                                    </a>
+                                                </td> -->
+                                           </tr>
+                                           <tr>
+                                                <td>GST Certificate</td>
+                                                <td [hidden]="gst">
+                                                          
+                                                        <button type="button" class="btn m-btn--pill m-btn--air  btn-focus" (click)="downloadGSTExcel()">
+                                                         <i  class="fa fa-cloud-download" aria-hidden="true"></i><a [attr.href]="supplier.gst_certificate"  target="_blank" >   <font style="color:white;"><b>DownLoad</b></font></a></button>
+                                                       <div class="m-separator m-separator--dashed d-xl-none"></div>
+                                                        
+                                                </td>
+                                                <td [hidden]="gst1"></td>
+                                                <!-- <td>
+                                                    <a href="" (click)="delete(details.branch_Id)"  class="btn btn-danger m-btn m-btn--icon m-btn--icon-only">
+                                                         <i class="fa fa-trash"></i>
+                                                    </a>
+                                                 </td> -->
+                                            </tr>
+                                            <tr>
+                                                    <td>Address Proof</td>
+                                                    <td [hidden]="addres">
+                                                          
+                                                         <button type="button" class="btn m-btn--pill m-btn--air  btn-focus" (click)="downloadAddressProofExcel()">
+                                                          <i  class="fa fa-cloud-download" aria-hidden="true"></i><a [attr.href]="supplier.address_Proof"  target="_blank" > <font style="color:white;"><b>DownLoad</b></font></a></button>
+                                                        <div class="m-separator m-separator--dashed d-xl-none"></div>
+                                                         
+                                                   </td>
+                                                   <td [hidden]="addres1"></td>
+                                                    <!-- <td>
+                                                        <a href="" (click)="delete(details.branch_Id)"  class="btn btn-danger m-btn m-btn--icon m-btn--icon-only">
+                                                             <i class="fa fa-trash"></i>
+                                                        </a>
+                                                    </td> -->
+                                             </tr>
+                                             <tr>
+                                                   <td>Visiting Card</td>
+                                                    <td [hidden]="visiting">
+                                                          
+                                                            <button type="button" class="btn m-btn--pill m-btn--air  btn-focus" (click)="downloaVisitingCardCardExce()">
+                                                             <i  class="fa fa-cloud-download" aria-hidden="true"></i> <a [attr.href]="supplier.visiting_Card"  target="_blank" >  <font style="color:white;"><b>DownLoad</b></font></a></button>
+                                                           <div class="m-separator m-separator--dashed d-xl-none"></div>
+                                                            
+                                                  </td>
+                                                  <td [hidden]="visiting1"></td>
+                                                    <!-- <td>
+                                                        <a href="" (click)="delete(details.branch_Id)"  class="btn btn-danger m-btn m-btn--icon m-btn--icon-only">
+                                                          <i class="fa fa-trash"></i>
+                                                         </a>
+                                                    </td> -->
+                                             </tr>
+    
+                                            
+                                       </tbody>
+                                    </table>
+                             </div> 
+                        </form>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+</div>

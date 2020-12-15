@@ -1,0 +1,159 @@
+<style>
+    thead > tr > th {
+        cursor: pointer;
+    }
+
+    .right {
+        float: right;
+    }
+</style>
+<div class="m-content">
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+                        Approve Expense
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="m-portlet__body">
+            <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+                <div class="row align-items-center">
+                    <div class="col-xl-8 order-2 order-xl-1">
+                        <div class="form-group m-form__group row align-items-center">
+                            <div class="col-md-5">
+                                <div class="m-form__group m-form__group--inline">
+
+                                    <div class="m-form__label">
+                                        <label>Status:</label>
+                                    </div>
+                                    <div class="m-form__control">
+
+                                        <!-- <select class="form-control" [(ngModel)]="delEmployee.status"  [ngModelOptions]="{standalone:true}" (ngModelChange)="onStatusChange(delEmployee.status)"> -->
+                                        <select class="form-control" [(ngModel)]="approverStatus" [ngModelOptions]="{standalone:true}" (ngModelChange)="onStatusChange(approverStatus)">
+                                            <option value="0">All</option>
+                                            <option *ngFor="let s of expenseStatus" [ngValue]="s.id">{{s.Name}}</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="d-md-none m--margin-bottom-10"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="m-input-icon m-input-icon--left">
+                                    <input type="text" class="form-control m-input m-input--solid" [(ngModel)]="filter" [ngModelOptions]="{standalone: true}" placeholder="Search..." id="generalSearch">
+                                    <span class="m-input-icon__icon m-input-icon__icon--left">
+                                        <span>
+                                            <i class="la la-search"></i>
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="m-separator m-separator--dashed d-xl-none"></div>
+            <div class="m-content">
+                <div class="m-portlet m-portlet--mobile">
+                    <div class="expenseData" id="local_data">
+
+                        <table class="table table-condensed table-striped table-bordered table-responsive">
+                            <thead class="thead-default">
+                                <tr class="sortable">
+                                    <th><B>#</B></th>
+                                    <th (click)="sort('name')">
+                                        <B>Expense Title&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                                        <span class="glyphicon sort-icon" *ngIf="key == 'name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                    </th>
+                                    <th (click)="sort('total_Amount')">
+                                        <B>Total Amount&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                                        <span class="glyphicon sort-icon" *ngIf="key == 'total_Amount'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                    </th>
+                                    <th (click)="sort('staff_No')">
+                                        <B>Employee No&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                                        <span class="glyphicon sort-icon" *ngIf="key == 'staff_No'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                    </th>
+                                    <th (click)="sort('staff_Name')">
+                                        <B>Employee Name&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                                        <span class="glyphicon sort-icon" *ngIf="key == 'staff_Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                    </th>
+                                    <th (click)="sort('submitted_Date')">
+                                        <B>Submitted Date&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                                        <span class="glyphicon sort-icon" *ngIf="key == 'submitted_Date'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                    </th>
+                                    <th (click)="sort('staff_remarks')">
+                                        <B>Remarks&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                                        <span class="glyphicon sort-icon" *ngIf="key == 'staff_remarks'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                    </th>
+                                    <th (click)="sort('approver_remarks')">
+                                        <B>Manager Remarks&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                                        <span class="glyphicon sort-icon" *ngIf="key == 'approver_remarks'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                    </th>
+                                    <th (click)="sort('status')">
+                                        <B>Status&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                                        <span class="glyphicon sort-icon" *ngIf="key == 'status'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                    </th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let details of approverExpense | orderBy: key : reverse | filter:filter | paginate: { itemsPerPage: itemsPerPage, currentPage: p };let i=index" (dblclick)="redirect(details.expense_id,details.status)">
+                                    <td>
+                                        <input type="hidden" [(ngModel)]="details.expense_id" [ngModelOptions]="{standalone:true}">
+                                        {{ i+1 }}
+                                    </td>
+                                    <td>{{ details.name}}</td>
+                                    <td>{{ details.total_Amount}}</td>
+                                    <td>{{ details.staff_No}}</td>
+                                    <td>{{ details.staff_Name}}</td>
+                                    <td>{{ details.submitted_Date|date: 'dd/MM/yyyy'}}</td>
+                                    <td>{{ details.staff_remarks}}</td>
+                                    <td>{{ details.approver_remarks}}</td>
+
+                                    <td *ngIf="details.status==0">
+
+                                        <button type="button" class="btn m-btn--pill m-btn--air btn-focus">Expense Created</button>
+                                    </td>
+                                    <td *ngIf="details.status==1">
+
+                                        <button type="button" class="btn btn-outline-warning disable">Waiting For Approval</button>
+                                    </td>
+                                    <td *ngIf="details.status==2">
+
+                                        <button type="button" class="btn m-btn--pill m-btn--air  btn-success">Approved</button>
+                                    </td>
+                                    <td *ngIf="details.status==3">
+
+                                        <button type="button" class="btn m-btn--pill m-btn--air  btn-brand">Needs Modification</button>
+                                    </td>
+                                    <td *ngIf="details.status==4">
+
+                                        <button type="button" class="btn m-btn--pill m-btn--air btn-danger">Rejected</button>
+                                    </td>
+
+
+                                </tr>
+
+                            </tbody>
+                        </table>
+                        <br>
+                        <div class="row">
+                            <label class="col-md-1" style="margin-top:5px">No.Of.Records</label>
+                            <div class="col-md-2" style="margin-bottom:20px">
+                                <input type="text" [(ngModel)]="rowsPerPage" [ngModelOptions]="{standalone: true}"
+                                       class="form-control m-input m-input--solid" placeholder="No.Of.Records" (ngModelChange)="setPageSize(rowsPerPage)" />
+                            </div>
+                            <div class="col-md-9">
+                                <pagination-controls class="right" (pageChange)="p = $event"></pagination-controls>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,785 @@
+<div class="m-content">
+    <div class="m-portlet m-portlet--tabs">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+                        Employee
+                    </h3>
+                </div>
+            </div>
+            <div class="m-portlet__head-tools">
+                <ul class="nav nav-tabs m-tabs m-tabs-line m-tabs-line--brand  m-tabs-line--right m-tabs-line--2x m-tabs-line-danger" role="tablist">
+                    <li class="nav-item m-tabs__item">
+                        <a class="nav-link m-tabs__link active" data-toggle="tab" href="#m_portlet_tab_1_1" role="tab">
+                            <i class="fa fa-user-circle-o"></i> StaffDetails
+                        </a>
+                    </li>
+                    <li *ngIf="isEdited" class="nav-item m-tabs__item">
+                        <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_portlet_tab_1_2" role="tab">
+                            <i class="fa fa-id-badge"></i> Personal&Contact Details
+                        </a>
+                    </li>
+                    <li *ngIf="isEdited" class="nav-item m-tabs__item">
+                        <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_portlet_tab_1_3" role="tab">
+                            <i class="fa fa-map-marker"></i> Address Details
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="m-portlet__body">
+            <div class="tab-content">
+                <div class="tab-pane active" id="m_portlet_tab_1_1">
+                    <form #f="ngForm" class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+                        <div class="m-portlet__body">
+                            <div class="form-group m-form__group row">
+                                <div class="col-lg-4">
+                                    <label>
+                                        Employee No<font color="#FF0000">*</font> :
+                                    </label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="text" [(ngModel)]="employee.staff_No"  id="staff_No" (keypress)="omit_special_char($event)" required   name="staff_No"  #staff_No="ngModel" class="form-control m-input m-input--air" maxlength="20"
+                                               placeholder="Number">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="fa fa-list-ol"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <span class="m-form__help" *ngIf="!staff_No.valid && staff_No.touched" style="color:red">
+                                        Please enter valid Data
+                                   
+                                                </span>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        First Name <font color="#FF0000">*</font>:
+                                    </label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="text" [(ngModel)]="employee.first_Name"  id="first_Name"  (keypress)="numberAndSpecial($event)"  required   name="first_Name"  #first_Name="ngModel" class="form-control m-input m-input--air" maxlength="100"
+                                               placeholder="Name">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="fa fa-address-book"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <span class="m-form__help" *ngIf="!first_Name.valid && first_Name.touched" style="color:red">
+                                        Please enter valid Data
+                                   
+                                                </span>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        Last Name:
+                                    </label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="text" [(ngModel)]="employee.last_Name" id="last_Name" (keypress)="numberAndSpecial($event)"  name="last_Name"  #last_Name="ngModel" class="form-control m-input m-input--air" maxlength="100"
+                                               placeholder=" Name">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="fa fa-address-book"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <!-- <span class="m-form__help" *ngIf="!last_Name.valid && last_Name.touched" style="color:red">
+                                        Please enter valid Data
+                                   
+                                                </span> -->
+                                </div>
+                            </div>
+                            <input type='hidden' [(ngModel)]="employee.staff_Id" [ngModelOptions]="{standalone: true}"/>
+                            <div class="form-group m-form__group row">
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        Designation<font color="#FF0000">*</font>:
+                                    </label>
+                                    <select [(ngModel)]="employee.designation_Id" id="designation_Id" [ngModelOptions]="{standalone: true}" (keypress)="numberAndSpecial($event)"  class="form-control m-input m-input--air">
+                                        <option *ngFor="let d of role" [ngValue]="d.role_Id">{{d.role_Name}}</option>
+                                    </select>
+                                    <!-- <span class="m-form__help" *ngIf="!designation_Id.valid && designation_Id.touched" style="color:red">
+                                        Please enter valid Data
+                                   
+                                                </span> -->
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        DOB:
+                                    </label>
+                                    <!-- <div class='input-group date' id='m_datepicker_2'>
+                                        <input type='text' [(ngModel)]="employee.date_Of_Birth" [ngModelOptions]="{standalone: true}" class="form-control m-input m-input--air"
+                                               readonly placeholder="Select date" />
+                                        <span class="input-group-addon">
+                                            <i class="la la-calendar-check-o"></i>
+                                        </span>
+                                    </div> -->
+                                    <div class="input-group date">
+                                        <input type="text" class="form-control m-input" readonly="false"
+                                        placeholder="Select date" #datePicker1 [(ngModel)]="employee.date_Of_Birth"
+                                         (blur)="employee.date_Of_Birth = datePicker1.value;DOB()" 
+                                           name="date_Of_Birth"  #date_Of_Birth="ngModel" id="m_datepicker_2">
+                                        <span class="input-group-addon">
+                                        <i class="la la-calendar-check-o"></i>
+                                        </span>
+                                        </div>
+                                        <!-- <span class="m-form__help" *ngIf="!date_Of_Birth.valid && date_Of_Birth.touched" style="color:red">
+                                            Please enter valid Data
+                                       
+                                                    </span> -->
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        Joining date:
+                                    </label>
+                                    <div class='input-group date' >
+                                        <input type='text' [(ngModel)]="employee.joining_Date" name="joining_Date"  
+                                        #joining_Date="ngModel" #DatePicker2 (blur)="employee.joining_Date=DatePicker2.value" 
+                                        class="form-control m-input m-input--air" readonly placeholder="Select date" id='m_datepicker_2' />
+                                        <span class="input-group-addon">
+                                            <i class="la la-calendar-check-o"></i>
+                                        </span>
+                                    </div>
+                                        <!-- <div class='input-group date'>
+                                            <input type='text' [(ngModel)]="employee.joining_Date" [ngModelOptions]="{standalone: true}"
+                                            class="form-control m-input" readonly value="employee.joining_Date |  date:'MM/dd/yyyy'" id='m_datepicker_3'/>
+                                            <span class="input-group-addon">
+                                                <i class="la la-calendar"></i>
+                                            </span>
+                                        </div> -->
+                                        <!-- <span class="m-form__help">
+                                            Enable clear and today helper buttons
+                                        </span> -->
+                                    <!-- <span class="m-form__help" *ngIf="!joining_Date.valid && joining_Date.touched" style="color:red">
+                                        Please enter valid Data
+                                    </span> -->
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        Blood Group:
+                                    </label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <!-- <input type="text" [(ngModel)]="employee.blood_Group"  id="blood_Group"  required   name="blood_Group"  maxlength="20"
+                                         #blood_Group="ngModel" class="form-control m-input m-input--air"
+                                               placeholder=" Blood Group"> -->
+                                    
+                                               <select class="form-control m-input m-input--air"  [(ngModel)]="employee.blood_Group"  id="blood_Group"  name="blood_Group" 
+                                               #blood_Group="ngModel" class="form-control m-input m-input--air">
+                                                <option *ngFor="let s of bloodgroup" [ngValue]="s.id"> {{s.Name}}
+                                                </option>
+                                            </select>
+
+
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="fa fa-plus-circle"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <!-- <span class="m-form__help" *ngIf="!blood_Group.valid && blood_Group.touched" style="color:red">
+                                        Please enter valid Data
+                                   
+                                                </span> -->
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        Experience:
+                                    </label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="text" [(ngModel)]="employee.yrs_Exp"  id="yrs_Exp"    name="yrs_Exp"  #yrs_Exp="ngModel" class="form-control m-input m-input--air" maxlength="4"   (keypress)="onlyDecimalNumberKey($event)"
+                                               placeholder="Experience">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="fa fa-question-circle-o"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <!-- <span class="m-form__help" *ngIf="!yrs_Exp.valid && yrs_Exp.touched" style="color:red">
+                                        Please enter valid Data
+                                   
+                                                </span> -->
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        Status<font color="#FF0000">*</font>:
+                                    </label>
+                                   
+                                    <select class="form-control m-input m-input--air"  [(ngModel)]="employee.status"  id="status" [ngModelOptions]="{standalone: true}" class="form-control m-input m-input--air">
+                                        <option *ngFor="let s of empstatus" [ngValue]="s.id"> {{s.Name}}
+                                        </option>
+                                    </select>
+                                    <!-- <span class="m-form__help" *ngIf="!employee.valid && employee.touched" style="color:red">
+                                        Please enter valid Data
+                                    </span> -->
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        Mobile Number<font color="#FF0000">*</font>:
+                                    </label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input [(ngModel)]="employee.mob_No"  id="mob_No"  required   name="mob_No"  #mob_No="ngModel"  type="text" class="form-control m-input m-input--air"
+                                                placeholder=" Mobile Number"  minlength="10" maxlength="10"  (keypress)="onlyNumberKey($event)">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="fa fa-phone"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <span class="m-form__help" *ngIf="!mob_No.valid && mob_No.touched" style="color:red">
+                                        Please enter valid Data
+                                   
+                                                </span>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        Email Id:
+                                    </label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input [(ngModel)]="employee.email_Id"  id="email_Id"   name="email_Id"  #email_Id="ngModel" type="email" class="form-control m-input m-input--air" maxlength="50"
+                                               placeholder="Email ">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="fa fa-envelope"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <!-- <span class="m-form__help" *ngIf="!email_Id.valid && email_Id.touched" style="color:red">
+                                        Please enter valid Data
+                                   
+                                                </span> -->
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        Approver<font color="#FF0000">*</font>:
+                                    </label>
+                                    <select [(ngModel)]="employee.approver_id" required  id="approver_id"  name="approver_id"  #approver_id="ngModel" class="form-control m-input m-input--air"
+                                            id="exampleSelect1">
+                                        <option *ngFor="let e of staff" [ngValue]="e.staff_Id">{{e.first_Name +' '+e.last_Name}}</option>
+                                    </select>
+                                    <span class="m-form__help" *ngIf="!approver_id.valid && approver_id.touched" style="color:red">
+                                        Please enter valid Data
+                                   
+                                                </span>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        Branch<font color="#FF0000">*</font>:
+                                    </label>
+                                    <select [(ngModel)]="employee.branch_id"  id="branch_id"  required [ngModelOptions]="{standalone: true}" name="branch_id"  #branch_id="ngModel" class="form-control m-input m-input--air"
+                                            (ngModelChange)="getTeamData(employee.branch_id)">
+                                            <option value="">Select Branch</option>
+                                            <option *ngFor="let b of branch" [ngValue]="b.branch_Id">{{b.branch_Name}}</option>
+                                    </select>
+                                    <span class="m-form__help" *ngIf="!branch_id.valid && branch_id.touched" style="color:red">
+                                        Please enter valid Data
+                                    </span>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        Team:
+                                    </label>
+                                    <select [(ngModel)]="employee.team_Id"  [ngModelOptions]="{standalone: true}"  class="form-control m-input m-input--air">
+                                        <option value="">Select Team</option>
+                                        <option *ngFor="let t of team" [ngValue]="t.team_Id">{{t.team_Name}}</option>
+                                    </select>
+                                    
+                                    <!-- <span class="m-form__help" *ngIf="!team_Id.valid && team_Id.touched" style="color:red">
+                                        Please enter valid Data
+                                   
+                                    </span> -->
+                                </div>
+                                <div class="col-lg-4">
+                                        <label class="">
+                                            Department<font color="#FF0000">*</font>:
+                                        </label>
+                                        <select [(ngModel)]="employee.department_Id"  [ngModelOptions]="{standalone: true}" class="form-control m-input m-input--air">
+                                                <option *ngFor="let d of department" [ngValue]="d.id">{{d.Name}}</option>
+                                        </select>
+                                        <!-- <span class="m-form__help" *ngIf="!department_Id.valid && department_Id.touched" style="color:red">
+                                            Please enter valid Data
+                                       
+                                        </span> -->
+                                    </div>
+                               
+
+                            </div>
+                            <div class="form-group m-form__group row">
+                              
+                                <div class="col-lg-4">
+                                    <div class="m-form__group form-group">
+                                        <label>
+                                            Gender<font color="#FF0000">*</font>:
+                                        </label>
+                                        <div class="col-9">
+                                            <div class="m-radio-inline">
+                                                <label class="m-radio">
+
+                                                    <input type="radio" [(ngModel)]="employee.gender" id="gender"  required   name="gender"  #gender="ngModel" name="example_8" value="Male">
+                                                    Male
+                                                    <span></span>
+                                                </label>
+                                                <label class="m-radio">
+                                                    <input type="radio" [(ngModel)]="employee.gender" id="gender"  required   name="gender"  #gender="ngModel" name="example_8" value="Female">
+                                                    Female
+                                                    <span></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="m-form__help" *ngIf="!gender.valid && gender.touched" style="color:red">
+                                        Please enter valid Data
+                                   
+                                                </span>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <div class="m-form__group form-group">
+                                            <label>
+                                                Marital Status :
+                                            </label>
+                                            <div class="col-9">
+                                                <div class="m-radio-inline">
+                                                    <label class="m-radio">
+                                                        <input type="radio" [(ngModel)]="employee.isMarried"  id="isMarried"   name="isMarried"  #isMarried="ngModel" name="example_9" [value]="1">
+                                                        Married
+                                                        <span></span>
+                                                    </label>
+                                                    <label class="m-radio">
+                                                        <input type="radio" [(ngModel)]="employee.isMarried"  id="isMarried"   name="isMarried"  #isMarried="ngModel" name="example_9" [value]="2">
+                                                        Single
+                                                        <span></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <span class="m-form__help" *ngIf="!isMarried.valid && isMarried.touched" style="color:red">
+                                        Please enter valid Data
+                                   
+                                                </span> -->
+                                </div>
+                                <div class="col-lg-4">
+                                        <div class="col-lg-4"></div>
+                                    <label class="">
+                                        <img class="image" src="{{StudentPhoto}}" width="100" height="100" accept="image/*" />   
+                                     </label>
+                                     <div class="m-input-icon m-input-icon--right">
+                                         <input type="file"  (change)="changeListner($event,employee.staff_Id,'Photo')" />
+                                      </div>
+                                </div> 
+                            </div>
+                        </div>
+                        <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                            <div class="m-form__actions m-form__actions--solid">
+                                <div class="row">
+                                    <div class="col-lg-9"></div>
+                                    <div class="col-lg-3">
+                                        <button  type="submit" (click)="onSubmit(employee.date_Of_Birth,employee.joining_Date)" [disabled]="!f.valid" class="btn btn-primary">
+                                            Submit
+                                        </button>
+                                        <button (click)="onCancel()"  class="btn btn-secondary">
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+             
+                <div class="tab-pane" id="m_portlet_tab_1_2">
+                    <form #f1="ngForm" class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+                        <div class="m-portlet__body">
+                            <div class="form-group m-form__group row">
+                                <div class="col-lg-4">
+                                    <label>
+                                        Father's Name<font color="#FF0000">*</font> :
+                                    </label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="text" [(ngModel)]="employee.father_Name"  id="father_Name"  required   name="father_Name"  #father_Name="ngModel" (keypress)="numberAndSpecial($event)" class="form-control m-input m-input--air" maxlength="100"
+                                               placeholder="Name">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="fa fa-address-book"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <span class="m-form__help" *ngIf="!father_Name.valid && father_Name.touched" style="color:red">
+                                        Please enter valid Data
+                                   
+                                                </span>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        Mother's Name<font color="#FF0000">*</font>:
+                                    </label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="text" [(ngModel)]="employee.mother_Name"  id="mother_Name"  required   name="mother_Name"  #mother_Name="ngModel"  (keypress)="numberAndSpecial($event)" class="form-control m-input m-input--air" maxlength="100"
+                                               placeholder="Name">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="fa fa-address-book"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <span class="m-form__help" *ngIf="!mother_Name.valid && mother_Name.touched" style="color:red">
+                                        Please enter valid Data
+                                   
+                                                </span>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label>
+                                        Spouse Name<font color="#FF0000">*</font>:
+                                    </label>
+                                    <div class="m-input-icon m-input-icon--right"> 
+                                        <input type="text" [(ngModel)]="employee.spouse_Name"  id="spouse_Name"  required   name="spouse_Name"  #spouse_Name="ngModel"  (keypress)="numberAndSpecial($event)" class="form-control m-input m-input--air" maxlength="100"
+                                               placeholder=" Name">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="fa fa-address-book"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <span class="m-form__help" *ngIf="!spouse_Name.valid && spouse_Name.touched" style="color:red">
+                                        Please enter valid Data
+                                   
+                                                </span>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        Nationality<font color="#FF0000">*</font>:
+                                    </label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="text" [(ngModel)]="employee.nationality"  id="nationality" (keypress)="numberAndSpecial($event)"  required   name="nationality" maxlength="30" #nationality="ngModel" class="form-control m-input m-input--air"
+                                               placeholder="Nationality">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="fa fa-flag"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <span class="m-form__help" *ngIf="!nationality.valid && nationality.touched" style="color:red">
+                                        Please enter valid Data
+                                   
+                                                </span>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        Emergency Contact Name<font color="#FF0000">*</font>:
+                                    </label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="text" [(ngModel)]="employee.emergency_Name"  id="emergency_Name"  required   name="v"  #emergency_Name="ngModel" (keypress)="numberAndSpecial($event)" class="form-control m-input m-input--air" maxlength="100"
+                                               placeholder=" Name">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="fa fa-address-book"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <span class="m-form__help" *ngIf="!emergency_Name.valid && emergency_Name.touched" style="color:red">
+                                        Please enter valid Data
+                                   
+                                                </span>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label>
+                                        Emergency Contact No<font color="#FF0000">*</font>:
+                                    </label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="text" [(ngModel)]="employee.emergency_No"  id="emergency_No"  required   name="emergency_No"  #emergency_No="ngModel" class="form-control m-input m-input--air"
+                                               placeholder="Contact No"  minlength="10" maxlength="10"  (keypress)="onlyNumberKey($event)">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="fa fa-mobile"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <span class="m-form__help" *ngIf="!emergency_No.valid && emergency_No.touched" style="color:red">
+                                        Please enter valid Data
+                                   
+                                                </span>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        ESI No<font color="#FF0000">*</font>:
+                                    </label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="text" [(ngModel)]="employee.esi_No"  id="esi_No"  required   name="esi_No"  #esi_No="ngModel" class="form-control m-input m-input--air" maxlength="20"
+                                               placeholder="ESI ">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="fa fa-list-ol"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <span class="m-form__help" *ngIf="!esi_No.valid && esi_No.touched" style="color:red">
+                                        Please enter valid Data
+                                   
+                                                </span>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        PF No<font color="#FF0000">*</font>:
+                                    </label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="text" [(ngModel)]="employee.pf_No"  id="pf_No"  required   name="pf_No"  #pf_No="ngModel" class="form-control m-input m-input--air" maxlength="20"
+                                               placeholder="PF">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="fa fa-list-ol"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <span class="m-form__help" *ngIf="!pf_No.valid && pf_No.touched" style="color:red">
+                                        Please enter valid Data
+                                   
+                                                </span>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        EID No<font color="#FF0000">*</font>:
+                                    </label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="text" [(ngModel)]="employee.eid_No"  id="eid_No"  required   name="eid_No"  #eid_No="ngModel" class="form-control m-input m-input--air" maxlength="20"
+                                               placeholder=" EID">
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                            <span>
+                                                <i class="fa fa-list-ol"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <span class="m-form__help" *ngIf="!eid_No.valid && eid_No.touched" style="color:red">
+                                        Please enter valid Data
+                                   
+                                                </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                            <div class="m-form__actions m-form__actions--solid">
+                                <div class="row">
+                                    <div class="col-lg-9"></div>
+                                    <div class="col-lg-3">
+                                        <button type="submit" (click)="onSubmit()" [disabled]="!f1.valid" class="btn btn-primary">
+                                            Submit
+                                        </button>
+                                        <button (click)="onCancel()" class="btn btn-secondary">
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="tab-pane" id="m_portlet_tab_1_3">
+                    <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+                        <div class="m-portlet__body">
+                            <div class="form-group m-form__group row">
+                                <div class="col-lg-4">
+                                    <label>
+                                        Current Address:
+                                    </label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <div>
+                                            <textarea class="form-control m-input--air" [(ngModel)]="employee.current_Address" [ngModelOptions]="{standalone: true}" id="m_autosize_1"
+                                                      rows="5" placeholder="Address"></textarea>
+                                        </div>
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                        </span>
+                                    </div>
+                                    <span class="m-form__help">
+                                    </span>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label>
+                                        Permanent Address:
+                                    </label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <div>
+                                            <textarea class="form-control m-input--air" [(ngModel)]="employee.permnt_Address" [ngModelOptions]="{standalone: true}" id="m_autosize_2"
+                                                      rows="5" placeholder="Address"></textarea>
+                                        </div>
+                                        <span class="m-input-icon__icon m-input-icon__icon--right">
+                                        </span>
+                                    </div>
+                                    <span class="m-form__help">
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <div class="col-lg-4">
+                                    <label>
+                                        Adhar Number:
+                                    </label>
+                                    <file-uploader [maxSizeInKb]="5120" [allowMultiple]="false" [fileType]="'application/*'"  (onSelection)="fileuploaderFileChange($event,employee.staff_Id,'aadhar')"
+                                                   [required]="false"></file-uploader>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        Driving License Number:
+                                    </label>
+                                    <file-uploader [maxSizeInKb]="5120" [allowMultiple]="false" [fileType]="'application/*'" (onSelection)="fileuploaderFileChange($event,employee.staff_Id,'drivingLicence')"
+                                                   [required]="false"></file-uploader>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        Voter Id Number:
+                                    </label>
+                                    <file-uploader [maxSizeInKb]="5120" [allowMultiple]="false" [fileType]="'application/*'" (onSelection)="fileuploaderFileChange($event,employee.staff_Id,'voterId')"
+                                                   [required]="false"></file-uploader>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+
+                                <div class="col-lg-4">
+                                    <label>
+                                        PAN Number:
+                                    </label>
+                                    <file-uploader [maxSizeInKb]="5120" [allowMultiple]="false" [fileType]="'application/*'" (onSelection)="fileuploaderFileChange($event,employee.staff_Id,'PAN')"
+                                                   [required]="false"></file-uploader>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="">
+                                        Other Documents:
+                                    </label>
+                                    <file-uploader [maxSizeInKb]="5120" [allowMultiple]="false" [fileType]="'application/*'" (onSelection)="fileuploaderFileChange($event,employee.staff_Id,'Others')"
+                                                   [required]="false"></file-uploader>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                        <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                            <div class="m-form__actions m-form__actions--solid">
+                                <div class="row">
+                                    <div class="col-lg-9"></div>
+                                    <div class="col-lg-3">
+                                        <button  (click)="onSubmit()" class="btn btn-primary">
+                                            Submit
+                                        </button>
+                                        <button (click)="onCancel()" type="reset" class="btn btn-secondary">
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+                            <div class="m-portlet__body">
+                                   <table class="table table-condensed table-striped table-bordered table-responsive">
+                                      <thead class="thead-default">
+                                       <th><B>Document Name</B></th>
+                                       <th><B>  Download</B></th>
+                                       <th><B></B></th>
+                                       <!-- <th><B>Delete</B></th> -->
+                                       </thead>
+                                       <tbody>
+                                           <tr>
+                                               <td>Adhar Number</td>
+                                               <td [hidden]="Adhar">
+                                                      <!-- <a href=" http://localhost:57509/Group/Customer/+{{}}"></a>  http://localhost:57509/-->
+                                                     
+                                                      <!-- <a href=" http://localhost:57509/Group/Customer/{{customer.id_Card_Proof}}" download="expenses.pdf">Download Your ID DOC </a> -->
+                                                    <button type="button" class="btn m-btn--pill m-btn--air  btn-focus" >
+                                                      <i  class="fa fa-cloud-download" aria-hidden="true"></i> <a [attr.href]="employee.adhar_Upload"  target="_blank" >  <font style="color:white;"><b>DownLoad</b></font></a> </button>
+                                                   <div class="m-separator m-separator--dashed d-xl-none"></div>
+                                                    
+                                                 </td>
+                                                 <td [hidden]="Adhar1"></td>
+                                               <!-- <td>
+                                                    <a href="" (click)="delete(details.branch_Id)"  class="btn btn-danger m-btn m-btn--icon m-btn--icon-only">
+                                                        <i class="fa fa-trash"></i>
+                                                    </a>
+                                                </td> -->
+                                           </tr>
+                                           <tr>
+                                                <td> Driving License Number</td>
+                                                <td [hidden]="driving">
+                                                          
+                                                        <button type="button" class="btn m-btn--pill m-btn--air  btn-focus" (click)="downloadGSTExcel()">
+                                                         <i  class="fa fa-cloud-download" aria-hidden="true"></i><a [attr.href]="employee.dl_Upload" target="_blank" >  <font style="color:white;"><b>DownLoad</b></font></a></button>
+                                                       <div class="m-separator m-separator--dashed d-xl-none"></div>
+                                                        
+                                                </td>
+                                                <td [hidden]="driving1"></td>
+                                                <!-- <td>
+                                                    <a href="" (click)="delete(details.branch_Id)"  class="btn btn-danger m-btn m-btn--icon m-btn--icon-only">
+                                                         <i class="fa fa-trash"></i>
+                                                    </a>
+                                                 </td> -->
+                                            </tr>
+                                            <tr>
+                                                    <td>Voter Id Number</td>
+                                                    <td [hidden]="voter">
+                                                          
+                                                         <button type="button" class="btn m-btn--pill m-btn--air  btn-focus" (click)="downloadAddressProofExcel()">
+                                                          <i  class="fa fa-cloud-download" aria-hidden="true"></i><a [attr.href]="employee.vo_Upload"  target="_blank" >  <font style="color:white;"><b>DownLoad</b></font></a></button>
+                                                        <div class="m-separator m-separator--dashed d-xl-none"></div>
+                                                         
+                                                   </td>
+                                                   <td [hidden]="voter1"></td>
+                                                    <!-- <td>
+                                                        <a href="" (click)="delete(details.branch_Id)"  class="btn btn-danger m-btn m-btn--icon m-btn--icon-only">
+                                                             <i class="fa fa-trash"></i>
+                                                        </a>
+                                                    </td> -->
+                                             </tr>
+                                             <tr>
+                                                   <td>PAN Number</td>
+                                                    <td [hidden]="pan">
+                                                          
+                                                            <button type="button" class="btn m-btn--pill m-btn--air  btn-focus" (click)="downloaVisitingCardCardExce()">
+                                                             <i  class="fa fa-cloud-download" aria-hidden="true"></i> <a [attr.href]="employee.pan_Upload"  target="_blank" >  <font style="color:white;"><b>DownLoad</b></font></a></button>
+                                                           <div class="m-separator m-separator--dashed d-xl-none"></div>
+                                                            
+                                                  </td>
+                                                  <td [hidden]="pan1"></td>
+                                                    <!-- <td>
+                                                        <a href="" (click)="delete(details.branch_Id)"  class="btn btn-danger m-btn m-btn--icon m-btn--icon-only">
+                                                          <i class="fa fa-trash"></i>
+                                                         </a>
+                                                    </td> -->
+                                             </tr>
+    
+                                             <tr>
+                                                <td>Other Documents</td>
+                                                 <td [hidden]="other">
+                                                       
+                                                         <button type="button" class="btn m-btn--pill m-btn--air  btn-focus" (click)="downloaVisitingCardExcel()">
+                                                          <i  class="fa fa-cloud-download" aria-hidden="true"></i> <a [attr.href]="employee.other_Upload"  target="_blank" >  <font style="color:white;"><b>DownLoad</b></font></a></button>
+                                                        <div class="m-separator m-separator--dashed d-xl-none"></div>
+                                                         
+                                               </td>
+                                               <td [hidden]="other1"></td>
+                                                 <!-- <td>
+                                                     <a href="" (click)="delete(details.branch_Id)"  class="btn btn-danger m-btn m-btn--icon m-btn--icon-only">
+                                                       <i class="fa fa-trash"></i>
+                                                      </a>
+                                                 </td> -->
+                                          </tr>
+                                       </tbody>
+                                    </table>
+                             </div> 
+                        </form>
+                </div>
+
+            
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,101 @@
+<div class="m-content">
+        <div class="m-portlet">
+            <div class="m-portlet__head">
+                <div class="m-portlet__head-caption">
+                    <div class="m-portlet__head-title">
+                        <span class="m-portlet__head-icon m--hide">
+                            <i class="la la-gear"></i>
+                        </span>
+                        <h3 class="m-portlet__head-text">
+                            Team
+                        </h3>
+                    </div>
+                </div>
+            </div>
+            <!--begin::Form-->
+            <form #f="ngForm" class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+                <div class="m-portlet__body">
+                    <div class="form-group m-form__group row">
+                        <div class="col-lg-4">
+                            <label class="">
+                                Branch:
+                            </label>
+                            <select [disabled]="isEdited"    [(ngModel)]="team.branch_Id" id="branch_id" required name="branch_id" #branch_id="ngModel" class="form-control m-input m-input--air"
+                                    id="exampleSelect1">
+                                <option *ngFor="let b of branch" [ngValue]="b.branch_Id">{{b.branch_Name}}</option>
+                            </select>
+                            <span class="m-form__help" *ngIf="!branch_id.valid && branch_id.touched" style="color:red">
+                                Please enter valid Data
+                        
+                            </span>
+                        </div>
+                        <div class="col-lg-4">
+                            <label>
+                                Team :
+                            </label>
+                            <div class="m-input-icon m-input-icon--right">
+                                <input type="text" class="form-control m-input m-input--air" placeholder="Team Name" [(ngModel)]="team.team_Name" id="team_Name" (keypress)="omit_special_char($event)"  required name="Name" #Name="ngModel" maxlength="50">
+                                <span class="m-input-icon__icon m-input-icon__icon--right">
+                                    <span>
+                                        <i class="fa fa-sign-out"></i>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <label class="">
+                                Team Manager:
+                            </label>
+                            <select [(ngModel)]="team.team_Manager" class="form-control m-input m-input--air" id="branch_Manager" required name="branch_Manager" #branch_Manager="ngModel">
+                                <option *ngFor="let  e of employee" [ngValue]="e.staff_Id">{{e.first_Name +' '+e.last_Name}}</option>
+                            </select>
+                            <span class="m-form__help" *ngIf="!branch_Manager.valid && branch_Manager.touched" style="color:red">
+                                Please enter valid  Data
+                        
+                            </span>
+                        </div>
+                        
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <div class="col-lg-2">
+                            <label>
+                            </label>
+                            <div class="m-input-icon m-input-icon--right">
+                                <div class="m-checkbox-list">
+                                    <label class="m-checkbox m-checkbox--air m-checkbox--state-brand">
+                                        <!-- <input type="checkbox" [checked]="saveUsername" (change)="saveUsername = !saveUsername" /> -->
+                                        <input type="checkbox" #isActiveCheckBoxCheckBox
+                                        id="isActiveCheckBox" [(ngModel)]="team.status" [checked]="team.status" 
+                                        (change)="onIsActiveChanged(isActiveCheckBoxCheckBox.checked)"
+                                         [ngModelOptions]="{standalone: true}">
+                                        Status
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                                <label></label>
+                                <div class="m-input-icon m-input-icon--right">
+                                <button type="submit"  (click)="onSubmit()" [disabled]="!f.valid" class="btn btn-primary">
+                                    Submit
+                                </button>
+                                <button (click)="onCancle()" class="btn btn-secondary">
+                                    Cancel
+                                </button>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                    <div class="m-form__actions m-form__actions--solid">
+                        <div class="row">
+                            <div class="col-lg-4"></div>
+                           
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!--end::Form-->
+        </div>
+    </div>

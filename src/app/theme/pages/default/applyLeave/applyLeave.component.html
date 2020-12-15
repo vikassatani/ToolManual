@@ -1,0 +1,282 @@
+<style>
+    thead>tr>th {
+    cursor: pointer;
+}
+.right {
+    float: right;
+}
+</style>
+<div class="m-content">
+        <div class="m-portlet">
+            <div class="m-portlet__head">
+                <div class="m-portlet__head-caption">
+                    <div class="m-portlet__head-title">
+                        <span class="m-portlet__head-icon m--hide">
+                                    <i class="la la-gear"></i>
+                                </span>
+                        <h3 class="m-portlet__head-text">
+                           Apply Leave
+                        </h3>
+                    </div>
+                </div>
+            </div>
+            <!--begin::Form-->
+            <form   class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+                <div class="m-portlet__body">
+                    <div class="form-group m-form__group row">
+                       
+                     <!-- <div class="col-lg-4">
+                            <label class="">
+                           Leave Type:
+                        </label>
+                            <select class="form-control m-input m-input--air"  [(ngModel)]="selectedDDLOPtion" (ngModelChange)="onSelectOfDDL(selectedDDLOPtion)"
+                            [ngModelOptions]="{standalone: true}">
+                                <option value="1" >
+                                 Casual Leave
+                                </option>
+                                <option  value="2" >
+                                 Pay Leave
+                                </option>
+                                <option value="3" >
+                                Sick Leave
+                                </option>
+                                <option value="4" >
+                                  others
+                                </option>
+                             </select>
+                        </div>  -->
+        
+                        <div class="col-lg-4">
+                            <label class="">
+                              Leave Type:
+                        </label>
+                            <select class="form-control m-input m-input--air"  [(ngModel)]="addLeaveApplication.leave_Id" 
+                            [ngModelOptions]="{standalone:true}"  
+                            (ngModelChange)="onSelectOfDDL(addLeaveApplication.leave_Id)">
+                            <option value="0">All</option>
+                                <option *ngFor="let  e of leaveDDL" [ngValue]="e.leave_Id">{{e.leave_Name}}
+                                </option>
+                             </select>
+                        </div> 
+                        
+                       
+                        <!-- <div class="col-lg-2">
+                            <label>
+                                    Leaves Taken
+                            </label>
+                            <div class="m-input-icon m-input-icon--right">
+                                <div >
+                                    <input type="text" class="form-control m-input m-input--air"  [(ngModel)]="addLeaveApplication.remarks" [ngModelOptions]="{standalone:true}"  readonly >
+                                </div>
+                            </div>
+                            <!-- <span class="m-form__help" *ngIf="!remarks.valid && remarks.touched" style="color:red">
+                                Please enter valid Data
+                           
+                             </span>  -->
+                        <!-- </div>   --> 
+                       
+                      
+                    </div>
+          
+                  <form  #f1="ngForm" class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+                    <div class="form-group m-form__group row">
+                           
+                        <!-- <div class="col-lg-4">
+                            <label class="">From Date:</label>
+                               <div class='input-group date'>
+                                <input type='text'  [(ngModel)]="addLeaveApplication.from_Date" required name="from_Date" 
+                                   #from_Date="ngModel"
+                                   #DatePicker1 (blur)="addLeaveApplication.from_Date=DatePicker1.value" 
+                                    class="form-control m-input m-input--air" 
+                                  readonly placeholder="Select date" 
+                                id='m_datepicker_2' />
+                              <span class="input-group-addon">
+                                <i class="la la-calendar-check-o"></i>
+                            </span>
+                            </div> 
+                         </div> -->
+
+                        
+
+                         <!-- <div class="col-lg-3">
+                                <label class="">From Date:</label>
+                                   <div class='input-group date'>
+                                        <my-date-picker name="mydate" [options]="myDatePickerOptions"
+                                        [(ngModel)]="model" required></my-date-picker>
+                                  <span class="input-group-addon">
+                                    <i class="la la-calendar-check-o"></i>
+                                </span>
+                                </div> 
+                             </div> -->
+        <!-- ////////////////////////////////correct//////////// -->
+                         <div class="col-lg-3">
+                            <label class="">From Date:</label>
+                               <div class='input-group date'>
+                                <input type='text' [(ngModel)]="addLeaveApplication.from_Date" required name="from_Date" 
+                                   #from_Date="ngModel"
+                                   #DatePicker1 (blur)="addLeaveApplication.from_Date=DatePicker1.value" 
+                                    class="form-control m-input m-input--air" 
+                                  readonly placeholder="Select date" 
+                                id='m_datepicker_2' />
+                              <span class="input-group-addon">
+                                <i class="la la-calendar-check-o"></i>
+                            </span>
+                            </div> 
+                         </div>
+                                
+                        <div class="col-lg-3">
+                            <label class="">To Date:</label>
+                            <div class='input-group date' >
+                                    <input type='text' [(ngModel)]="addLeaveApplication.to_Date"   required   name="to_Date"  
+                                    #to_Date="ngModel" 
+                                    #DatePicker2 (blur)="addLeaveApplication.to_Date=DatePicker2.value"class="form-control m-input m-input--air" 
+                                    readonly 
+                                    placeholder="Select date" id='m_datepicker_2' />
+                                    <span class="input-group-addon">
+                                        <i class="la la-calendar-check-o"></i>
+                                    </span>
+                                </div>
+                           
+                        </div>    
+                         <!-- <div class="col-lg-4">
+                            <label class="">From Date:</label>
+                            <div class='input-group date' >
+                                    <input type='text'  [(ngModel)]="addLeaveApplication.from_Date" (click)="AddNew(addLeaveApplication.leave_Id)"  required   name="from_Date"  
+                                    #from_Date="ngModel" 
+                                    #DatePicker1 (blur)="addLeaveApplication.from_Date=DatePicker1.value;getFromDate(addLeaveApplication.from_Date)"  class="form-control m-input m-input--air" 
+                                    readonly 
+                                    placeholder="Select date" id='m_datepicker_2' />
+                                    <span class="input-group-addon">
+                                        <i class="la la-calendar-check-o"></i>
+                                    </span>
+                                </div>
+                                <span class="m-form__help" *ngIf="!from_Date.valid && from_Date.touched" style="color:red">
+                                    Please enter valid Data
+                               
+                                     </span>
+                           
+                        </div>
+                        <div class="col-lg-4">
+                            <label class="">To Date:</label>
+                            <div class='input-group date' >
+                                    <input type='text'  [(ngModel)]="addLeaveApplication.to_Date" (click)="AddNew(addLeaveApplication.leave_Id)"   required   name="to_Date"  
+                                    #to_Date="ngModel" 
+                                    #DatePicker2 (blur)="addLeaveApplication.to_Date=DatePicker2.value;getToDate(addLeaveApplication.to_Date);getDate()"  class="form-control m-input m-input--air" 
+                                    readonly 
+                                    placeholder="Select date" id='m_datepicker_2' />
+                                    <span class="input-group-addon">
+                                        <i class="la la-calendar-check-o"></i>
+                                    </span>
+                                </div>
+                                <span class="m-form__help" *ngIf="!to_Date.valid && to_Date.touched" style="color:red">
+                                    Please enter valid Data
+                               
+                                     </span>
+                        </div>
+                           -->
+                            <div class="col-lg-4">
+                                <label>
+                                        Remarks:
+                                </label>
+                                <div class="m-input-icon m-input-icon--right">
+                                    <div >
+                                            <textarea class="form-control m-input--air" id="m_autosize_3" (click)="AddNew(addLeaveApplication.leave_Id)"   [(ngModel)]="addLeaveApplication.remarks" [ngModelOptions]="{standalone:true}"  rows="1" placeholder="Remarks" maxlength="500" ></textarea>
+                                    </div>
+                                </div>
+                                <!-- <span class="m-form__help" *ngIf="!remarks.valid && remarks.touched" style="color:red">
+                                    Please enter valid Data
+                               
+                                 </span>  -->
+                            </div>    
+                        </div>
+                       
+                        <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                                <div class="m-form__actions m-form__actions--solid">
+                                    <div class="row">
+                                        <div class="col-lg-10"></div>
+                                        <div class="col-lg-2">
+                                            <button (click)="onSubmit(addLeaveApplication.from_Date,addLeaveApplication.to_Date)" [disabled]="!f1.valid" class="btn btn-primary">
+                                                        Submit
+                                                    </button>
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+            </form>
+        
+        
+            <div class="m-content">
+                <div class="m-portlet m-portlet--mobile">
+                 <div class="m-portlet__body">
+                   <div class="expenseData" id="local_data">
+                         
+                      <table class="table table-condensed table-striped table-bordered table-responsive" >
+                                <thead class="thead-default">
+                                <tr class="sortable">  
+                                    <th ><B>#</B></th>
+                                    <th (click)="sort('leave_Name')"><B>Leave Type</B>
+                                        <span class="glyphicon sort-icon" *ngIf="key == 'leave_Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                    </th>
+                                    <th (click)="sort('from_Date')"><B>From Date</B>
+                                        <span class="glyphicon sort-icon" *ngIf="key == 'from_Date'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                    </th>
+                                    <th (click)="sort('to_Date')"><B>To Date</B>
+                                        <span class="glyphicon sort-icon" *ngIf="key == 'to_Date'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                    </th>
+                                    <!-- <th (click)="sort('day_Count')"><B>Leave Count</B>
+                                        <span class="glyphicon sort-icon" *ngIf="key == 'day_Count'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                    </th> -->
+                                    <th (click)="sort('remarks')"><B>Remarks</B>
+                                        <span class="glyphicon sort-icon" *ngIf="key == 'remarks'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                    </th>
+                                    <th (click)="sort('status_Of_Leave')"><B>Status</B>
+                                        <span class="glyphicon sort-icon" *ngIf="key == 'status_Of_Leave'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                    </th>
+                                    <th ><B>Action</B></th>   
+                                </tr>       
+                                </thead>  
+                                <tbody>  
+                                <tr *ngFor="let details of staffLeaveStatus | orderBy: key : reverse | filter:filter | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i=index" (dblclick)="onRedirect(details.application_Id)">
+                                        <td>
+                                            <input type="hidden" [(ngModel)]="details.application_Id" [ngModelOptions]="{standalone:true}">
+                                            {{ i+1 }}</td>
+
+                                        <td> 
+                                         <input type="hidden" [(ngModel)]="details.leave_Id" [ngModelOptions]="{standalone:true}">
+                                            {{ details.leave_Name}}</td>                
+                                        <td>{{ details.from_Date|date: 'dd/MM/yyyy'}}</td>
+                                        <td>{{ details.to_Date|date: 'dd/MM/yyyy'}}</td>
+                                        <!-- <td>{{ details.day_Count}}</td>  -->
+                                        <td>{{ details.remarks}}</td>
+                                        <td *ngIf="details.status_Of_Leave==0" class="btn m-btn--pill m-btn--air btn-focus">&nbsp;&nbsp;&nbsp;&nbsp;Pending&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                        <td *ngIf="details.status_Of_Leave==1"  class="btn m-btn--pill m-btn--air  btn-success">&nbsp;&nbsp;&nbsp;Approved&nbsp;&nbsp;&nbsp;</td>
+                                        <td *ngIf="details.status_Of_Leave==2"  class="btn m-btn--pill m-btn--air  btn-danger">DisApproved</td>
+                                        <td >
+                                            <a href="" (click)="delete(details.application_Id,details.leave_Id)"  class="btn btn-danger m-btn m-btn--icon m-btn--icon-only">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                
+                                </tbody>  
+                                </table > 
+                                <br>
+                                <div class="row">
+                                    <label class="col-md-1" style="margin-top:5px">No.Of.Records</label>
+                                    <div class="col-md-2" style="margin-bottom:20px">
+                                        <input type="text" [(ngModel)]="rowsPerPage" [ngModelOptions]="{standalone: true}" 
+                                        class="form-control m-input m-input--solid" placeholder="No.Of.Records" (ngModelChange)="setPageSize(rowsPerPage)"/>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <pagination-controls class="right" (pageChange)="p = $event"></pagination-controls>
+                                    </div>
+                                </div>                                      
+                        </div> 
+                        </div>   
+                 </div>
+              </div>
+        
+        

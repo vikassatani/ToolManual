@@ -1,0 +1,123 @@
+<div class="main-content mt-4 p-3" style="background-color: #FFF;">
+    <!-- users manag -->
+    <div class="m-portlet__head"  >
+        <div class="m-portlet__head-caption">
+            <div class="m-portlet__head-title">
+                <h4 class="m-portlet__head-text pl-4">
+                    User Management
+                </h4>
+            </div>
+        </div>
+    </div>
+    <div class="content-wrapper py-4" style="padding: 0 2.2rem;">
+        <div class="row d-flex justify-content-between ml-1">
+              <div class="row col-9 d-flex">
+                    <label class="mx-1 mt-1">Status</label>
+                    <select class="form-control m-input m-input--air col-3 mx-3">
+                    </select>
+                    <div class="m-input-icon m-input-icon--left col-3">
+                        <input type="text" class="form-control m-input m-input--solid"  placeholder="Search..." id="generalSearch">
+                        <span class="m-input-icon__icon m-input-icon__icon--left">
+                            <span>
+                                <i class="la la-search"></i>
+                            </span>
+                        </span>
+                    </div>
+            </div>
+            <div class=""><button class="btn m-btn--pill m-btn--air btn-focus"> + Add</button></div>
+        </div>
+        <div class="m_datatableforleavetypes py-5" id="local_dataleavetypes">
+            <table class="table table-condensed table-striped table-bordered table-responsive">
+                <thead class="thead-default">
+                    <tr>
+                        <th><B>S.No</B></th>
+                        <th>
+                            <B>User Name</B>
+                            <span class="glyphicon sort-icon glyphicon-chevron-up"></span>
+                        </th>
+                        <th>
+                            <B>User Role</B>
+                            <span class="glyphicon sort-icon"></span>
+                        </th>
+                        <th>
+                            <B>Created Date</B>
+                            <span class="glyphicon sort-icon"></span>
+                        </th>
+                        <th>
+                            <B>Last Login Date</B>
+                            <span class="glyphicon sort-icon"></span>
+                        </th>
+                        <th>
+                            <B>Edit</B>
+                            <span class="glyphicon sort-icon"></span>
+                        </th>
+                        <th>
+                            <B>Status</B>
+                            <span class="glyphicon sort-icon"></span>
+                        </th>
+                    </tr>
+                </thead>
+                <!-- <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td><span class="mr-2"><img style="width: 35px; height: 25px;" src="./../../../../../assets/app/media/img/bg/banner.png"></span>Portable Lifting</td>
+                        <td>XXXXX-XXXX</td>
+                        <td>XXXXX-XXXX</td>
+                        <td>XXXXX-XXXX</td>
+                        <td>Brackinng System</td>
+                        <td>Portable Discription</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td><span class="mr-2"><img style="width: 35px; height: 25px;" src="./../../../../../assets/app/media/img/bg/banner.png"></span>Portable Lifting</td>
+                        <td>XXXXX-XXXX</td>
+                        <td>XXXXX-XXXX</td>
+                        <td>XXXXX-XXXX</td>
+                        <td>Brackinng System</td>
+                        <td>Portable Discription</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td><span class="mr-2"><img style="width: 35px; height: 25px;" src="./../../../../../assets/app/media/img/bg/banner.png"></span>Portable Lifting</td>
+                        <td>XXXXX-XXXX</td>
+                        <td>XXXXX-XXXX</td>
+                        <td>XXXXX-XXXX</td>
+                        <td>Brackinng System</td>
+                        <td>Portable Discription</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td><span class="mr-2"><img style="width: 35px; height: 25px;" src="./../../../../../assets/app/media/img/bg/banner.png"></span>Portable Lifting</td>
+                        <td>XXXXX-XXXX</td>
+                        <td>XXXXX-XXXX</td>
+                        <td>XXXXX-XXXX</td>
+                        <td>Brackinng System</td>
+                        <td>Portable Discription</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td><span class="mr-2"><img style="width: 35px; height: 25px;" src="./../../../../../assets/app/media/img/bg/banner.png"></span>Portable Lifting</td>
+                        <td>XXXXX-XXXX</td>
+                        <td>XXXXX-XXXX</td>
+                        <td>XXXXX-XXXX</td>
+                        <td>Brackinng System</td>
+                        <td>Portable Discription</td>
+                    </tr>
+    
+                </tbody> -->
+            </table>
+            <br>
+            <div class="row">
+                <label class="col-md-1" style="margin-top:5px">No.Of.Records</label>
+                <div class="col-md-2" style="margin-bottom:20px">
+                    <input type="text" [(ngModel)]="rowsPerPage" [ngModelOptions]="{standalone: true}" 
+                    class="form-control m-input m-input--solid" placeholder="No.Of.Records" (ngModelChange)="setPageSize(rowsPerPage)"/>
+                </div>
+                <div class="col-md-9">
+                    <pagination-controls class="right" (pageChange)="p = $event"></pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

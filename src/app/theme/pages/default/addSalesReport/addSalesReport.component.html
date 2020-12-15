@@ -1,0 +1,89 @@
+
+<div class="m-content">
+
+    <div class="m-portlet">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <span class="m-portlet__head-icon m--hide">
+                                    <i class="la la-gear"></i>
+                                </span>
+                    <h3 class="m-portlet__head-text">
+                        Sales Tracker Details
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="m-portlet__body">
+            <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+              <div class="row align-items-center">
+                 <div class="col-xl-8 order-2 order-xl-1">
+                    <div class="form-group m-form__group row align-items-center">  
+                            <div class="col-md-4">
+                                    <div class="m-form__group m-form__group--inline">
+                                       
+                                        <div class="m-form__label">
+                                            <label>Customer:</label>   
+                                        </div>
+                                        <div class="m-form__control">
+                                           
+                                            <!-- <select class="form-control" [(ngModel)]="expense.status"  [ngModelOptions]="{standalone:true}" (ngModelChange)="onStatusChange(expense.status)"> -->
+                                               
+                                                <select class="form-control" [(ngModel)]="customer_Id" [ngModelOptions]="{standalone:true}"
+                                                (ngModelChange)="onStatusChange(s.customer_Id)">
+                                                    <option value="-1">All</option>
+                                                    <option *ngFor="let s of customer"  [ngValue]="s.customer_Id">{{s.customer_Name}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="d-md-none m--margin-bottom-10"></div>
+                                </div>
+
+                                                             
+                                <div class="col-md-4">
+                                    <div class="m-form__group m-form__group--inline">
+                                        <div class="m-form__label">
+                                            <label>
+                                                From Date:
+                                            </label>
+                                        </div>
+                                        <div class="input-group date">
+                                            <input type="text" class="form-control m-input" readonly="false"
+                                            placeholder="Select date" #datePicker1 [(ngModel)]="visited_date_from" 
+                                             (blur)="getData(datePicker1.value)" 
+                                             required   name="visited_date_from" id="m_datepicker_2">
+                                            <span class="input-group-addon">
+                                            <i class="la la-calendar-check-o"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="d-md-none m--margin-bottom-10"></div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="m-form__group m-form__group--inline">
+                                        <div class="m-form__label">
+                                            <label>
+                                                To Date :
+                                            </label>
+                                        </div>
+                                        <div class="input-group date">
+                                            <input type="text" class="form-control m-input" readonly="false"
+                                            placeholder="Select date" #datePicker2 [(ngModel)]="visited_date_to" 
+                                             (blur)="getData(datePicker2.value)" 
+                                             required   name="visited_date_to" id="m_datepicker_2">
+                                            <span class="input-group-addon">
+                                            <i class="la la-calendar-check-o"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="d-md-none m--margin-bottom-10"></div>
+                                </div>
+                                
+                    </div>
+                </div>
+            </div>
+          </div>
+            <div class="m-separator m-separator--dashed d-xl-none"></div>
+          

@@ -1,0 +1,296 @@
+<style>
+thead>tr>th {
+    cursor: pointer;
+}
+.right {
+    float: right;
+}
+</style>
+<div class="m-content" [hidden]="ShowDetails">
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+                            Order Dispatch
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="m-portlet__body">
+            <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+                <div class="row align-items-center">
+                    <label class="col-form-label col-md-1 col-lg-1 col-sm-12">
+                        Branch
+                    </label>
+                    <div class="col-lg-3 col-md-3 col-sm-12">
+                        <select [(ngModel)]="branchId" [ngModelOptions]="{standalone: true}" 
+                        (ngModelChange)="getData(branchId,0)" 
+                        class="form-control m-input m-input--air" id="branchId">
+                            <option value="">Select Branch</option>
+                            <option *ngFor="let b of branch" [ngValue]="b.branch_id">{{b.branch_Name}}</option>
+                        </select>
+                    </div>
+                    <label class="col-form-label col-md-1 col-lg-1 col-sm-12">Status</label>
+                    <div class="col-lg-3 col-md-3 col-sm-12">
+                    <select class="form-control m-input m-input--air" [(ngModel)]="statusId"
+                    [ngModelOptions]="{standalone: true}" (ngModelChange)="getData(branchId,0,statusId)">
+                            <option value="0">Select Status</option>        
+                            <option value="3">Waiting for Dispatch</option>
+                            <option value="4">Dispatched</option>
+                    </select>
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-12">
+                  
+                            <div class="m-input-icon m-input-icon--left">
+                                <input type="text" class="form-control m-input m-input--solid"  [(ngModel)]="filter" [ngModelOptions]="{standalone: true}" placeholder="Search..." id="generalSearch">
+                                <span class="m-input-icon__icon m-input-icon__icon--left">
+                                    <span>
+                                        <i class="la la-search"></i>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                </div>
+            </div>
+            <!--begin: Datatable -->
+            <div class="m_datatable" id="local_data">
+
+            
+            <!--end: Datatable -->
+            <table class="table table-condensed table-striped table-bordered table-responsive">
+                <thead class="thead-default">  
+                    <th><B>#</B></th>
+                    <th><B>Customer Name</B></th>
+                    <th><B>Order Ref Number</B></th>
+                    <th><B>Order Date</B></th>
+                    <th><B>Employee Name</B></th>
+                    <th><B>Employee Remarks</B></th>
+                    <th><B>Total Amount</B></th>
+                    <th><b>Status</b></th>
+                </thead>  
+                <tbody>  
+                    <tr *ngFor="let OA of orderApproval | orderBy: key : reverse | filter:filter | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index" (dblclick)="showDetailedData(branchId, OA.order_Id, OA.status, OA.customer_Id)">
+                        <td>{{i+1}}
+                            <input type="hidden" [(ngModel)]="OA.order_Id" [ngModelOptions]="{standalone: true}">
+                        </td>
+                        <td>{{OA.customer_Name}}
+                            <input type="hidden" [(ngModel)]="OA.customer_Id" [ngModelOptions]="{standalone: true}">
+                        </td>
+                        <td>{{OA.order_Ref_Number}}</td>
+                        <td>{{OA.order_Date | date: 'dd/MM/yyyy'}}</td>
+                        <td>{{OA.staff_Name}}</td>
+                        <td>{{OA.staff_Remarks}}</td>
+                        <td>{{OA.total_Amount}}</td>
+                        <td>
+                            <button type="button" class="btn btn-outline-warning disable" *ngIf="OA.status==3">Waiting For Dispatch</button>
+                            <button type="button" class="btn m-btn--pill m-btn--air btn-primary" *ngIf="OA.status==4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dispatched&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                        </td>
+                    </tr>
+                </tbody>  
+                </table>  
+                <br>
+                <div class="row" *ngIf="i>0">
+                    <label class="col-md-1" style="margin-top:5px">No.Of.Records</label>
+                    <div class="col-md-2" style="margin-bottom:20px">
+                        <input type="text" [(ngModel)]="rowsPerPage" [ngModelOptions]="{standalone: true}" 
+                        class="form-control m-input m-input--solid" placeholder="No.Of.Records" (ngModelChange)="setPageSize(rowsPerPage)"/>
+                    </div>
+                    <div class="col-md-9">
+                        <pagination-controls class="right" (pageChange)="p = $event"></pagination-controls>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+
+
+
+
+
+
+<div class="m-content" [hidden]="!ShowDetails">
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+                            Order Dispatch
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="m-portlet__body">
+            <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+                <div class="row align-items-center">
+                    <span class="col-form-label col-md-1 col-lg-1"></span>
+                    
+                    <label class="col-form-label col-md-2 col-lg-2 col-sm-12">
+                            <h6><B>Order Ref Number</B></h6>
+                    </label>
+                    <label class="col-form-label col-md-2 col-lg-3 col-sm-12">
+                            <B>{{orderApprovalDetail.order_Ref_Number}}</B>
+                    </label>
+                    <label class="col-form-label col-md-2 col-lg-2 col-sm-12">
+                        <h6><B>Customer Name</B></h6>
+                    </label>
+                    <label class="col-form-label col-md-3 col-lg-3 col-sm-12">
+                            <B>{{orderApprovalDetail.customer_Name}}</B>
+                    </label>
+                    <span class="col-form-label col-md-1 col-lg-1"></span>
+                </div>
+                <div class="row align-items-center">
+                    <span class="col-form-label col-md-1 col-lg-1"></span>
+                    
+                    <label class="col-form-label col-md-2 col-lg-2 col-sm-12">
+                            <h6><B>Order Date</B></h6>
+                    </label>
+                    <label class="col-form-label col-md-3 col-lg-3 col-sm-12">
+                            <B>{{orderApprovalDetail.order_Date | date: 'dd/MM/yyyy'}}</B>
+                    </label>
+                    <label class="col-form-label col-md-2 col-lg-2 col-sm-12">
+                        <h6><B>Employee Name</B></h6>
+                    </label>
+                    <label class="col-form-label col-md-3 col-lg-3 col-sm-12">
+                            <B>{{orderApprovalDetail.staff_Name}}</B>
+                    </label>
+                    <span class="col-form-label col-md-1 col-lg-1"></span>
+                </div>
+                <div class="row align-items-center">
+                    <span class="col-form-label col-md-1 col-lg-1"></span>
+                    <label class="col-form-label col-md-2 col-lg-2 col-sm-12">
+                            <h6><B>Employee Remarks</B></h6>
+                    </label>
+                    <label class="col-form-label col-md-3 col-lg-3 col-sm-12">
+                            <B>{{orderApprovalDetail.staff_Remarks}}</B>
+                    </label>
+                    <label class="col-form-label col-md-2 col-lg-2 col-sm-12">
+                            <h6><B>Manager Remarks</B></h6>
+                    </label>
+                    <label class="col-form-label col-md-3 col-lg-3 col-sm-12">
+                            <B>{{orderApprovalDetail.manager_remarks}}</B>
+                    </label>
+                    <span class="col-form-label col-md-1 col-lg-1"></span>
+                </div>
+                <div class="row align-items-center">
+                    <span class="col-form-label col-md-1 col-lg-1"></span>
+                    <label class="col-form-label col-md-2 col-lg-2 col-sm-12">
+                            <h6><B>Accountant Remarks</B></h6>
+                    </label>
+                    <label class="col-form-label col-md-3 col-lg-3 col-sm-12">
+                            <B>{{orderApprovalDetail.Accounts_remark}}</B>
+                    </label>
+                   
+                </div>
+            </div>
+            <!--begin: Datatable -->
+            <div class="m_datatable" id="local_data">
+
+            
+            <!--end: Datatable -->
+                <table class="table table-condensed table-striped table-bordered table-responsive">
+                    <thead class="thead-default">  
+                        <th><B>#</B></th>
+                        <th><B>Item Name</B></th>
+                        <th><B>Quantity</B></th>
+                        <th><B>UOM</B></th>
+                        <th><B>Price</B></th>
+                    </thead>  
+                    <tbody>  
+                        <tr *ngFor="let OAD of orderApprovalDetailedData | orderBy: key : reverse; let i = index" (dblclick)="showDetailedData(branchId, OA.order_id)">
+                            <td>{{i+1}}
+                                <input type="hidden" [(ngModel)]="OAD.order_id" [ngModelOptions]="{standalone: true}">
+                                <!-- <input type="hidden" [(ngModel)]="OAD.order_id" [ngModelOptions]="{standalone: true}"> -->
+                            </td>
+                            <td>{{OAD.Item_Name}}</td>
+                            <td>{{OAD.quantity}}</td>
+                            <td>{{OAD.uom_Name}}</td>
+                            <td>{{OAD.price}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"></td>
+                            <th><b>Tax</b></th>
+                            <td>{{orderApprovalDetail.total_tax_Amount}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"></td>
+                            <th><b>Total</b></th>
+                            <th><b>{{orderApprovalDetail.total_Amount}}</b></th>
+                        </tr>
+                    </tbody>  
+                </table>  
+                <br>
+            </div>
+            <div class="row align-items-center">
+                <label class="col-form-label col-md-2 col-lg-2 col-sm-12">
+                    <b>Dispatch Remarks</b>
+                </label>
+                <div class="col-form-label col-md-4 col-lg-4 col-sm-12">
+                    <textarea class="form-control m-input--air" id="m_autosize_3" rows="3" 
+                    placeholder="Remarks" [(ngModel)]="orderApprovalDetail.Dispatch_Remarks" [ngModelOptions]="{standalone: true}" maxlength="400"></textarea>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <br/>
+        <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+            <div class="m-form__actions m-form__actions--solid">
+                <div class="row">
+                    <div class="col-lg-4"></div>
+                    <div class="col-lg-8">
+                        <button (click)="approveData(1,orderApprovalDetail.Dispatch_Remarks)" class="btn btn-success" >
+                            Dispatch
+                        </button>
+                        
+                        <!-- <button (click)="approveData(2,orderApprovalDetail.Dispatch_Remarks)" class="btn btn-danger" style="margin: 0 0 0 10px">
+                            Reject
+                        </button> -->
+                        <button (click)="ShowDetails=false" class="btn btn-secondary" style="margin: 0 0 0 10px">
+                            Back
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <br/>
+    </div>
+</div>
+        
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,224 @@
+<style>
+    thead>tr>th {
+        cursor: pointer;
+    }
+    .right {
+        float: right;
+    }
+    </style>
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__head">
+                <div class="m-portlet__head-caption">
+                    <div class="m-portlet__head-title">
+                        <h3 class="m-portlet__head-text">
+                        Attendance Report 
+                        </h3>
+                    </div>
+                </div>
+            </div>
+            <div class="m-portlet__body">
+                <!--begin: Search Form -->
+                <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+                    <div class="row align-items-center">
+                        <div class="col-xl-10 order-2 order-xl-1">
+                            <div class="form-group m-form__group row align-items-center">
+                                <div class="col-lg-4">
+                                       
+                                        <div class="m-form__label">
+                                            <label >
+                                             Branch
+                                        </label>
+                                        </div>
+                                      <select [(ngModel)]="teamTarget.branch_id" [ngModelOptions]="{standalone: true}" class="form-control m-input m-input--air"
+                                        id="exampleSelect1" (ngModelChange)="getTeamData(teamTarget.branch_id)">
+                                        <option value="0">All</option>
+                                     <option *ngFor="let b of branch" [ngValue]="b.branch_Id">{{b.branch_Name}}</option>
+                                     </select>
+                                       
+                                        <!-- <span class="m-form__help" *ngIf="!branch_id.valid && branch_id.touched" style="color:red">
+                                            Please enter valid Data
+                                    
+                                        </span> -->
+                                </div> 
+
+                                <div class="col-lg-4">
+                                        <div class="m-form__label">
+                                                <label>
+                                                        Team
+                                                    </label>
+                                        </div> 
+                                             <select [(ngModel)]="teamTarget.team_Id" [ngModelOptions]="{standalone: true}" class="form-control m-input m-input--air"
+                                                id="exampleSelect1">
+                                                <option *ngFor="let t of team" [ngValue]="t.team_Id">{{t.team_Name}}</option>
+                                            </select>
+                                           
+                                            <!-- <span class="m-form__help" *ngIf="!branch_id.valid && branch_id.touched" style="color:red">
+                                                Please enter valid Data
+                                        
+                                            </span> -->
+                                </div> 
+
+                                <div class="col-md-4">
+                                         <div class="m-input-icon m-input-icon--left">
+                                          <input type="text" class="form-control m-input m-input--solid" [(ngModel)]="filter" [ngModelOptions]="{standalone: true}" placeholder="Search..." id="generalSearch">
+                                         <span class="m-input-icon__icon m-input-icon__icon--left">
+                                                 <span>
+                                                     <i class="la la-search"></i>
+                                                 </span>
+                                         </span>
+                                         </div>
+                                </div>
+                                 </div>
+                            
+                            <div class="form-group m-form__group row align-items-center">
+                                   
+                                <div class="col-md-4">
+                                    <div class="m-form__group m-form__group--inline">
+                                        <div class="m-form__label">
+                                            <label>
+                                                From Date:
+                                            </label>
+                                        </div>
+                                        <div class="input-group date">
+                                            <input type="text" [disabled]="isEdited" class="form-control m-input" readonly="false"
+                                            placeholder="Select date" #datePicker1 [(ngModel)]="visited_date_from" 
+                                             (blur)="getData(datePicker1.value)" 
+                                             required   name="visited_date_from" id="m_datepicker_2">
+                                            <span class="input-group-addon">
+                                            <i class="la la-calendar-check-o"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="d-md-none m--margin-bottom-10"></div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="m-form__group m-form__group--inline">
+                                        <div class="m-form__label">
+                                            <label>
+                                                To Date :
+                                            </label>
+                                        </div>
+                                        <div class="input-group date">
+                                            <input type="text" [disabled]="isEdited" class="form-control m-input" readonly="false"
+                                            placeholder="Select date" #datePicker2 [(ngModel)]="visited_date_to" 
+                                             (blur)="getDetailData(datePicker1.value,datePicker2.value,teamTarget.branch_id,teamTarget.team_Id)"
+                                             required   name="visited_date_to" id="m_datepicker_2">
+                                            <span class="input-group-addon">
+                                            <i class="la la-calendar-check-o"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="d-md-none m--margin-bottom-10"></div>
+                                </div>
+                               
+                                
+                                <div class="col-md-4">
+                                    <div class="m-form__group m-form__group--inline">
+                                        <div class="m-form__label">
+                                            <label>
+                                                Month:
+                                            </label>
+                                        </div>
+                                        <div class="m-form__control">
+                                                <select [disabled]="isEdit" class="form-control m-input m-input--air" [(ngModel)]="value"
+                                                id="exampleSelect1" (ngModelChange)="onStatusChange(value,teamTarget.branch_id,teamTarget.team_Id)">
+                                            <option value="1">January</option>
+                                            <option value="2">February</option>
+                                            <option value="3">March</option>
+                                            <option value="4">April</option>
+                                            <option value="5">May</option>
+                                            <option value="6">June</option>
+                                            <option value="7">July</option>
+                                            <option value="8">August</option>
+                                            <option value="9">September</option>
+                                            <option value="10">October</option>
+                                            <option value="11">November</option>
+                                            <option value="12">December</option>
+                                            
+                                        </select>
+                                        </div>
+                                    </div>
+                                    <div class="d-md-none m--margin-bottom-10"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="col-xl-4 order-1 order-xl-2 m--align-right">
+                            <a routerLink="/addSalesReport" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+                                <span>
+                                    <i class="fa fa-plus"></i>
+                                    <span>
+                                        Add
+                                    </span>
+                                </span>
+                            </a>
+                            <div class="m-separator m-separator--dashed d-xl-none"></div>
+                        </div> -->
+                    </div>
+                </div>
+                <!--end: Search Form -->
+                <!--begin: Datatable -->
+                <div class="BranchData" id="local_data">
+                    <div style="overflow-x:auto;">     
+           <table class="table table-condensed table-striped table-bordered table-responsive">
+                 <thead class="thead-default"> 
+                        <tr>
+                                <td colspan="7"><B>Attendance Report</B>
+                                  
+                                    <button (click)="downloadExcel()" style="float:right" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+                                        <i class="fa fa-download"></i>  Excel Download
+                                    </button>
+                                </td>
+                        </tr>
+                       <tr class="sortable"> 
+                            <th><B>#</B></th>
+                            <th (click)="sort('branch')"><B>Branch&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                                <span class="glyphicon sort-icon" *ngIf="key == 'branch'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>
+                            <th (click)="sort('emp_Id')"><B>Employee Id&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                                <span class="glyphicon sort-icon" *ngIf="key == 'emp_Id'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>
+                            <th (click)="sort('emp_Name')"><B>Employee Name&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                                <span class="glyphicon sort-icon" *ngIf="key == 'emp_Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>
+                            <th (click)="sort('punchIn')"><B>PunchIn&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                                <span class="glyphicon sort-icon" *ngIf="key == 'punchIn'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>
+                            <th (click)="sort('punchOut')"><B>PunchOut&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                                <span class="glyphicon sort-icon" *ngIf="key == 'punchOut'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>
+                              <th (click)="sort('duration')"><B>Duration&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                                <span class="glyphicon sort-icon" *ngIf="key == 'duration'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>                              
+                        </thead>  
+                        <tbody>  
+                            <tr *ngFor="let details of attendanceTrakcer | orderBy: key : reverse | filter:filter | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i=index" >
+                                 <td>{{i+1}}</td>
+                                <td>{{ details.branch}}</td>                
+                                <td>{{ details.emp_Id}}</td>
+                                <td>{{ details.emp_Name}}</td> 
+                                <td>{{ details.punchIn|date:"medium"}}</td>
+                                <td>{{ details.punchOut|date:"medium"}}</td>
+                                <td>{{ details.duration }}</td>
+                                <!-- "short" same as "M/d/yy h:mm a" (1/5/16 9:05 AM)
+                                "medium" same as "MMM d, y h:mm:ss a" (Jan 5, 2016 9:05:05 AM) -->
+                            </tr>
+                        
+                        </tbody>  
+
+                        
+                        </table>   
+                        </div>
+                        <br>
+                        <div class="row">
+                            <label class="col-md-1" style="margin-top:5px">No.Of.Records</label>
+                            <div class="col-md-2" style="margin-bottom:20px">
+                                <input type="text" [(ngModel)]="rowsPerPage" [ngModelOptions]="{standalone: true}" 
+                                class="form-control m-input m-input--solid" placeholder="No.Of.Records" (ngModelChange)="setPageSize(rowsPerPage)"/>
+                            </div>
+                            <div class="col-md-9">
+                                <pagination-controls class="right" (pageChange)="p = $event"></pagination-controls>
+                            </div>
+                        </div> 
+                       
+                </div>
+               
+            </div>
+        </div>
+    </div>
+    

@@ -1,0 +1,123 @@
+<div class="main-content mt-4 p-3" style="background-color: #FFF;">
+    <!-- tools manag -->
+    <div class="m-portlet__head"  >
+       <div class="m-portlet__head-caption">
+           <div class="m-portlet__head-title">
+               <h4 class="m-portlet__head-text pl-4">
+                   Tools Management
+               </h4>
+           </div>
+       </div>
+    </div>
+    <div class="content-wrapper" style="padding: 0 2.2rem;">
+       <h5 class="py-3">Project Name</h5>
+       <div class="row d-flex justify-content-between ml-1">
+             <div class="d-flex">
+               <input style="margin-right: 20px;" type="text">
+               <div class="m-input-icon m-input-icon--left">
+                   <input type="text" class="form-control m-input m-input--solid"  placeholder="Search..." id="generalSearch">
+                   <span class="m-input-icon__icon m-input-icon__icon--left">
+                       <span>
+                           <i class="la la-search"></i>
+                       </span>
+                   </span>
+               </div>
+           </div>
+           <div class=""><button class="btn m-btn--pill m-btn--air btn-focus">Add Tool Manual</button></div>
+       </div>
+       <div class="m_datatableforleavetypes py-5" id="local_dataleavetypes">
+           <table class="table table-condensed table-striped table-bordered table-responsive">
+               <thead class="thead-default">
+                   <tr>
+                       <th><B>S.No</B></th>
+                       <th>
+                           <B>Tool Name</B>
+                           <span class="glyphicon sort-icon glyphicon-chevron-up"></span>
+                       </th>
+                       <th>
+                           <B>Vendor Name</B>
+                           <span class="glyphicon sort-icon" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                       </th>
+                       <th>
+                           <B>Vendor PN</B>
+                           <span class="glyphicon sort-icon" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                       </th>
+                       <th>
+                           <B>Siemens PN</B>
+                           <span class="glyphicon sort-icon" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                       </th>
+                       <th>
+                           <B>System/Sub-system</B>
+                           <span class="glyphicon sort-icon" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                       </th>
+                       <th>
+                           <B>Part Description</B>
+                           <span class="glyphicon sort-icon" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                       </th>
+                   </tr>
+               </thead>
+               <tbody>
+                   <tr>
+                       <td>1</td>
+                       <td><span class="mr-2"><img style="width: 35px; height: 25px;" src="./../../../../../assets/app/media/img/bg/banner.png"></span>Portable Lifting</td>
+                       <td>XXXXX-XXXX</td>
+                       <td>XXXXX-XXXX</td>
+                       <td>XXXXX-XXXX</td>
+                       <td>Brackinng System</td>
+                       <td>Portable Discription</td>
+                   </tr>
+                   <tr>
+                       <td>2</td>
+                       <td><span class="mr-2"><img style="width: 35px; height: 25px;" src="./../../../../../assets/app/media/img/bg/banner.png"></span>Portable Lifting</td>
+                       <td>XXXXX-XXXX</td>
+                       <td>XXXXX-XXXX</td>
+                       <td>XXXXX-XXXX</td>
+                       <td>Brackinng System</td>
+                       <td>Portable Discription</td>
+                   </tr>
+                   <tr>
+                       <td>3</td>
+                       <td><span class="mr-2"><img style="width: 35px; height: 25px;" src="./../../../../../assets/app/media/img/bg/banner.png"></span>Portable Lifting</td>
+                       <td>XXXXX-XXXX</td>
+                       <td>XXXXX-XXXX</td>
+                       <td>XXXXX-XXXX</td>
+                       <td>Brackinng System</td>
+                       <td>Portable Discription</td>
+                   </tr>
+                   <tr>
+                       <td>4</td>
+                       <td><span class="mr-2"><img style="width: 35px; height: 25px;" src="./../../../../../assets/app/media/img/bg/banner.png"></span>Portable Lifting</td>
+                       <td>XXXXX-XXXX</td>
+                       <td>XXXXX-XXXX</td>
+                       <td>XXXXX-XXXX</td>
+                       <td>Brackinng System</td>
+                       <td>Portable Discription</td>
+                   </tr>
+                   <tr>
+                       <td>5</td>
+                       <td><span class="mr-2"><img style="width: 35px; height: 25px;" src="./../../../../../assets/app/media/img/bg/banner.png"></span>Portable Lifting</td>
+                       <td>XXXXX-XXXX</td>
+                       <td>XXXXX-XXXX</td>
+                       <td>XXXXX-XXXX</td>
+                       <td>Brackinng System</td>
+                       <td>Portable Discription</td>
+                   </tr>
+    
+               </tbody>
+           </table>
+           <br>
+           <div class="row">
+               <label class="col-md-1" style="margin-top:5px">No.Of.Records</label>
+               <div class="col-md-2" style="margin-bottom:20px">
+                   <input type="text" [(ngModel)]="rowsPerPage" [ngModelOptions]="{standalone: true}" 
+                   class="form-control m-input m-input--solid" placeholder="No.Of.Records" (ngModelChange)="setPageSize(rowsPerPage)"/>
+               </div>
+               <div class="col-md-9">
+                   <pagination-controls class="right" (pageChange)="p = $event"></pagination-controls>
+               </div>
+           </div>
+       </div>
+    </div>
+
+</div>
+ 

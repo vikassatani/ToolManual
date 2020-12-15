@@ -1,0 +1,111 @@
+<div class="m-content">
+    <div class="m-portlet">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <span class="m-portlet__head-icon m--hide">
+                        <i class="la la-gear"></i>
+                    </span>
+                    <h3 class="m-portlet__head-text">
+                        Role Creation
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <!--begin::Form-->
+        <form #f="ngForm" class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+            <div class="m-portlet__body">
+                <div class="form-group m-form__group row">
+                    <div class="col-lg-4">
+                        <label class="">
+                            Company Name:
+                        </label>
+                        <select [(ngModel)]="addRole.comp_Id" [ngModelOptions]="{standalone: true}"
+                                class="form-control m-input m-input--air">
+                            <option *ngFor="let c of company" [ngValue]="c.comp_Id">{{c.comp_Name}}</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="">
+                            User Type:
+                        </label>
+                        <select [(ngModel)]="addRole.role_Type_Id" [ngModelOptions]="{standalone: true}"
+                                class="form-control m-input m-input--air">
+                            <option *ngFor="let u of userType" [ngValue]="u.userType_Id">{{u.userType_Name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group m-form__group row">
+                    <div class="col-lg-4">
+                        <label>
+                            Role Name:
+                        </label>
+                        <div class="m-input-icon m-input-icon--right">
+                            <input type="text" [(ngModel)]="addRole.role_Name" [ngModelOptions]="{standalone: true}"  maxlength="50" (keypress)="numberAndSpecial($event)"
+                            class="form-control m-input m-input--air" placeholder=" Name">
+                            <span class="m-input-icon__icon m-input-icon__icon--right">
+                                <span>
+                                    <i class="fa fa-address-book"></i>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <label>
+                            Role Home Page:
+                        </label>
+                        <select [(ngModel)]="addRole.sub_Menu_Id" [ngModelOptions]="{standalone: true}" maxlength="200"
+                                class="form-control m-input m-input--air">
+                            <option *ngFor="let h of homePage" [ngValue]="h.sub_Menu_Id">{{h.sub_Menu_Name}}</option>
+                        </select>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <label>
+                            Role Description:
+                        </label>
+                        <div class="col-sm-13">
+                            <textarea rows="1" [(ngModel)]="addRole.role_Description" [ngModelOptions]="{standalone: true}" maxlength="500" (keypress)="numberAndSpecial($event)"
+                             placeholder="Description" class="form-control m-input m-input--air"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group m-form__group row">
+                    <div class="col-lg-4">
+                        <label>
+                            Role Display Name:
+                        </label>
+                        <div class="m-input-icon m-input-icon--right">
+                            <input type="text" class="form-control m-input m-input--air" [(ngModel)]="addRole.role_Display_Name" [ngModelOptions]="{standalone: true}" maxlength="50" (keypress)="numberAndSpecial($event)"
+                             placeholder=" Name">
+                            <span class="m-input-icon__icon m-input-icon__icon--right">
+                                <span>
+                                    <i class="fa fa-address-book"></i>
+                                </span>
+
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                <div class="m-form__actions m-form__actions--solid">
+                    <div class="row">
+                        <div class="col-lg-9"></div>
+                        <div class="col-lg-3">
+                            <button type="submit" (click)="onSubmit()" [disabled]="!f.valid" class="btn btn-primary">
+                                Submit
+                            </button>
+                            <button (click)="onCancle()" type="reset" class="btn btn-secondary">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </form>
+        <!--end::Form-->
+    </div>
+</div>

@@ -1,0 +1,153 @@
+<div class="m-content">
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+                  Approve Customer
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="m-portlet__body">
+            <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+              <div class="row align-items-center">
+                        <!-- <div class="col-md-3">
+                            <div class="m-form__group m-form__group--inline">
+                                <div class="m-form__label">
+                                    <label>
+                                        Status:
+                                    </label>
+                                </div>
+                                <div class="m-form__control">
+                                        <!-- [(ngModel)]="delcustomers.status"  [ngModelOptions]="{standalone: true}" (ngModelChange)="onStatusChange(delcustomers.status)" -->
+                                    <!-- <select class="form-control"  id="m_form_status">
+                                        <option value="0">All</option>
+                                        <option *ngFor="let s of status" [ngValue]="s.id"> {{s.Name}}
+                                        </option>
+                                        
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="d-md-none m--margin-bottom-10"></div>
+                        </div> --> 
+
+
+                        <div class="col-md-3">
+                            <div class="m-form__group m-form__group--inline">
+                               
+                                <div class="m-form__label">
+                                    <label>Status:</label>   
+                                </div>
+                                <div class="m-form__control">
+                                   
+                                    <!-- <select class="form-control" [(ngModel)]="delEmployee.status"  [ngModelOptions]="{standalone:true}" (ngModelChange)="onStatusChange(delEmployee.status)"> --> 
+                                     <select class="form-control"  [(ngModel)]="approverStatus"  [ngModelOptions]="{standalone:true}" (ngModelChange)="onStatusChange(approverStatus)">
+                                       
+                                        <option *ngFor="let s of leaveStatusDDL" [ngValue]="s.id">{{s.Name}}</option>
+            
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="d-md-none m--margin-bottom-10"></div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="m-input-icon m-input-icon--left">
+                                <input type="text" class="form-control m-input m-input--solid"  [(ngModel)]="filter" [ngModelOptions]="{standalone: true}" placeholder="Search..." id="generalSearch">
+                                <span class="m-input-icon__icon m-input-icon__icon--left">
+                                    <span>
+                                        <i class="la la-search"></i>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+             
+            </div>
+          </div>
+       
+            <div class="m-separator m-separator--dashed d-xl-none"></div>
+            <div class="m-content">
+                <div class="m-portlet m-portlet--mobile">
+              <div class="expenseData" id="local_data">
+                         
+                      <table class="table table-condensed table-striped table-bordered table-responsive">
+                                <thead class="thead-default">
+                                <tr class="sortable">   
+                                    <th><B>#</B></th>
+                                    <th (click)="sort('customer_Id')"><B>Customer Id&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                                    <span class="glyphicon sort-icon" *ngIf="key == 'customer_Id'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                      </th>
+                                    <th (click)="sort('customer_Name')"><B>Customer Name&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                                        <span class="glyphicon sort-icon" *ngIf="key == 'customer_Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                    </th>
+                                    <th (click)="sort('customer_Phone_Number')"><B>Mobile No&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                                        <span class="glyphicon sort-icon" *ngIf="key == 'customer_Phone_Number'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                    </th>
+                                    <th (click)="sort('salesman')"><B>SalesMan&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                                        <span class="glyphicon sort-icon" *ngIf="key == 'salesman'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                    </th>
+                                    <th (click)="sort('credit_Limit')"><B>Credit Limit&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                                        <span class="glyphicon sort-icon" *ngIf="key == 'credit_Limit'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                    </th>
+                                    <th (click)="sort('credit_days')"><B>Credit Days&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                                        <span class="glyphicon sort-icon" *ngIf="key == 'credit_days'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                    </th>
+                                    <th [hidden]="!selected12" ><B>Action</B></th>  
+                                    <th [hidden]="!selected13"></th> 
+                                  </tr>
+                                       
+                                </thead>  
+                                <tbody>  
+                                    <tr *ngFor="let details of cutomerApproval | orderBy: key : reverse | filter:filter | paginate: { itemsPerPage:itemsPerPage, currentPage: p }; let i=index" (dblclick)="redirect(details.customer_Id)">
+                                        <td> <input type="hidden" [(ngModel)]="details.customer_Id" [ngModelOptions]="{standalone:true}">
+                                            
+                                            {{ i+1}}</td>
+                                        <td>{{ details.customer_Id}}</td>
+                                        <td>{{ details.customer_Name}}</td>
+                                        <td>{{ details.customer_Phone_Number}}</td>                
+                                        <td>{{ details.salesman_Name}}</td>
+                                        <td>{{ details.credit_Limit}}</td>
+                                        <td>{{ details.credit_days}}</td>
+                                        <td *ngIf="details.status==0" [hidden]="details.Show">
+                                            <button type="button" (click)="SubmitForApproval(details.customer_Id);details.Show=true;details.Show1=true"  
+                                            class="btn m-btn--pill m-btn--air  btn-accent"> Approve </button>
+                                            <label></label>
+                                            <button  type="button" (click)="SubmitForRejected(details.customer_Id);details.Show=true;details.Show2=true"  
+                                            class="btn  m-btn--pill   m-btn--air btn-danger">Reject</button>  
+                                        </td>
+                                        <td  [hidden]="!details.Show1 || details.Show2" >
+                                            <button type="button"   class="btn m-btn--pill m-btn--air  btn-accent"> Approve </button>
+                                        </td>
+                                        <td  [hidden]="!details.Show2 || details.Show1" >
+                                            <button  type="button"   class="btn  m-btn--pill   m-btn--air btn-danger">Reject</button>  
+                                        </td>
+
+                                        <td *ngIf="details.status==1" >
+                                            <button type="button"   class="btn m-btn--pill m-btn--air  btn-accent"> Approved </button>
+                                        </td>
+                                        <td  *ngIf="details.status==2">
+                                            <button  type="button"   class="btn  m-btn--pill   m-btn--air btn-danger">Rejected</button>  
+                                        </td>
+                                    </tr>
+                                
+                                </tbody>  
+                                </table > 
+                                <br>
+                                <div class="row">
+                                    <label class="col-md-1" style="margin-top:5px">No.Of.Records</label>
+                                    <div class="col-md-2" style="margin-bottom:20px">
+                                        <input type="text" [(ngModel)]="rowsPerPage" [ngModelOptions]="{standalone: true}"
+                                        class="form-control m-input m-input--solid" placeholder="No.Of.Records" (ngModelChange)="setPageSize(rowsPerPage)"/>
+                                    </div>
+                                    <div class="col-md-5"></div>
+                                    <div class="col-md-4">
+                                        <pagination-controls class="right" (pageChange)="p = $event"></pagination-controls>
+                                    </div>
+                                </div>                                   
+                        </div>
+              
+              </div>
+          </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,354 @@
+<style>
+    thead>tr>th {
+        cursor: pointer;
+    }
+    .right {
+        float: right;
+    }
+    </style>
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__head" style="padding:2% ">
+                <div class="m-portlet__head-caption">
+                        <div class="row align-items-center">
+                                <div class="col-lg-8">
+                    <div class="m-portlet__head-title">
+                        <h3 class="m-portlet__head-text">
+               Customer Report
+                        </h3>
+                    </div>
+                    </div>
+                    <!-- <div class="col-lg-4">
+                    <button class="btn btn-accent" (click)="Download(datePicker1.value,datePicker2.value)">Download Salesmen Report</button>
+                    </div> -->
+                    </div>
+
+                </div>
+            </div>
+            <div class="m-portlet__body">
+                <!--begin: Search Form -->
+                <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+                    <div class="row align-items-center">
+                        <div class="col-xl-10 order-2 order-xl-1">
+                           
+                                    <div class="form-group m-form__group row align-items-center">
+
+
+            
+                                <div class="col-md-3">
+                                    <div class="m-form__group m-form__group--inline">
+                                        <div class="m-form__label">
+                                            <label>
+                                                From Date:
+                                            </label>
+                                        </div>
+                                        <div class="input-group date">
+                                            <input  [disabled]="isEdited"  type="text" class="form-control m-input" readonly="false"
+                                            placeholder="Select date" #datePicker1 [(ngModel)]="visited_date_from" 
+                                             
+                                             required   name="visited_date_from" id="m_datepicker_2">
+                                            <span class="input-group-addon">
+                                            <i class="la la-calendar-check-o"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="d-md-none m--margin-bottom-10"></div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="m-form__group m-form__group--inline">
+                                        <div class="m-form__label">
+                                            <label>
+                                                To Date :
+                                            </label>
+                                        </div>
+                                        <div class="input-group date">
+                                            <input  [disabled]="isEdited"  type="text" class="form-control m-input" readonly="false"
+                                            placeholder="Select date" #datePicker2 [(ngModel)]="visited_date_to" 
+                                             (blur)="getDetailData(datePicker1.value,datePicker2.value)" 
+                                             required   name="visited_date_to" id="m_datepicker_2">
+                                            <span class="input-group-addon">
+                                            <i class="la la-calendar-check-o"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="d-md-none m--margin-bottom-10"></div>
+                                </div>
+                            
+                                <div class="col-md-3">
+                                        <div class="m-form__group m-form__group--inline">
+                                            <div class="m-form__label">
+                                                <label>
+                                                    Month:
+                                                </label>
+                                            </div>
+                                            <div class="m-form__control">
+                                                    <select [disabled]="isEdit" class="form-control m-input m-input--air" [(ngModel)]="value"
+                                                    id="exampleSelect1" (ngModelChange)="onStatusChange(value)">
+                                                <option value="0" selected>Select</option>
+                                                <option value="1">January</option>
+                                                <option value="2">February</option>
+                                                <option value="3">March</option>
+                                                <option value="4">April</option>
+                                                <option value="5">May</option>
+                                                <option value="6">June</option>
+                                                <option value="7">July</option>
+                                                <option value="8">August</option>
+                                                <option value="9">September</option>
+                                                <option value="10">October</option>
+                                                <option value="11">November</option>
+                                                <option value="12">December</option>
+                                                
+                                            </select>
+                                            </div>
+                                        </div>
+                                        <div class="d-md-none m--margin-bottom-10"></div>
+                                    </div>
+
+                             <div class="col-md-3">
+                                    <button (click)="downloadExcel()" style="float:right" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill pull-right">
+                                        <i class="fa fa-download"></i>  Excel Download
+                                    </button>
+
+                            </div>
+                                
+                            </div>
+                        </div>
+
+                    
+                        <!-- <div class="col-xl-4 order-1 order-xl-2 m--align-right">
+                            <a routerLink="/addSalesReport" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+                                <span>
+                                    <i class="fa fa-plus"></i>
+                                    <span>
+                                        Add
+                                    </span>
+                                </span>
+                            </a>
+                            <div class="m-separator m-separator--dashed d-xl-none"></div>
+                        </div> -->
+                    </div>
+                </div>
+                <!--end: Search Form -->
+                <!--begin: Datatable -->
+                <div class="BranchData" id="local_data"  >
+                   <div style="overflow-x:auto;">
+           <table class="table table-condensed table-striped table-bordered table-responsive" >
+                 <thead class="thead-default" > 
+                        <!-- <tr>
+                            <td colspan="13"><B>Customer Report</B>
+                                
+                                <button (click)="downloadExcel()" style="float:right" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+                                    <i class="fa fa-download"></i>  Excel Download
+                                </button>
+                            </td>
+                        </tr>  -->
+                        <tr class="sortable"> 
+                            <th><B>#</B></th>
+                            <th ><B>Date of Creation</B>
+                               
+                            <th ><B>Approved by Manager</B>
+                                
+                            <th ><B>Approved Date&Time</B>
+                          
+                            <th ><B> Customer Code</B>
+                              <th ><B>Sub Customer Code</B>
+                              
+                                <th ><B>Team Name</B>
+     
+                              <th ><B>SalesMan</B>
+                              <th ><B>Customer name</B>
+                             <th ><B>Contact Person</B>
+                            <th ><B>Contact Persion Designation</B>
+                              <th ><B>Contact Number</B>
+                             <th ><B>Whatsapp</B>
+                             <th ><B>Email Id</B>
+                             <th ><B>Address</B>
+                             <th ><B>City</B>
+                            <th ><B>State</B>
+                            <th ><B>Pin Code</B>
+                           <th ><B>Credit Limit</B>
+                            <th ><B>Credit Days</B>
+                            <th ><B>Annual Turnover</B>
+                            <th ><B>Refered By</B>
+                            <th ><B>Nature Of Business</B>
+                            <th ><B>Start Date of Business</B>
+                             <th ><B>Mode Of Payment</B>
+                             <th ><B>ID Card Document</B>
+                            <th ><B>GST Certificate</B>
+                             <th ><B>Address Proof</B>
+                            <th ><B>PAN Number</B>
+                            <th ><B>Visiting Card Front View</B>
+                             <th ><B>Visiting Card Back View</B>
+                             <th ><B>Customer Catagory</B>
+                             <th ><B>Customer Type</B>
+
+
+                              <th ><B>Welding Electrodes</B>    
+                             <th ><B>HR PIPE</B>
+                             <th ><B>Binding Wire</B>
+                              <th ><B>PPGI Coil</B>
+                             <th ><B>PPGL Coil</B>
+                             <th ><B>CR SHEET</B>
+                             <th ><B>HR SHEET</B>
+                             <th ><B>CHQ COIL</B>
+                             <th ><B>CR COIL</B>
+                            <th ><B>HR COIL</B>
+                            <th ><B>GP SHEET</B>
+                            <th ><B>GC SHEET</B>
+                            <th ><B>MS PLATE</B>
+                            <th ><B>CHQ Plate</B>
+                            <th ><B>Roofing Sheet</B>
+                            <th ><B>Profile Sheet - Accessories</B>
+                             <th ><B>BABY COIL</B>
+                             <th ><B>CR PIPE</B>
+                            <th ><B>GI PIPE</B>
+                            <th ><B>GP PIPE- APL/BHUSHAN</B>
+                            <th ><B>GP PIPE- LAKSHMI/ OTHERS</B>
+                            <th ><B>MS ANGLE</B>
+                            <th ><B>MS BEAM</B>
+                            <th ><B>MS CHANNEL</B>
+                            <th ><B>MS FLAT</B>
+                             <th ><B>MS ROUND</B>
+                            <th ><B>MS SQUARE</B>
+                             <th ><B>MS WIRE ROD</B>
+                            <th ><B>MS BILLET</B>
+                            <th ><B>HEXAGONAL</B>
+                            <th ><B>DURASTRONG TMT</B>
+                            <th ><B>BMM TMT</B>
+                            <th ><B>JSPL TMT</B>
+                            <th ><B>JSW TMT</B>
+                            <th ><B>SAIL/VIZAG</B>
+                            <th ><B>TMT ROLLING</B>
+                            <th ><B>TMT COIL</B>
+                            <th ><B>MS Welded Wiremesh</B>
+                            <th ><B>GI Welded Wiremesh</B>
+                            <th ><B>Profile Sheet</B>
+                            <th ><B>steel data1</B>
+                            <th ><B>Product1</B>
+                            <th ><B>Product2</B>
+                            <th ><B>Product3</B>
+                            <th ><B>Product4</B>
+                            <th ><B>Product5</B>
+
+                             
+                       </tr>
+                        </thead>  
+                        <tbody >  
+                            <tr *ngFor="let details of Customerreport | filter:filter | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i=index"  >
+                                <td>
+                                  
+                                    {{  i+1 }}</td>
+                                <td>{{ details.Date_of_creation}}</td>
+                                <td>{{ details.manager_Name}}</td>
+                                <td>{{ details.approver_Date}}</td>
+                                <td>{{ details.customer_code}}</td>
+                                <td>{{ details.sub_Cus_Code}}</td>
+                                <td>{{ details.team_name}}</td>
+                                <td>{{ details.SalesManName}}</td>
+                                <td>{{ details.customer_Name}}</td>
+                                <td>{{ details.contact_Person_Name}}</td>
+                                <td>{{ details.contact_Person_designation}}</td>
+                                <td>{{ details.contact_Person_Mobile_Number}}</td>
+                                <td>{{ details.whatssup}}</td>
+                                <td>{{ details.customer_Email}}</td>
+                                <td>{{ details.current_Address}}</td>
+                                <td>{{ details.city_Name}}</td>
+                                <td>{{ details.state_Name}}</td>
+                                <td>{{ details.current_Zipcode}}</td>
+                                <td>{{ details.credit_Limit}}</td>
+                                <td>{{ details.credit_Days}}</td>
+                               
+                                <td>{{ details.annual_Turnover}}</td>
+                                <td>{{ details.reffered_By}}</td>
+                                <td>{{ details.nature_Of_Buisness}}</td>
+                                <td>{{ details.buisness_Start_Date}}</td>
+                                <td>{{ details.modeOdPaymentName}}</td>
+                                <td>{{ details.id_Card_Proof}}</td>
+                                <td>{{ details.gst_Number}}</td>
+                                <td>{{ details.address_Proof}}</td>
+                                <td>{{ details.pan_Number}}</td>
+                                <td>{{ details.visiting_card}}</td>
+                                <td>{{ details.visiting_card_back}}</td>
+                                <td>{{ details.customer_category}}</td>
+                                <td>{{ details.customerTypeName}}</td>
+                               
+                                <td>{{ details.Welding_Electrodes}}</td>
+                                <td>{{ details.HR_PIPE}}</td>
+                                <td>{{ details.Binding_Wire}}</td>
+                                <td>{{ details.PPGI_Coil}}</td>
+                                <td>{{ details.PPGL_Coil}}</td>
+                                <td>{{ details.CR_SHEET}}</td>
+                                <td>{{ details.HR_SHEET}}</td>
+                                <td>{{ details.CHQ_COIL}}</td>
+
+                                <td>{{ details.CR_COIL}}</td>             
+                                <td>{{ details.HR_COIL}}</td>
+                                <td>{{ details.GP_SHEET}}</td>
+                                <td>{{ details.GC_Sheet}}</td>
+                                <td>{{ details.MS_PLATE}}</td>
+                                <td>{{ details.CHQ_Plate}}</td>
+                                <td>{{ details.Roofing_Sheet}}</td>
+                                <td>{{ details.Profile_Sheet_Accessories}}</td>
+                                <td>{{ details.BABY_COIL}}</td>
+                                <td>{{ details.CR_PIPE}}</td>
+                                <td>{{ details.GI_PIPE}}</td>
+                                <td>{{ details.GP_PIPE_APLBHUSHAN}}</td>
+                                <td>{{ details.GP_PIPE_LAKSHMIOTHERS}}</td>
+                                <td>{{ details.MS_ANGLE}}</td>
+                                <td>{{ details.MS_BEAM}}</td>
+                                <td>{{ details.MS_CHANNEL}}</td>
+                                <td>{{ details.MS_FLAT}}</td>
+                                <td>{{ details.MS_ROUND}}</td>
+                                <td>{{ details.MS_SQUARE}}</td>
+                                <td>{{ details.MS_WIRE_ROD}}</td>
+                                <td>{{ details.MS_BILLET}}</td>
+                                <td>{{ details.HEXAGONAL}}</td>
+                                <td>{{ details.DURASTRONG_TMT}}</td>
+                                <td>{{ details.BMM_TMT}}</td>
+
+                                <td>{{ details.JSPL_TMT}}</td>
+                                <td>{{ details.JSW_TMT}}</td>
+                                <td>{{ details.SAIL_VIZAG}}</td>
+                                <td>{{ details.TMT_ROLLING}}</td>
+                                <td>{{ details.TMT_COIL}}</td>
+                                <td>{{ details.MS_Welded_Wiremesh}}</td>
+                                <td>{{ details.GI_Welded_Wiremesh}}</td>
+                                <td>{{ details.Profile_Sheet}}</td>
+                                <td>{{ details.steel_data1}}</td>
+                                <td>{{ details.Product1}}</td>
+                                <td>{{ details.Product2}}</td>
+                                <td>{{ details.Product3}}</td>
+                                <td>{{ details.Product4}}</td>
+                                <td>{{ details.Product5}}</td>
+
+    
+                              
+
+
+
+                            </tr>
+                        
+                        </tbody>  
+
+                        
+                        </table>  
+                    </div>
+                        <br>
+                        <div class="row">
+                            <label class="col-md-1" style="margin-top:5px">No.Of.Records</label>
+                            <div class="col-md-2" style="margin-bottom:20px">
+                                <input type="text" [(ngModel)]="rowsPerPage" [ngModelOptions]="{standalone: true}" 
+                                class="form-control m-input m-input--solid" placeholder="No.Of.Records" (ngModelChange)="setPageSize(rowsPerPage)"/>
+                            </div>
+                            <div class="col-md-9">
+                                <pagination-controls class="right" (pageChange)="p = $event"></pagination-controls>
+                            </div>
+                        </div>  
+                       
+                </div>
+               
+            </div>
+        </div>
+    </div>
+    

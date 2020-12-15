@@ -1,0 +1,293 @@
+<style>
+    thead>tr>th {
+        cursor: pointer;
+    }
+    .right {
+        float: right;
+    }
+    </style>
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__head" style="padding:2% ">
+                <div class="m-portlet__head-caption">
+                        <div class="row align-items-center">
+                                <div class="col-lg-8">
+                    <div class="m-portlet__head-title">
+                        <h3 class="m-portlet__head-text">
+                SalesMen Report Tracker
+                        </h3>
+                    </div>
+                    </div>
+                    <!-- <div class="col-lg-4">
+                    <button class="btn btn-accent" (click)="Download(datePicker1.value,datePicker2.value)">Download Salesmen Report</button>
+                    </div> -->
+                    </div>
+
+                </div>
+            </div>
+            <div class="m-portlet__body">
+                <!--begin: Search Form -->
+                <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+                    <div class="row align-items-center">
+                        <div class="col-xl-10 order-2 order-xl-1">
+                            <div class="form-group m-form__group row align-items-center">
+                                    <div class="col-lg-4">
+                                           
+                                            <div class="m-form__label">
+                                                <label >
+                                                 Branch
+                                            </label>
+                                            </div>
+                                          <select [(ngModel)]="teamTarget.branch_id" [ngModelOptions]="{standalone: true}" class="form-control m-input m-input--air"
+                                            id="exampleSelect1" (ngModelChange)="getTeamData(teamTarget.branch_id)">
+                                            <option value="0" >All</option>
+                                         <option *ngFor="let b of branch" [ngValue]="b.branch_Id">{{b.branch_Name}}</option>
+                                         </select>
+                                           
+                                            <!-- <span class="m-form__help" *ngIf="!branch_id.valid && branch_id.touched" style="color:red">
+                                                Please enter valid Data
+                                        
+                                            </span> -->
+                                    </div> 
+
+                                    <div class="col-lg-4">
+                                            <div class="m-form__label">
+                                                    <label>
+                                                            Team
+                                                        </label>
+                                            </div> 
+                                                 <select [(ngModel)]="teamTarget.team_Id" [ngModelOptions]="{standalone: true}" class="form-control m-input m-input--air"
+                                                    id="exampleSelect1">
+                                                    <option *ngFor="let t of team" [ngValue]="t.team_Id">{{t.team_Name}}</option>
+                                                </select>
+                                               
+                                                <!-- <span class="m-form__help" *ngIf="!branch_id.valid && branch_id.touched" style="color:red">
+                                                    Please enter valid Data
+                                            
+                                                </span> -->
+                                    </div> 
+
+                                    <div class="col-md-4">
+                                             <div class="m-input-icon m-input-icon--left">
+                                              <input type="text" class="form-control m-input m-input--solid" [(ngModel)]="filter" [ngModelOptions]="{standalone: true}" placeholder="Search..." id="generalSearch">
+                                             <span class="m-input-icon__icon m-input-icon__icon--left">
+                                                     <span>
+                                                         <i class="la la-search"></i>
+                                                     </span>
+                                             </span>
+                                             </div>
+                                    </div>
+                                    </div>
+                                    <div class="form-group m-form__group row align-items-center">
+
+
+            
+                                <div class="col-md-4">
+                                    <div class="m-form__group m-form__group--inline">
+                                        <div class="m-form__label">
+                                            <label>
+                                                From Date:
+                                            </label>
+                                        </div>
+                                        <div class="input-group date">
+                                            <input  [disabled]="isEdited"  type="text" class="form-control m-input" readonly="false"
+                                            placeholder="Select date" #datePicker1 [(ngModel)]="visited_date_from" 
+                                             (blur)="getData(datePicker1.value)" 
+                                             required   name="visited_date_from" id="m_datepicker_2">
+                                            <span class="input-group-addon">
+                                            <i class="la la-calendar-check-o"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="d-md-none m--margin-bottom-10"></div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="m-form__group m-form__group--inline">
+                                        <div class="m-form__label">
+                                            <label>
+                                                To Date :
+                                            </label>
+                                        </div>
+                                        <div class="input-group date">
+                                            <input  [disabled]="isEdited"  type="text" class="form-control m-input" readonly="false"
+                                            placeholder="Select date" #datePicker2 [(ngModel)]="visited_date_to" 
+                                             (blur)="getDetailData(datePicker1.value,datePicker2.value,teamTarget.branch_id,teamTarget.team_Id)" 
+                                             required   name="visited_date_to" id="m_datepicker_2">
+                                            <span class="input-group-addon">
+                                            <i class="la la-calendar-check-o"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="d-md-none m--margin-bottom-10"></div>
+                                </div>
+                            
+                                <div class="col-md-4">
+                                        <div class="m-form__group m-form__group--inline">
+                                            <div class="m-form__label">
+                                                <label>
+                                                    Month:
+                                                </label>
+                                            </div>
+                                            <div class="m-form__control">
+                                                    <select [disabled]="isEdit" class="form-control m-input m-input--air" [(ngModel)]="value"
+                                                    id="exampleSelect1" (ngModelChange)="onStatusChange(value,teamTarget.branch_id,teamTarget.team_Id)">
+                                                <option value="1">January</option>
+                                                <option value="2">February</option>
+                                                <option value="3">March</option>
+                                                <option value="4">April</option>
+                                                <option value="5">May</option>
+                                                <option value="6">June</option>
+                                                <option value="7">July</option>
+                                                <option value="8">August</option>
+                                                <option value="9">September</option>
+                                                <option value="10">October</option>
+                                                <option value="11">November</option>
+                                                <option value="12">December</option>
+                                                
+                                            </select>
+                                            </div>
+                                        </div>
+                                        <div class="d-md-none m--margin-bottom-10"></div>
+                                    </div>
+                                
+                                
+                            </div>
+                        </div>
+
+                    
+                        <!-- <div class="col-xl-4 order-1 order-xl-2 m--align-right">
+                            <a routerLink="/addSalesReport" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+                                <span>
+                                    <i class="fa fa-plus"></i>
+                                    <span>
+                                        Add
+                                    </span>
+                                </span>
+                            </a>
+                            <div class="m-separator m-separator--dashed d-xl-none"></div>
+                        </div> -->
+                    </div>
+                </div>
+                <!--end: Search Form -->
+                <!--begin: Datatable -->
+                <div class="BranchData" id="local_data"  >
+                   <div style="overflow-x:auto;">
+           <table class="table table-condensed table-striped table-bordered table-responsive" >
+                 <thead class="thead-default" > 
+                        <tr>
+                            <td colspan="15"><B>Salesman Report</B>
+                                
+                                <button (click)="downloadExcel()" style="float:right" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+                                    <i class="fa fa-download"></i>  Excel Download
+                                </button>
+                            </td>
+                        </tr> 
+                        <tr class="sortable"> 
+                            <th><B>#</B></th>
+                            <th (click)="sort('empName')"><B>Employee Name</B>
+                                <span class="glyphicon sort-icon" *ngIf="key == 'empName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>
+                            <th (click)="sort('salesTarget')"><B>Sales Target</B>
+                                <span class="glyphicon sort-icon" *ngIf="key == 'salesTarget'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>
+                            <th (click)="sort('pendingOrder')"><B>Pending Order</B>
+                                <span class="glyphicon sort-icon" *ngIf="key == 'pendingOrder'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>
+                            <th (click)="sort('tillDateSales')"><B>Till Date Sales</B>
+                                <span class="glyphicon sort-icon" *ngIf="key == 'tillDateSales'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>
+                            <th (click)="sort('collectionTillDate')"><B> Till Date collection</B>
+                                <span class="glyphicon sort-icon" *ngIf="key == 'collectionTillDate'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>
+                              <th (click)="sort('todaysCollection')"><B>Todays Collection</B>
+                                <span class="glyphicon sort-icon" *ngIf="key == 'todaysCollection'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>  
+                              
+                                <th (click)="sort('modeOfComm')"><B>Mode Of Communication</B>
+                                    <span class="glyphicon sort-icon" *ngIf="key == 'modeOfComm'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>
+     
+                              <th (click)="sort('placesVisited')"><B>Place Visted</B>
+                                        <span class="glyphicon sort-icon" *ngIf="key == 'placesVisited'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>     
+                              <th (click)="sort('customer')"><B>Customer</B>
+                                            <span class="glyphicon sort-icon" *ngIf="key == 'customer'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>                             
+                             <th (click)="sort('purposeOfVisit')"><B>Purpose of Visit</B>
+                                    <span class="glyphicon sort-icon" *ngIf="key == 'purposeOfVisit'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>                                                         
+                            <th (click)="sort('visitedDate')"><B>Visted Date</B>
+                                     <span class="glyphicon sort-icon" *ngIf="key == 'visitedDate'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>                             
+                              <th (click)="sort('contactNo')"><B>Contact Number</B>
+                                     <span class="glyphicon sort-icon" *ngIf="key == 'contactNo'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>      
+
+
+                            <th (click)="sort('enquiry')"><B>Enquiry</B>
+                                 <span class="glyphicon sort-icon" *ngIf="key == 'enquiry'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>        
+                                        
+                            <th (click)="sort('enquiry_uom')"><B>Enquiry uom</B>
+                                    <span class="glyphicon sort-icon" *ngIf="key == 'enquiry_uom'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>        
+
+                            <th (click)="sort('ordergiven')"><B>Order</B>
+                                <span class="glyphicon sort-icon" *ngIf="key == 'ordergiven'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>        
+
+                             <th (click)="sort('order_uom')"><B>Order uom</B>
+                                    <span class="glyphicon sort-icon" *ngIf="key == 'order_uom'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>        
+
+                             <th (click)="sort('collectionDone')"><B>Collection</B>
+                                     <span class="glyphicon sort-icon" *ngIf="key == 'collectionDone'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>                                                    
+                             <th (click)="sort('remarks')"><B>Remarks</B>
+                                  <span class="glyphicon sort-icon" *ngIf="key == 'remarks'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>                             
+                            
+                             <!-- <th><B>Mode Of Communication</B> </th>   
+                             <th><B>Place Visted</B> </th>  
+                             <th><B>Customer</B> </th> 
+                             <th><B>Purpose of Visit</B> </th> 
+                             <th><B>Visted Date</B> </th> 
+                             <th><B>Contact Number</B> </th> 
+                             <th><B>Collection</B> </th> 
+                             <th><B>Remarks</B> </th>       -->
+                       </tr>
+                        </thead>  
+                        <tbody >  
+                            <tr *ngFor="let details of salesTrakcer | filter:filter | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i=index"  >
+                                <td>
+                                    <input type="hidden" [(ngModel)]="details.empId" [ngModelOptions]="{standalone:true}">
+                                    {{  i+1 }}</td>
+                                <td>{{ details.empName}}-{{details.empId}}</td>                
+                                <td>{{ details.salesTarget}}</td>
+                                <td>{{ details.pendingOrder}}</td> 
+                                <td>{{ details.tillDateSales}}</td>
+                                <td>{{ details.collectionTillDate}}</td>
+                                <td>{{ details.todaysCollection}}</td>
+                                <td>{{ details.modeOfComunication}}</td>
+                                <td>{{ details.placesVisited}}</td>
+                                <td>{{ details.customer}}</td>
+                                <td>{{ details.purposeName}}</td>
+                                <td>{{ details.visitedDate}}</td>
+                                <td>{{ details.contactNo}}</td>
+
+                                <td>{{ details.enquiry}}</td>
+                                <td>{{ details.enquiry_uom}}</td>
+                                <td>{{ details.ordergiven}}</td>
+                                <td>{{ details.order_uom}}</td>
+
+                                <td>{{ details.collectionDone}}</td>
+                                <td>{{ details.remarks}}</td>
+
+                            </tr>
+                        
+                        </tbody>  
+
+                        
+                        </table>  
+                    </div>
+                        <br>
+                        <div class="row">
+                            <label class="col-md-1" style="margin-top:5px">No.Of.Records</label>
+                            <div class="col-md-2" style="margin-bottom:20px">
+                                <input type="text" [(ngModel)]="rowsPerPage" [ngModelOptions]="{standalone: true}" 
+                                class="form-control m-input m-input--solid" placeholder="No.Of.Records" (ngModelChange)="setPageSize(rowsPerPage)"/>
+                            </div>
+                            <div class="col-md-9">
+                                <pagination-controls class="right" (pageChange)="p = $event"></pagination-controls>
+                            </div>
+                        </div>  
+                       
+                </div>
+               
+            </div>
+        </div>
+    </div>
+    

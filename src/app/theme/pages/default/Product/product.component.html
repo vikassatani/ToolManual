@@ -1,0 +1,306 @@
+<style>
+    thead > tr > th {
+        cursor: pointer;
+    }
+
+    .right {
+        float: right;
+    }
+</style>
+<!-- BEGIN: Subheader -->
+<!-- END: Subheader -->
+<div class="m-content">
+    <div class="row" id="m_sortable_portlets">
+        <div class="col-lg-6">
+            <!--begin::Portlet-->
+            <div class="m-portlet m-portlet--head-sm  m-portlet--sortable" data-portlet="true" id="m_portlet_tools_6">
+                <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <h3 class="m-portlet__head-text">
+                                Cluster
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="m-portlet__head-tools">
+                        <ul class="m-portlet__nav">
+                            <!-- <li class="m-portlet__nav-item">
+                                <a href="" data-portlet-tool="reload" class="m-portlet__nav-link m-portlet__nav-link--icon">
+                                    <i class="la la-circle"></i>
+                                </a>
+                            </li> -->
+                            <li class="m-portlet__nav-item">
+                                <a href="" data-portlet-tool="toggle" class="m-portlet__nav-link m-portlet__nav-link--icon">
+                                    <i class="la la-angle-down"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!--begin::Form-->
+                <form class="m-form m-form--fit m-form--label-align-right">
+                    <div class="m-portlet__body">
+                        <!--begin: Search Form -->
+                        <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+                            <div class="row align-items-center">
+                                <div class=" order-2 order-xl-1">
+                                    <div class="form-group m-form__group row align-items-center">
+                                        <div class="col-md-5">
+                                            <div class="m-form__group m-form__group--inline">
+                                                <div class="m-form__label">
+                                                    <label>
+                                                        Status:
+                                                    </label>
+                                                </div>
+                                                <div class="m-form__control">
+                                                    <select   class="form-control" [(ngModel)]="addCluster.is_Active" [ngModelOptions]="{standalone: true}" (ngModelChange)="onClusterStatusChange(addCluster.is_Active)" id="m_form_status">
+                                                        <option value="0">All</option>
+                                                        <option *ngFor="let s of status" [ngValue]="s.id">
+                                                            {{s.Name}}
+                                                            
+                                                        </option>
+                                                     
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="d-md-none m--margin-bottom-10"></div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="m-input-icon m-input-icon--left">
+                                                <input type="text" class="form-control m-input m-input--solid" [(ngModel)]="filter" [ngModelOptions]="{standalone: true}" placeholder="Search..." id="generalSearch">
+                                                <span class="m-input-icon__icon m-input-icon__icon--left">
+                                                    <span>
+                                                        <i class="la la-search"></i>
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <a routerLink="/addCluster" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+                                            <span>
+                                                <i class="fa fa-plus"></i>
+                                                <span>
+                                                    Add
+                                                </span>
+                                            </span>
+                                        </a>
+                                        <div class="col-xl-8 order-2 order-xl-1">
+                                            <div class="form-group m-form__group row align-items-center">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4  order-xl-2 m--align-right">
+                                            <div class="m-separator m-separator--dashed d-xl-none"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end: Search Form -->
+                        <!--begin: Datatable -->
+                        <div class="ClusterData" id="local_datadepartments">
+                            <table class="table table-condensed table-striped table-bordered table-responsive">
+                                <thead class="thead-default">
+                                    <tr class="sortable">
+                                        <th><B>#</B></th>
+                                        <th>
+                                            <B (click)="sort('Name')">Name</B>
+                                            <span class="glyphicon sort-icon" *ngIf="key == 'Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                        </th>
+                                        <th (click)="sort('is_Active')">
+                                            <B>Status</B> <span class="glyphicon sort-icon" *ngIf="key == 'is_Active'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                        </th>
+                                        <!-- <th><B>Action</B></th> -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let details of cluster | orderBy: key : reverse | filter:filter  let i=index" (dblclick)="redirectToCluster(details.Id)">
+                                        <td>
+                                            <input type="hidden" [(ngModel)]="details.Id" [ngModelOptions]="{standalone:true}">
+                                            {{ i+1}}
+                                        </td>
+                                        <td>{{ details.Name}}</td>
+                                        <td>
+                                            <button *ngIf="details.is_Active==1" type="button" class="btn m-btn--pill m-btn--air btn-focus">&nbsp;&nbsp;Active&nbsp;&nbsp;</button>
+                                            <button *ngIf="details.is_Active!=1" type="button" class="btn m-btn--pill m-btn--air  btn-metal">InActive</button>
+                                        </td>
+                                        <!-- <td>
+                                            <a href="" (click)="deleteCluster(details.Id)" class="btn btn-danger m-btn m-btn--icon m-btn--icon-only">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td> -->
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                            <!-- <br>
+                            <div class="row">
+                                <label class="col-md-2" style="margin-top:5px">No.Of.Records</label>
+                                <div class="col-md-2" style="margin-bottom:20px">
+                                    <input type="text" [(ngModel)]="rowsPerPage" [ngModelOptions]="{standalone: true}" 
+                                    class="form-control m-input m-input--solid" placeholder="No.Of.Records" (ngModelChange)="setPageSize(rowsPerPage)"/>
+                                </div>
+                                <div class="col-md-8">
+                                    <pagination-controls class="right" (pageChange)="p = $event"></pagination-controls>
+                                </div>
+                            </div> -->
+                        </div>
+                        <!--end: Datatable -->
+                    </div>
+                </form>
+                <!--end::Form-->
+            </div>
+            <!--begin::Divison-->
+            <!--end::Divison-->
+            <div class="m-portlet m-portlet--sortable-empty"></div>
+            <!--end::Empty Portlet-->
+        </div>
+        <!--end::Designation-->
+        <div class="col-lg-6">
+            <!--begin::Portlet-->
+            <div class="m-portlet m-portlet--head-sm  m-portlet--sortable" data-portlet="true" id="m_portlet_tools_6">
+                <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <h3 class="m-portlet__head-text">
+                                Product Category
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="m-portlet__head-tools">
+                        <ul class="m-portlet__nav">
+                            <!-- <li class="m-portlet__nav-item">
+                                <a href="" data-portlet-tool="reload" class="m-portlet__nav-link m-portlet__nav-link--icon">
+                                    <i class="la la-circle"></i>
+                                </a>
+                            </li> -->
+                            <li class="m-portlet__nav-item">
+                                <a href="" data-portlet-tool="toggle" class="m-portlet__nav-link m-portlet__nav-link--icon">
+                                    <i class="la la-angle-down"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!--begin::Form-->
+                <form class="m-form m-form--fit m-form--label-align-right ">
+                    <div class="m-portlet__body">
+                        <!--begin: Search Form -->
+                        <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+                            <div class="row align-items-center">
+                                <label class="col-form-label col-md-2 col-lg-2 col-sm-12" style="margin-left:4px" align="center">
+                                    Cluster:
+                                </label>
+                                <select class="form-control col-lg-3 col-md-3 col-sm-12" [(ngModel)]="product.parent_Id"
+                                        [ngModelOptions]="{standalone: true}" (ngModelChange)="getCategoryData(product.is_Active,product.parent_Id)" id="m_form_status">
+                                        <option value="0">All</option>
+                                    <option *ngFor="let c of cluster" [ngValue]="c.Id">
+                                        {{c.Name}}
+                                        
+                                    </option>
+                                </select>
+                                <div class="col-md-1 col-lg-1"></div>
+                                <label class="col-form-label col-md-2 col-lg-2 col-sm-12">
+                                    Status:
+                                </label>
+                                <select class="form-control col-lg-3 col-md-3 col-sm-12" [(ngModel)]="product.is_Active"
+                                        [ngModelOptions]="{standalone: true}" (ngModelChange)="getCategoryData(product.is_Active,product.parent_Id)" id="m_form_status">
+                                    <option value="0">All</option>
+                                    <option *ngFor="let s of status" [ngValue]="s.id">
+                                        {{s.Name}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+                            <div class="row align-items-center">
+                                <div class="m-form__group m-form__group--inline col-md-6 col-lg-6 col-sm-12">
+                                    <div class="m-input-icon m-input-icon--left">
+                                        <input type="text" class="form-control m-input m-input--solid" [(ngModel)]="filter" [ngModelOptions]="{standalone: true}" placeholder="Search..." id="generalSearch">
+                                        <span class="m-input-icon__icon m-input-icon__icon--left">
+                                            <span>
+                                                <i class="la la-search"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-lg-3"></div>
+                                <div class="col-md-2 col-lg-2">
+                                    <a routerLink="/addCategory" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+                                        <span>
+                                            <i class="fa fa-plus"></i>
+                                            <span>
+                                                Add
+                                            </span>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end: Search Form -->
+                        <!--begin: Datatable -->
+                        <div class="CategoryData" id="local_dataexpensecategory">
+                            <table class="table table-condensed table-striped table-bordered table-responsive">
+                                <thead class="thead-default">
+                                    <tr class="sortable">
+                                        <th><B>#</B></th>
+                                        <th (click)="sort('parent_Name')">
+                                            <B>Cluster</B><span class="glyphicon sort-icon" *ngIf="key == 'parent_Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                        </th>
+                                        <th (click)="sort('Name')">
+                                            <B>Product Category Name</B>
+                                            <span class="glyphicon sort-icon" *ngIf="key == 'Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                        </th>
+                                        <th (click)="sort('is_Active')">
+                                            <B>Status</B><span class="glyphicon sort-icon" *ngIf="key == 'is_Active'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                        </th>
+                                        <!-- <th><B>Action</B></th> -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let details of productCategory | orderBy: key : reverse | filter:filter | paginate: { itemsPerPage: itemsPerPage2, currentPage: p2 }; let i=index" (dblclick)="redirectToCategory(details.Id)">
+                                        <td>
+                                            <input type="hidden" [(ngModel)]="details.Id" [ngModelOptions]="{standalone:true}">
+                                            {{ i+1}}
+                                        </td>
+                                        <td>{{ details.parent_Name}}</td>
+                                        <td>{{ details.Name}}</td>
+                                        <td>
+                                            <button *ngIf="details.is_Active==1" type="button" class="btn m-btn--pill m-btn--air btn-focus">&nbsp;&nbsp;Active&nbsp;&nbsp;</button>
+                                            <button *ngIf="details.is_Active!=1" type="button" class="btn m-btn--pill m-btn--air  btn-metal">InActive</button>
+                                        </td>
+                                        <!-- <td>
+                                            <a href="" (click)="deleteCategory(details.Id)" class="btn btn-danger m-btn m-btn--icon m-btn--icon-only">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td> -->
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- <br>
+                            <div class="row">
+                                <label class="col-md-2" style="margin-top:5px">No.Of.Records</label>
+                                <div class="col-md-2" style="margin-bottom:20px">
+                                    <input type="text" [(ngModel)]="rowsPerPage2" [ngModelOptions]="{standalone: true}" 
+                                    class="form-control m-input m-input--solid" placeholder="No.Of.Records" (ngModelChange)="setPageSize2(rowsPerPage2)"/>
+                                </div>
+                                <div class="col-md-8">
+                                    <pagination-controls class="right" (pageChange)="p2 = $event"></pagination-controls>
+                                </div>
+                            </div> -->
+                        </div>
+                        <!--end: Datatable -->
+                    </div>
+                </form>
+                <!--end::Form-->
+            </div>
+            <!--end::Expense-->
+            <!--end::Portlet-->  		<!--begin::Portlet-->
+            <div class="m-portlet m-portlet--sortable-empty"></div>
+            <!--end::Empty Portlet-->
+        </div>
+        <div class="col-lg-6">
+            <div class="m-portlet m-portlet--sortable-empty"></div>
+        </div>
+    </div>
+</div>
+
+

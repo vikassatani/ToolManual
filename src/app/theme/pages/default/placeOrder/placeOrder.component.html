@@ -1,0 +1,385 @@
+
+<div class="m-content">
+    <div class="m-portlet m-portlet--mobile">
+        <!-- <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+                        Place Order
+                    </h3>
+                </div>
+            </div>
+                
+        </div>   -->
+        <br/>
+        <div class="m-portlet__body">
+            <!--begin: Search Form -->
+            <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+                <div class="form-group m-form__group row">
+                    <div class="col-md-2">
+                        <div class="m-portlet__head-caption">
+                            <div class="m-portlet__head-title">
+                                <h5 class="m-portlet__head-text">
+                                    Place Order
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr/>
+                <div class="form-group m-form__group row">
+                    <label class="col-form-label col-md-1 col-lg-1 col-sm-12">
+                        Order Ref Number
+                    </label>
+                    <div class="col-lg-3 col-md-3 col-sm-12">
+                        <input type="text" class="form-control m-input m-input--air" 
+                        [(ngModel)]="refNum" placeholder="Order Reference Number" maxlength="50">
+                    </div>
+                    <label class="col-form-label col-md-1 col-lg-1 col-sm-12">
+                        Branch
+                    </label>
+                    <div class="col-lg-2 col-md-3 col-sm-12">
+                        <select [(ngModel)]="branchId" [ngModelOptions]="{standalone: true}" 
+                        (ngModelChange)="getQuantityAndRate(branchId,categoryId,itemId)" [disabled]="disabledData"
+                        class="form-control" id="m_form_status">
+                            <option *ngFor="let b of branch" [ngValue]="b.branch_id">{{b.branch_Name}}</option>
+                        </select>
+                    </div>
+                    <label class="col-form-label col-md-1 col-lg-1 col-sm-12">
+                        Customer
+                    </label>
+                    <div class="col-lg-4 col-md-3 col-sm-12">
+                        <select [(ngModel)]="customerId" [ngModelOptions]="{standalone: true}" 
+                        (ngModelChange)="getQuantityAndRate(branchId,categoryId,itemId)"
+                        class="form-control" id="m_form_status">
+                            <option *ngFor="let b of customer" [ngValue]="b.customer_Id">{{b.customer_Name}}</option>
+                        </select>
+                    </div>
+                    <!-- <label class="col-form-label col-md-1 col-lg-1 col-sm-12">
+                        Customer
+                    </label>
+                    <div class="col-lg-3 col-md-3 col-sm-12">
+                        <select [(ngModel)]="customerId" [ngModelOptions]="{standalone: true}" 
+                        (ngModelChange)="getQuantityAndRate(branchId,categoryId,itemId)" [disabled]="disabledData"
+                        class="form-control m-input m-input--air" id="customerId">
+                            <option *ngFor="let c of customer" [ngValue]="c.customer_Id">{{c.customer_Name}}</option>
+                        </select>
+                    </div> -->
+                </div>
+                <hr/>
+                <div class="form-group m-form__group row">
+                    <div class="col-md-3">
+                        <div class="m-form__label">
+                            <label>
+                               Available Quantity in MT:
+                            </label>
+                        </div>
+                        <div class="m-form__control">
+                            <input type="text" class="form-control m-input m-input--air" [(ngModel)]="placeOrder_quantityMT" 
+                            [disabled]="true" [ngModelOptions]="{standalone: true}"
+                                placeholder="Quantity in MT">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="m-form__label">
+                            <label>
+                                Rate in MT:
+                            </label>
+                        </div>
+                        <div class="m-form__control">
+                            <input type="text" class="form-control m-input m-input--air" [(ngModel)]="placeOrder_priceMT" 
+                            [disabled]="true" [ngModelOptions]="{standalone: true}"
+                                placeholder="Rate in MT">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="m-form__label">
+                            <label>
+                                Available Quantity in Pcs:
+                            </label>
+                        </div>
+                        <div class="m-form__control">
+                            <input type="text" class="form-control m-input m-input--air"  [(ngModel)]="placeOrder_quantityPCS" 
+                            [disabled]="true" [ngModelOptions]="{standalone: true}"
+                                placeholder="Quantity in Pcs">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="m-form__label">
+                            <label>
+                                Rate in Pcs:
+                            </label>
+                        </div>
+                        <div class="m-form__control">
+                            <input type="text" class="form-control m-input m-input--air"  [(ngModel)]="placeOrder_pricePCS" 
+                            [disabled]="true" [ngModelOptions]="{standalone: true}"
+                                placeholder="Rate in Pcs">
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <!-- <div class="row align-items-center"> -->
+                <div class="form-group m-form__group row">
+                    
+                    <div class="col-lg-4">
+                        <div class="m-form__label">
+                            <label>
+                                Cluster:
+                            </label>
+                        </div>
+                        <div class="m-form__control">
+                            <select class="form-control" [(ngModel)]="clusterId" 
+                            (ngModelChange)="getProductCategory(clusterId)"  id="m_form_status">
+                                <option *ngFor="let c of cluster" [ngValue]="c.Id">
+                                    {{c.Name}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="m-form__label">
+                            <label class="m-label m-label--single">
+                                Category:
+                            </label>
+                        </div>
+                        <div class="m-form__control">
+                            <select class="form-control" id="m_form_status" [(ngModel)]="categoryId" 
+                            (ngModelChange)="getCatalogDetails(clusterId, categoryId);">
+                                <option  *ngFor="let p of productCategory" [ngValue]="p.Id">
+                                    {{p.Name}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="m-form__label">
+                            <label class="m-label m-label--single">
+                                Item:
+                            </label>
+                        </div>
+                        <div class="m-form__control">
+                            <select class="form-control"  [(ngModel)]="itemId" id="m_form_status" 
+                            (ngModelChange)="getQuantityAndRate(branchId,clusterId,categoryId,itemId)">
+                                <option value="">Select Item</option>
+                                <option  *ngFor="let c of catalog" [ngValue]="c.item_Id">
+                                    {{c.item_Name}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group m-form__group row">
+                   
+                    <div class="col-lg-4">
+                        <div class="m-form__label">
+                            <label>
+                                UOM:
+                            </label>
+                        </div>
+                        <div class="m-form__control">
+                            <select class="form-control"  [(ngModel)]="uomId"  [ngModelOptions]="{standalone: true}" 
+                            id="m_form_status">
+                                <option *ngFor="let s of uomDropDown" [ngValue]="s.id"> {{s.Name}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="m-form__label">
+                            <label>
+                                Quantity:
+                            </label>
+                        </div>
+                        <div class="m-form__control">
+                            <input type="text" class="form-control m-input m-input--air" 
+                            [(ngModel)]="quantity" (ngModelChange)="calcAmount(uomId,quantity,placeOrder_priceMT,placeOrder_pricePCS)" placeholder="quantity" (keypress)="onlyDecimalNumberKey($event)">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="m-form__label">
+                            <label>
+                                Total Amount:
+                            </label>
+                        </div>
+                        <div class="m-form__control">
+                            <input type="text" class="form-control m-input m-input--air" [disabled]="true" 
+                            [(ngModel)]="itemAmount" placeholder="Total Amount">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group m-form__group row">
+                        <div class="col-lg-9"></div>
+                    <div class="col-lg-3">
+                        <button  type="submit" (click)="addData(clusterId, categoryId, itemId, uomId, quantity, itemAmount)" class="btn btn-primary">
+                            Add Item
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!--end: Search Form -->
+            <!--begin: Datatable -->
+        
+
+            <div class="CatalogData"  id="local_data">
+                <table class="table table-condensed table-striped table-bordered table-responsive">
+                    <thead class="thead-default">  
+                        <tr class="sortable">
+                            <th><B>#</B></th>
+                            <th (click)="sort('parent_Name')"><B>Cluster Name&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i> </B>
+                                <span class="glyphicon sort-icon" *ngIf="key == 'parent_Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                            </th>
+                            <th (click)="sort('Name')"><B>Category Name&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                                <span class="glyphicon sort-icon" *ngIf="key == 'Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                            </th>
+                            <th (click)="sort('item_Name')"><B>Item Name&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                                <span class="glyphicon sort-icon" *ngIf="key == 'item_Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                            </th>
+                            <th (click)="sort('item_Name')"><B>UOM&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                                <span class="glyphicon sort-icon" *ngIf="key == 'item_Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                            </th>
+                            <th (click)="sort('item_Name')"><B>Quantity&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                                <span class="glyphicon sort-icon" *ngIf="key == 'item_Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                            </th>
+                            <th (click)="sort('item_Name')"><B>Amount&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                                <span class="glyphicon sort-icon" *ngIf="key == 'item_Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                            </th>
+                            <th (click)="sort('is_Active')"><B>Action&nbsp;<i class="fa fa-angle-up" aria-hidden="true"></i></B>
+                                <span class="glyphicon sort-icon" *ngIf="key == 'is_Active'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                            </th>
+                            <!-- <th><B>Action</B></th> -->
+                        </tr>
+                    </thead>  
+                    <tbody>  
+                        <tr *ngFor="let details of ArrayData | orderBy: key : reverse | filter:filter; let i = index">
+                            <td>{{ i+1}}</td>
+                            <td>{{ details.cluster_Name}}</td>
+                            <td>{{ details.category_Name}}</td>                
+                            <td>{{ details.item_Name}}</td>
+                            <td>{{ details.uom_Name}}</td>
+                            <td>{{ details.quantity}}</td>
+                            <td>{{ details.item_Amount}}</td>
+                            <td>
+                                <a href="" (click)="deleteData(i,branchId,clusterId,categoryId,itemId)"  class="btn btn-danger m-btn m-btn--icon m-btn--icon-only">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </td>
+                            <!-- <td>
+                                <a href="" (click)="delete(details.item_Id)"  class="btn btn-danger m-btn m-btn--icon m-btn--icon-only">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </td> -->
+                        </tr>
+                        <tr>
+                            <td colspan="6" align="right">Item Total</td>
+                            <td>
+                                <input type="text" class="form-control m-input m-input--air" [(ngModel)]="itemTotal" [disabled]="true" placeholder="Item Total">
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="6" align="right">Discount</td>
+                            <td>
+                                <input type="text" class="form-control m-input m-input--air" [(ngModel)]="discount" (ngModelChange)="grandCalculation()" placeholder="Discount Amount" (keypress)="onlyDecimalNumberKey($event)" maxlength="12">
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="6" align="right">PL(+)</td>
+                            <td>
+                                <input type="text" class="form-control m-input m-input--air" [(ngModel)]="plPlus" (ngModelChange)="grandCalculation()" (keypress)="onlyDecimalNumberKey($event)" maxlength="12">
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="6" align="right">PL(-)</td>
+                            <td>
+                                <input type="text" class="form-control m-input m-input--air" [(ngModel)]="plMinus" (ngModelChange)="grandCalculation()" (keypress)="onlyDecimalNumberKey($event)" maxlength="12">
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="6" align="right">FOR</td>
+                            <td>
+                                <input type="text" class="form-control m-input m-input--air" [(ngModel)]="FOR" (ngModelChange)="grandCalculation()" (keypress)="onlyDecimalNumberKey($event)" maxlength="12">
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="6" align="right">Sub Total</td>
+                            <td>
+                                <input type="text" class="form-control m-input m-input--air" [(ngModel)]="subTotal" [disabled]="true" (keypress)="onlyDecimalNumberKey($event)" maxlength="12">
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr *ngFor="let tax of taxArray">
+                            <td colspan="6" align="right">{{tax.tax_Name}} {{tax.tax_Percentage}}%</td>
+                            <td>
+                                <input type="text" class="form-control m-input m-input--air" [(ngModel)]="tax.tax_Amount" (keypress)="onlyDecimalNumberKey($event)" maxlength="12"
+                                [disabled]="true">
+                            </td>
+                            <td></td>
+                        </tr>
+                        <!-- <tr>
+                            <td colspan="6" align="right">SGST@ 12%</td>
+                            <td>
+                                <input type="text" class="form-control m-input m-input--air" [disabled]="true" [(ngModel)]="sgst">
+                            </td>
+                            <td></td>
+                        </tr> -->
+                        <tr>
+                            <td colspan="6" align="right">Total</td>
+                            <td>
+                                <input type="text" class="form-control m-input m-input--air" [disabled]="true" [(ngModel)]="grandTotal"(keypress)="onlyDecimalNumberKey($event)"  maxlength="12">
+                            </td>
+                            <td></td>
+                        </tr>
+                    </tbody>  
+                </table>
+                    
+                    
+            </div>
+            <!--end: Datatable -->
+            <div class="row align-items-center">
+                <label class="col-form-label col-md-2 col-lg-2 col-sm-12">
+                    <b>Employee Remarks</b>
+                </label>
+                <div class="col-form-label col-md-4 col-lg-4 col-sm-12">
+                    <textarea class="form-control m-input--air" id="m_autosize_3" rows="3" (keypress)="omit_special_char($event)"
+                    placeholder="Employee Remarks" [(ngModel)]="staff_remarks"  maxlength="300"
+                    [ngModelOptions]="{standalone: true}"></textarea>
+                </div>
+                <div class="col-form-label col-md-2 col-lg-2 col-sm-12">
+                    </div>
+              
+                <div class="col-form-label col-md-4 col-lg-4 col-sm-12">
+                  <button type="reset" class="btn btn-primary" (click)="saveData(customerId, branchId, refNum, staff_remarks)">
+                                Submit for Approval
+                    </button>
+                    <!-- <button routerLink="/placeOrderView"  class="btn btn-secondary">
+                        Cancel
+                    </button> -->
+             </div>
+                
+            </div>
+        </div>
+        <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+            <div class="m-form__actions m-form__actions--solid">
+                <div class="row">
+                    <div class="col-lg-8"></div>
+                    <div class="col-lg-4">
+                       
+                        <!-- <button routerLink="/customer" type="reset" class="btn btn-secondary">
+                            Cancel
+                        </button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <div class=row></div>
+        </div>
+    </div>
+</div>
+    
+    
